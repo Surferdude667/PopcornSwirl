@@ -14,6 +14,8 @@
 		F638E1E32487C61400C57EB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F638E1E22487C61400C57EB0 /* Assets.xcassets */; };
 		F638E1E62487C61400C57EB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F638E1E42487C61400C57EB0 /* LaunchScreen.storyboard */; };
 		F638E1F12487C61400C57EB0 /* PopcornSwirlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638E1F02487C61400C57EB0 /* PopcornSwirlTests.swift */; };
+		F6405D84248A5F3900AF3F29 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6405D83248A5F3900AF3F29 /* DataService.swift */; };
+		F6405D86248A6C8F00AF3F29 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6405D85248A6C8F00AF3F29 /* Movie.swift */; };
 		F648360B248A3040005C8AD4 /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360A248A3040005C8AD4 /* MovieViewController.swift */; };
 		F648360D248A3056005C8AD4 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360C248A3056005C8AD4 /* BookmarkViewController.swift */; };
 		F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360E248A306B005C8AD4 /* WatchedViewController.swift */; };
@@ -42,6 +44,8 @@
 		F638E1EC2487C61400C57EB0 /* PopcornSwirlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PopcornSwirlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F638E1F02487C61400C57EB0 /* PopcornSwirlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopcornSwirlTests.swift; sourceTree = "<group>"; };
 		F638E1F22487C61400C57EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6405D83248A5F3900AF3F29 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		F6405D85248A6C8F00AF3F29 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		F648360A248A3040005C8AD4 /* MovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
 		F648360C248A3056005C8AD4 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		F648360E248A306B005C8AD4 /* WatchedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				F638E1DF2487C61100C57EB0 /* PopcornSwirl.xcdatamodeld */,
+				F6405D83248A5F3900AF3F29 /* DataService.swift */,
+				F6405D85248A6C8F00AF3F29 /* Movie.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -246,11 +252,13 @@
 			files = (
 				F638E1D72487C61100C57EB0 /* AppDelegate.swift in Sources */,
 				F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */,
+				F6405D86248A6C8F00AF3F29 /* Movie.swift in Sources */,
 				F638E1D92487C61100C57EB0 /* SceneDelegate.swift in Sources */,
 				F638E1E12487C61100C57EB0 /* PopcornSwirl.xcdatamodeld in Sources */,
 				F648360B248A3040005C8AD4 /* MovieViewController.swift in Sources */,
 				F648360D248A3056005C8AD4 /* BookmarkViewController.swift in Sources */,
 				F6483611248A307D005C8AD4 /* DetailViewController.swift in Sources */,
+				F6405D84248A5F3900AF3F29 /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

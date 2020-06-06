@@ -12,7 +12,23 @@ class MovieViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Movie View Controller")
+        
+        
+        DataService.shared.fetch { (result) in
+            switch result {
+                case .success(let movies):
+                    for movie in movies.results {
+                        print("Artist: \(movie.artistName)")
+                        print("Genre: \(movie.primaryGenreName)")
+                }
+                
+                
+                case .failure(let error):
+                    print(error)
+            }
+        }
+        
+        
     }
     
 }
