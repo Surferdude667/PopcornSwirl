@@ -8,29 +8,21 @@
 
 import Foundation
 
-enum genre: String {
-    case action = "Action+&+Adventure"
-    case drama = "Drama"
-    case romance = "Romance"
-    case thriller = "Thriller"
-}
-
-
 class DataService {
     
-    static let shared = DataService()
-    
-    func search(genre: genre, limit: Int, completion: @escaping (Result<iTunesResponse, Error>) -> Void) {
+    // MARK:- Search request
+    static func search(genre: Genre, limit: Int, completion: @escaping (Result<iTunesResponse, Error>) -> Void) {
         var componentURL = URLComponents()
         componentURL.scheme = "https"
         componentURL.host = "itunes.apple.com"
         componentURL.path = "/search"
         
-        let termQueryItem = URLQueryItem(name: "term", value: genre.rawValue)
-        let entityQueryItem = URLQueryItem(name: "entity", value: "movie")
-        let attributeQueryItem = URLQueryItem(name: "attribute", value: "genreTerm")
-        let limitQueryItem = URLQueryItem(name: "limit", value: "\(limit)")
-        componentURL.queryItems = [termQueryItem, entityQueryItem, attributeQueryItem, limitQueryItem]
+        let term = URLQueryItem(name: "term", value: genre.rawValue)
+        let limit = URLQueryItem(name: "limit", value: "\(limit)")
+        let entity = URLQueryItem(name: "entity", value: "movie")
+        let attribute = URLQueryItem(name: "attribute", value: "genreTerm")
+        
+        componentURL.queryItems = [term, entity, attribute, limit]
         
         guard let validURL = componentURL.url else {
             print("URL creation failed...")
@@ -39,7 +31,7 @@ class DataService {
         
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
-                print("API response code: \(httpResponse.statusCode)")
+                print("API response code (Search): \(httpResponse.statusCode)")
             }
             
             guard let validData = data, error == nil else {
@@ -57,8 +49,8 @@ class DataService {
         }.resume()
     }
     
-    
-    func lookup(id: Int, completion: @escaping (Result<iTunesResponse, Error>) -> Void) {
+    // MARK:- Lookup request
+    static func lookup(id: Int, completion: @escaping (Result<iTunesResponse, Error>) -> Void) {
         var componentURL = URLComponents()
         componentURL.scheme = "https"
         componentURL.host = "itunes.apple.com"
@@ -74,7 +66,7 @@ class DataService {
         
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
-                print("API response code: \(httpResponse.statusCode)")
+                print("API response code (Lookup): \(httpResponse.statusCode)")
             }
             
             guard let validData = data, error == nil else {
@@ -87,6 +79,27 @@ class DataService {
                 completion(.success(movies))
             } catch let serializationError {
                 completion(.failure(serializationError))
+            }
+            
+        }.resume()
+    }
+    
+    // MARK:- Image fetching
+    static func fetchImage(from url: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let validURL = URL(string: url) else {
+            print("URL creation failed...")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: validURL) { (data, response, error) in
+            if let httpResponse = response as? HTTPURLResponse {
+                print("API response code (Image): \(httpResponse.statusCode)")
+            }
+            
+            if let validData = data, error == nil {
+                completion(.success(validData))
+            } else {
+                completion(.failure(error!))
             }
             
         }.resume()
