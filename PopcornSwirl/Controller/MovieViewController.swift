@@ -10,10 +10,19 @@ import UIKit
 
 class MovieViewController: UIViewController {
     
-    @IBOutlet weak var testImageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+    func configure() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        flowLayout.scrollDirection = .vertical
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
         
         DataService.search(genre: .drama, limit: 10) { (result) in
             switch result {
@@ -29,34 +38,67 @@ class MovieViewController: UIViewController {
                 print(error)
             }
         }
-        
-        DataService.lookup(id: 774084884) { (result) in
-            switch result {
-            case .success(let movies):
-                if let movie = movies.results.first {
-                    print("MOVIE: \(movie.trackName)")
-                    let imageURL = movie.artworkUrl100.replacingOccurrences(of: "100x100bb", with: "300x300bb")
-                    print("Image loading...")
-                    DataService.fetchImage(from: imageURL) { (result) in
-                        
-                        do {
-                            let imageData = try result.get()
-                            DispatchQueue.main.async {
-                                print("IMAGE LOADING COMPLETE...")
-                                self.testImageView.image = UIImage(data: imageData)
-                            }
-                        } catch {
-                            print("Failed to load image: \(error)")
-                        }
-                    }
-                    
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        
     }
+}
+
+extension MovieViewController: UICollectionViewDelegate { }
+
+extension MovieViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        6
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
+        
+        switch indexPath.section {
+        case 0:
+            DataService.search(genre: .action, limit: 6) { (result) in
+                do {
+                    let movies = try result.get()
+                    let movie = movies.results[indexPath.row]
+                    cell.setTileLabel(with: movie.trackName)
+                    cell.loadImage(with: movie.trackId)
+                } catch {
+                    print(error)
+                }
+            }
+        case 1:
+            DataService.search(genre: .drama, limit: 6) { (result) in
+                do {
+                    let movies = try result.get()
+                    let movie = movies.results[indexPath.row]
+                    cell.setTileLabel(with: movie.trackName)
+                    cell.loadImage(with: movie.trackId)
+                } catch {
+                    print(error)
+                }
+            }
+        case 2:
+            DataService.search(genre: .romance, limit: 6) { (result) in
+                do {
+                    let movies = try result.get()
+                    let movie = movies.results[indexPath.row]
+                    cell.setTileLabel(with: movie.trackName)
+                    cell.loadImage(with: movie.trackId)
+                } catch {
+                    print(error)
+                }
+            }
+        default:
+            return MovieCollectionViewCell()
+        }
+        return cell
+    }
+    
+}
+
+extension MovieViewController: UICollectionViewDelegateFlowLayout {
     
 }
