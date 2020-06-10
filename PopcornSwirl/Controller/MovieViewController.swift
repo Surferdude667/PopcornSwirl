@@ -19,25 +19,9 @@ class MovieViewController: UIViewController {
         flowLayout.scrollDirection = .vertical
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        
-        DataService.search(genre: .drama, limit: 10) { (result) in
-            switch result {
-            case .success(let movies):
-                for movie in movies.results {
-                    print("Title: \(movie.trackName)")
-                    print("Genre: \(movie.primaryGenreName)")
-                    print("ID: \(movie.trackId)")
-                    print("Release date: \(movie.releaseDate)")
-                }
-                
-            case .failure(let error):
-                print(error)
-            }
-        }
     }
 }
 
@@ -53,19 +37,36 @@ extension MovieViewController: UICollectionViewDataSource {
         3
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
+            switch indexPath.section {
+            case 0:
+                sectionHeader.titleLabel.text = "Thriller"
+            case 1:
+                sectionHeader.titleLabel.text = "Drama"
+            case 2:
+                sectionHeader.titleLabel.text = "Romance"
+            default:
+                sectionHeader.titleLabel.text = "Unknown"
+            }
+            return sectionHeader
+        }
+        return UICollectionReusableView()
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as! MovieCollectionViewCell
         
         switch indexPath.section {
         case 0:
-            DataService.search(genre: .action, limit: 6) { (result) in
+            DataService.search(genre: .thriller, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
-                } catch {
+                } catch let error {
                     print(error)
                 }
             }
@@ -76,7 +77,8 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
-                } catch {
+                } catch let error {
+                    cell.setTileLabel(with: "Error.")
                     print(error)
                 }
             }
@@ -87,7 +89,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
-                } catch {
+                } catch let error {
                     print(error)
                 }
             }

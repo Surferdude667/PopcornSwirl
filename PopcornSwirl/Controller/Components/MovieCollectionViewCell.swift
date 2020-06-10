@@ -10,6 +10,8 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
+    static let identifier = "movieCell"
+    
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
