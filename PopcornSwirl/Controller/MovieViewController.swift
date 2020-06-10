@@ -10,12 +10,12 @@ import UIKit
 
 class MovieViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var movieCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     func configure() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        movieCollectionView.delegate = self
+        movieCollectionView.dataSource = self
         flowLayout.scrollDirection = .vertical
     }
     
@@ -26,7 +26,6 @@ class MovieViewController: UIViewController {
 }
 
 extension MovieViewController: UICollectionViewDelegate { }
-
 extension MovieViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -66,6 +65,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
+                    cell.movieId = movie.trackId
                 } catch let error {
                     print(error)
                 }
@@ -77,6 +77,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
+                    cell.movieId = movie.trackId
                 } catch let error {
                     cell.setTileLabel(with: "Error.")
                     print(error)
@@ -89,6 +90,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
+                    cell.movieId = movie.trackId
                 } catch let error {
                     print(error)
                 }
@@ -99,8 +101,17 @@ extension MovieViewController: UICollectionViewDataSource {
         return cell
     }
     
-}
-
-extension MovieViewController: UICollectionViewDelegateFlowLayout {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? MovieCollectionViewCell {
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.movieId = cell.movieId
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
+    }
     
 }
+
+//extension MovieViewController: UICollectionViewDelegateFlowLayout { }

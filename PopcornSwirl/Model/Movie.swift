@@ -14,4 +14,5 @@ struct Movie: Codable {
     var primaryGenreName: String
     var releaseDate: String
     var artworkUrl100: String
+    var longDescription: String
 }
