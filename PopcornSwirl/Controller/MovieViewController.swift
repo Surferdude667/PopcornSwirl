@@ -13,10 +13,26 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var movieCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
+    private let refreshControl = UIRefreshControl()
+    
     func configure() {
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
         flowLayout.scrollDirection = .vertical
+        setupRefreshControl()
+    }
+    
+    func setupRefreshControl() {
+        movieCollectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
+        refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
+        //refreshControl.attributedTitle = NSAttributedString(string: "Fetching movie data...")
+    }
+    
+    @objc func updateCollectionView() {
+        URLCache.shared.removeAllCachedResponses()
+        refreshControl.endRefreshing()
+        movieCollectionView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -28,13 +44,9 @@ class MovieViewController: UIViewController {
 extension MovieViewController: UICollectionViewDelegate { }
 extension MovieViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        6
-    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 6 }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        3
-    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { 3 }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
@@ -64,6 +76,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
+                    cell.clearImage()
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
@@ -76,10 +89,10 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
+                    cell.clearImage()
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
-                    cell.setTileLabel(with: "Error.")
                     print(error)
                 }
             }
@@ -89,6 +102,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
+                    cell.clearImage()
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
@@ -111,7 +125,7 @@ extension MovieViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
     }
-    
+
 }
 
 //extension MovieViewController: UICollectionViewDelegateFlowLayout { }
