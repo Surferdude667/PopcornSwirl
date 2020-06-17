@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DataService {
+class NetworkService {
     
     // MARK:- Search request
     static func search(genre: Genre, limit: Int, completion: @escaping (Result<iTunesResponse, Error>) -> Void) {

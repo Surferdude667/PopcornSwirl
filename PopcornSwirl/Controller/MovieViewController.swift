@@ -8,6 +8,7 @@
 
 import UIKit
 
+//TODO: Provide the user with better feedback in case of network problems
 class MovieViewController: UIViewController {
     
     @IBOutlet weak var movieCollectionView: UICollectionView!
@@ -72,7 +73,7 @@ extension MovieViewController: UICollectionViewDataSource {
         
         switch indexPath.section {
         case 0:
-            DataService.search(genre: .thriller, limit: 6) { (result) in
+            NetworkService.search(genre: .thriller, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
@@ -85,7 +86,7 @@ extension MovieViewController: UICollectionViewDataSource {
                 }
             }
         case 1:
-            DataService.search(genre: .drama, limit: 6) { (result) in
+            NetworkService.search(genre: .drama, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
@@ -98,7 +99,7 @@ extension MovieViewController: UICollectionViewDataSource {
                 }
             }
         case 2:
-            DataService.search(genre: .romance, limit: 6) { (result) in
+            NetworkService.search(genre: .romance, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]

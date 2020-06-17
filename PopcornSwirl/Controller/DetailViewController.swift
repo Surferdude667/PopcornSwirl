@@ -25,13 +25,13 @@ class DetailViewController: UIViewController {
     
     func loadData() {
         if let id = movieId {
-            DataService.lookup(id: id) { (result) in
+            NetworkService.lookup(id: id) { (result) in
                 do {
                     let movie = try result.get().results.first
                     
                     if let rawArtowrkURL = movie?.artworkUrl100 {
                         let artworkURL = rawArtowrkURL.replacingOccurrences(of: "100x100bb", with: "500x500bb")
-                        DataService.fetchImage(from: artworkURL) { (result) in
+                        NetworkService.fetchImage(from: artworkURL) { (result) in
                             switch result {
                             case .success(let imageData):
                                 DispatchQueue.main.async {

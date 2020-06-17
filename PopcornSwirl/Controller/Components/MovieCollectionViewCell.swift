@@ -28,12 +28,12 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     func loadImage(with id: Int) {
-        DataService.lookup(id: id) { (result) in
+        NetworkService.lookup(id: id) { (result) in
             switch result {
             case .success(let movies):
                 if let movie = movies.results.first {
                     let imageURL = movie.artworkUrl100.replacingOccurrences(of: "100x100bb", with: "300x300bb")
-                    DataService.fetchImage(from: imageURL) { (result) in
+                    NetworkService.fetchImage(from: imageURL) { (result) in
                         do {
                             let imageData = try result.get()
                             DispatchQueue.main.async {
