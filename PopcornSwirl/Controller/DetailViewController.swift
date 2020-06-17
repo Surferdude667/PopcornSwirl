@@ -15,6 +15,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var longDescriptionLabel: UILabel!
+    @IBOutlet weak var notesTextView: UITextView!
+    @IBOutlet weak var watchedButton: UIButton!
+    @IBOutlet weak var bookmarkButton: UIButton!
     
     func configure() {
         loadData()
@@ -53,5 +56,11 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
-
+    
+    @IBAction func watchedButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func bookmarkButtonTapped(_ sender: Any) {
+    }
+    
 }

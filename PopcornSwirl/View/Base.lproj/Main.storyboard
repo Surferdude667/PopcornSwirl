@@ -44,20 +44,47 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYj-V8-Eo4">
-                                <rect key="frame" x="87" y="401" width="240" height="173"/>
+                                <rect key="frame" x="87" y="401" width="240" height="124"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Notes go here..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-RK-YHv">
+                                <rect key="frame" x="87" y="552" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zae-ZP-tjk">
+                                <rect key="frame" x="80" y="746" width="61" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Watched"/>
+                                <connections>
+                                    <action selector="watchedButtonTapped:" destination="zbK-gd-e4Y" eventType="touchUpInside" id="adA-oy-fR3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="141-fq-i9A">
+                                <rect key="frame" x="200" y="746" width="70" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Bookmark"/>
+                                <connections>
+                                    <action selector="bookmarkButtonTapped:" destination="zbK-gd-e4Y" eventType="touchUpInside" id="9Rx-JW-eIC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="LBn-5B-yMI"/>
                     </view>
                     <connections>
+                        <outlet property="bookmarkButton" destination="141-fq-i9A" id="Xb6-kZ-Egh"/>
                         <outlet property="coverImageView" destination="AQM-KU-3Gk" id="dPN-6h-F4N"/>
                         <outlet property="longDescriptionLabel" destination="AYj-V8-Eo4" id="C1P-ND-fuE"/>
                         <outlet property="movieTitleLabel" destination="kdb-8M-CTC" id="590-ml-6Ut"/>
+                        <outlet property="notesTextView" destination="JL5-RK-YHv" id="Nv0-XN-6Ny"/>
+                        <outlet property="watchedButton" destination="Zae-ZP-tjk" id="95h-fc-65W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ymJ-km-w6j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

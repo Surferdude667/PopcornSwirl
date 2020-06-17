@@ -42,6 +42,7 @@ class MovieViewController: UIViewController {
 }
 
 extension MovieViewController: UICollectionViewDelegate { }
+
 extension MovieViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 6 }
@@ -80,7 +81,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         case 1:
@@ -93,7 +94,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         case 2:
@@ -106,7 +107,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         default:
