@@ -3,9 +3,9 @@
     <entity name="SavedDates" representedClassName=".SavedDates" syncable="YES">
         <attribute name="dateBookmarked" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateWatched" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="movieAddition" maxCount="1" deletionRule="Nullify" destinationEntity="SavedMovieAdditions" inverseName="dates" inverseEntity="SavedMovieAdditions"/>
+        <relationship name="movieAddition" maxCount="1" deletionRule="Nullify" destinationEntity="SavedMovieAddition" inverseName="dates" inverseEntity="SavedMovieAddition"/>
     </entity>
-    <entity name="SavedMovieAdditions" representedClassName=".SavedMovieAdditions" syncable="YES">
+    <entity name="SavedMovieAddition" representedClassName=".SavedMovieAddition" syncable="YES">
         <attribute name="bookmarked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="movieID" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
@@ -13,7 +13,7 @@
         <relationship name="dates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedDates" inverseName="movieAddition" inverseEntity="SavedDates"/>
     </entity>
     <elements>
-        <element name="SavedMovieAdditions" positionX="-238.71875" positionY="-66.2421875" width="128" height="118"/>
-        <element name="SavedDates" positionX="-48.06640625" positionY="69.80859375" width="128" height="88"/>
+        <element name="SavedDates" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SavedMovieAddition" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

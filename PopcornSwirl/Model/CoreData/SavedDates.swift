@@ -17,5 +17,5 @@ class SavedDates: NSManagedObject {
     @NSManaged var watched: Date?
     
     // Relationships
-    @NSManaged var savedMovieAdditions: SavedMovieAdditions
+    @NSManaged var savedMovieAdditions: SavedMovieAddition
 }

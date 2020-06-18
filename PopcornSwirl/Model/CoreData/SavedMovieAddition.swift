@@ -8,9 +8,9 @@
 
 import CoreData
 
-class SavedMovieAdditions: NSManagedObject {
+class SavedMovieAddition: NSManagedObject {
     
-    static var entityName: String { return "SavedMovieAdditions" }
+    static var entityName: String { return "SavedMovieAddition" }
     
     // Attributes
     @NSManaged var movieID: Int16

@@ -20,7 +20,7 @@ class MovieViewController: UIViewController {
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
         flowLayout.scrollDirection = .vertical
-        setupRefreshControl()
+        setupRefreshControl()        
     }
     
     func setupRefreshControl() {
@@ -73,12 +73,12 @@ extension MovieViewController: UICollectionViewDataSource {
         
         switch indexPath.section {
         case 0:
+            // THRILLER SECTION
             NetworkService.search(genre: .thriller, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
-                    cell.clearImage()
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
@@ -86,12 +86,12 @@ extension MovieViewController: UICollectionViewDataSource {
                 }
             }
         case 1:
+            // DRAMA SECTION
             NetworkService.search(genre: .drama, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
-                    cell.clearImage()
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
@@ -99,12 +99,12 @@ extension MovieViewController: UICollectionViewDataSource {
                 }
             }
         case 2:
+            //ROMANCE SECTION
             NetworkService.search(genre: .romance, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
-                    cell.clearImage()
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
                 } catch let error {
@@ -114,6 +114,11 @@ extension MovieViewController: UICollectionViewDataSource {
         default:
             return MovieCollectionViewCell()
         }
+        
+        defer {
+            cell.clearImage()
+        }
+        
         return cell
     }
     

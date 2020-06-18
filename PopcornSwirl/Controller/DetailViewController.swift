@@ -58,6 +58,16 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func watchedButtonTapped(_ sender: Any) {
+        let result = CoreDataManager().checkExistanceOfMovieAddition(id: 1000)
+        
+        switch result {
+        case .success(let movieAddition):
+            print("Do something with \(movieAddition)")
+        case .failure(.additionNotFound):
+            print("Addition not found")
+        default:
+            print("Unknown error")
+        }
     }
     
     @IBAction func bookmarkButtonTapped(_ sender: Any) {

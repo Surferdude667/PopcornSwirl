@@ -8,6 +8,11 @@
 
 import Foundation
 
+// TODO: Impment custom error types
+enum NetworkError: Error {
+    case noInternetConnection
+}
+
 class NetworkService {
     
     // MARK:- Search request
