@@ -6,7 +6,7 @@
         <relationship name="movieAddition" maxCount="1" deletionRule="Nullify" destinationEntity="SavedMovieAddition" inverseName="bookmarked" inverseEntity="SavedMovieAddition"/>
     </entity>
     <entity name="SavedMovieAddition" representedClassName=".SavedMovieAddition" syncable="YES">
-        <attribute name="movieID" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="movieID" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <relationship name="bookmarked" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bookmark" inverseName="movieAddition" inverseEntity="Bookmark"/>
         <relationship name="watched" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Watch" inverseName="movieAddition" inverseEntity="Watch"/>

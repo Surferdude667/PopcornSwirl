@@ -58,11 +58,16 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func watchedButtonTapped(_ sender: Any) {
-        let result = CoreDataManager().checkExistanceOfMovieAddition(id: 1000)
+        let result = CoreDataManager().checkExistanceOfMovieAddition(id: movieId!)
         
         switch result {
         case .success(let movieAddition):
-            print("Do something with \(movieAddition)")
+            print("ID: \(movieAddition.movieID)")
+            print("Note: \(movieAddition.note)")
+            print("Watched: \(movieAddition.watched?.isWatched)")
+            print("Date watched: \(movieAddition.watched?.date)")
+            print("Bookmarked: \(movieAddition.bookmarked?.isBookmarked)")
+            print("Date bookmarked: \(movieAddition.bookmarked?.date)")
         case .failure(.additionNotFound):
             print("Addition not found")
         default:
@@ -71,6 +76,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func bookmarkButtonTapped(_ sender: Any) {
+        CoreDataManager().addMovieAddition(id: movieId!, note: "Custom Note", watched: true)
     }
     
 }

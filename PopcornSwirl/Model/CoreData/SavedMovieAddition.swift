@@ -13,7 +13,7 @@ class SavedMovieAddition: NSManagedObject {
     static var entityName: String { return "SavedMovieAddition" }
     
     // Attributes
-    @NSManaged var movieID: Int16
+    @NSManaged var movieID: Int32
     @NSManaged var note: String?
     
     // Relationships
