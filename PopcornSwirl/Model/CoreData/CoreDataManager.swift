@@ -25,7 +25,7 @@ class CoreDataManager {
     }
     
     func addOrUpdateMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil ) {
-        
+        let movieAddition = NSEntityDescription
     }
     
     func updateMovieAdditionDates(id: Int, watched: Date? = nil, bookmarked: Date? = nil) {
@@ -34,7 +34,7 @@ class CoreDataManager {
     
     func checkExistanceOfMovieAddition(id: Int) -> Result<SavedMovieAddition, CoreDataErrors> {
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: SavedMovieAddition.entityName)
-        request.predicate = NSPredicate(format: "movieID == \(id)")
+        request.predicate = NSPredicate(format: "%K == \(id)", #keyPath(SavedMovieAddition.movieID))
         
         do {
             let fetch = try context.fetch(request)

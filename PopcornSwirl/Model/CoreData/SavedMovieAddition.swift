@@ -15,9 +15,8 @@ class SavedMovieAddition: NSManagedObject {
     // Attributes
     @NSManaged var movieID: Int16
     @NSManaged var note: String?
-    @NSManaged var watched: Bool
-    @NSManaged var bookmarked: Bool
     
     // Relationships
-    @NSManaged var savedDates: SavedDates?
+    @NSManaged var bookmarked: Bookmark?
+    @NSManaged var watched: Watch?
 }

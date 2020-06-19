@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="SavedDates" representedClassName=".SavedDates" syncable="YES">
-        <attribute name="dateBookmarked" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="dateWatched" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="movieAddition" maxCount="1" deletionRule="Nullify" destinationEntity="SavedMovieAddition" inverseName="dates" inverseEntity="SavedMovieAddition"/>
+    <entity name="Bookmark" representedClassName=".Bookmark" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isBookmarked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="movieAddition" maxCount="1" deletionRule="Nullify" destinationEntity="SavedMovieAddition" inverseName="bookmarked" inverseEntity="SavedMovieAddition"/>
     </entity>
     <entity name="SavedMovieAddition" representedClassName=".SavedMovieAddition" syncable="YES">
-        <attribute name="bookmarked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="movieID" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
-        <attribute name="watched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="dates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedDates" inverseName="movieAddition" inverseEntity="SavedDates"/>
+        <relationship name="bookmarked" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bookmark" inverseName="movieAddition" inverseEntity="Bookmark"/>
+        <relationship name="watched" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Watch" inverseName="movieAddition" inverseEntity="Watch"/>
+    </entity>
+    <entity name="Watch" representedClassName=".Watch" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isWatched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="movieAddition" maxCount="1" deletionRule="Nullify" destinationEntity="SavedMovieAddition" inverseName="watched" inverseEntity="SavedMovieAddition"/>
     </entity>
     <elements>
-        <element name="SavedDates" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SavedMovieAddition" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SavedMovieAddition" positionX="128.1015625" positionY="-239.0546875" width="128" height="103"/>
+        <element name="Watch" positionX="317.390625" positionY="-191.84765625" width="128" height="88"/>
+        <element name="Bookmark" positionX="-64.71484375" positionY="-191.0859375" width="128" height="88"/>
     </elements>
 </model>
