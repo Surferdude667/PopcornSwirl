@@ -11,6 +11,7 @@ import CoreData
 
 enum CoreDataErrors: Error {
     case additionNotFound
+    case saveFailed
     case fetchFailed
     case updateFailed
 }
@@ -24,7 +25,7 @@ class CoreDataManager {
         context = appDelegate.persistentContainer.viewContext
     }
     
-    func addMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil ) {
+    func addMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil) throws {
         let movieAddition = NSEntityDescription.insertNewObject(forEntityName: SavedMovieAddition.entityName, into: context) as! SavedMovieAddition
         let watchedAddition = NSEntityDescription.insertNewObject(forEntityName: Watch.entityName, into: context) as! Watch
         let bookmarkedAddition = NSEntityDescription.insertNewObject(forEntityName: Bookmark.entityName, into: context) as! Bookmark
@@ -55,19 +56,47 @@ class CoreDataManager {
             }
         }
         
+        do { try context.save() }
+        catch { throw CoreDataErrors.saveFailed }
+    }
+    
+    // Updates the MovieAddition in CoreData and returns either an CoreDataError or if suceess the updated MovieAddition object.
+    func updateMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil) -> Result<SavedMovieAddition, CoreDataErrors> {
+        
         do {
-            try context.save()
-        } catch {
-            print("Save failed: \(error)")
-        }
-        
+            let updatedMovieAddition = try fetchSavedMovieAddition(id: id).get()
+            if let note = note { updatedMovieAddition.note = note}
+            if let watched = watched {
+                if watched == true {
+                    updatedMovieAddition.watched?.isWatched = watched
+                    updatedMovieAddition.watched?.date = Date()
+                } else if watched == false {
+                    updatedMovieAddition.watched?.isWatched = watched
+                    updatedMovieAddition.watched?.date = nil
+                }
+            }
+            if let bookmarked = bookmarked {
+                if bookmarked == true {
+                    updatedMovieAddition.bookmarked?.isBookmarked = bookmarked
+                    updatedMovieAddition.bookmarked?.date = Date()
+                } else if bookmarked == false {
+                    updatedMovieAddition.bookmarked?.isBookmarked = bookmarked
+                    updatedMovieAddition.bookmarked?.date = Date()
+                }
+            }
+            
+            do {
+                try context.save()
+                return.success(updatedMovieAddition)
+            } catch {
+                return.failure(.updateFailed)
+            }
+            
+        } catch { return .failure(.additionNotFound) }
     }
     
-    func updateMovieAdditionDates(id: Int, watched: Date? = nil, bookmarked: Date? = nil) {
-        
-    }
-    
-    func checkExistanceOfMovieAddition(id: Int) -> Result<SavedMovieAddition, CoreDataErrors> {
+    // Tries to fetch the SavedMovieAddition and returns either an CoreDataError or if suceess the fetched MovieAddition object.
+    func fetchSavedMovieAddition(id: Int) -> Result<SavedMovieAddition, CoreDataErrors> {
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: SavedMovieAddition.entityName)
         request.predicate = NSPredicate(format: "%K == \(id)", #keyPath(SavedMovieAddition.movieID))
         
