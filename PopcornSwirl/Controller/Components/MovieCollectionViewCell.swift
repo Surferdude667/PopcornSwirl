@@ -33,8 +33,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
             switch result {
             case .success(let movies):
                 if let movie = movies.results.first {
-                    let imageURL = movie.artworkUrl100.replacingOccurrences(of: "100x100bb", with: "300x300bb")
-                    NetworkService.fetchImage(from: imageURL) { (result) in
+                    let imageURL = movie.artworkUrl100
+                    NetworkService.fetchImage(from: imageURL, size: 300) { (result) in
                         do {
                             let imageData = try result.get()
                             DispatchQueue.main.async {

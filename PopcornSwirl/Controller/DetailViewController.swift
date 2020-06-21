@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {
     
     var movieId: Int?
@@ -33,11 +34,15 @@ class DetailViewController: UIViewController {
     }
     
     func configure() {
+        clearUI()
         loadData()
         loadMovieAdditions()
         fetchRelatedMovies()
     }
     
+    func clearUI() {
+        // TODO: Start spinning, empty images, empty texts.
+    }
     
     func fetchRelatedMovies() {
         guard let genre = genre else { return }
@@ -46,15 +51,17 @@ class DetailViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let response):
-                let movies = response.results
+                var movies = response.results
+                movies.removeAll(where: { $0.trackId == self.movieId })
                 let featuredMovies = Array(Set(movies)).prefix(4)
-                // TODO: Prevent the current movie from being displayed.
+                
                 for featured in 0..<featuredMovies.count {
-                    NetworkService.fetchImage(from: featuredMovies[featured].artworkUrl100, completion: { (result) in
+                    NetworkService.fetchImage(from: featuredMovies[featured].artworkUrl100, size: 200, completion: { (result) in
                         do {
                             let imageData = try result.get()
                             DispatchQueue.main.async {
-                                 self.relatedImageViews[featured].image = UIImage(data: imageData)
+                                self.relatedImageViews[featured].image = UIImage(data: imageData)
+                                self.relatedImageViews[featured].tag = featuredMovies[featured].trackId
                             }
                         } catch {
                             print("Related Image coud not be loaded...")
@@ -68,7 +75,7 @@ class DetailViewController: UIViewController {
     
     // MARK: - ADD NOTE
     func showEditNoteAlert() {
-        let alertController = UIAlertController(title: "Add note", message: "Write a personal note about this movie", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Personal note", message: "Add something to remember", preferredStyle: .alert)
         alertController.addTextField()
         alertController.textFields![0].returnKeyType = .done
         if notesTextView.text != "Add a personal note..." {
@@ -98,9 +105,8 @@ class DetailViewController: UIViewController {
         NetworkService.lookup(id: movieId) { (result) in
             do {
                 let movie = try result.get().results.first
-                if let rawArtowrkURL = movie?.artworkUrl100 {
-                    let artworkURL = rawArtowrkURL.replacingOccurrences(of: "100x100bb", with: "500x500bb")
-                    NetworkService.fetchImage(from: artworkURL) { (result) in
+                if let artworkURL = movie?.artworkUrl100 {
+                    NetworkService.fetchImage(from: artworkURL, size: 500) { (result) in
                         switch result {
                         case .success(let imageData):
                             DispatchQueue.main.async {
@@ -128,9 +134,17 @@ class DetailViewController: UIViewController {
             updateMovieAdditions(additions: movieAddition)
             movieAdditionsExists = true
         case .failure(.additionNotFound):
-            print("Addition not found")
+            movieAdditionsExists = false
+            resetMovieAdditions()
         default: print("Unknown error")
         }
+    }
+    
+    // TODO: This will be deprecated and combined with the clearUI() function.
+    func resetMovieAdditions() {
+        watchedButton.tintColor = .red
+        bookmarkButton.tintColor = .red
+        notesTextView.text = "Add a personal note..."
     }
     
     // TODO: Default state in Storyboard should be "Unmarked".
@@ -166,19 +180,19 @@ class DetailViewController: UIViewController {
                 do {
                     let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, watched: false).get()
                     updateMovieAdditions(additions: updatedAdditions)
-                } catch { print(error) }
+                } catch { print("error: \(error)") }
             } else if movieWatched == false {
                 do {
                     let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, watched: true).get()
                     updateMovieAdditions(additions: updatedAdditions)
-                } catch { print(error) }
+                } catch { print("error: \(error)") }
             }
             // Add new movie additions
         } else if movieAdditionsExists == false {
             do {
                 try coreDataManager.addMovieAddition(id: movieId, watched: true)
                 loadMovieAdditions()
-            } catch { print(error) }
+            } catch { print("error: \(error)") }
         }
     }
     
@@ -210,5 +224,11 @@ class DetailViewController: UIViewController {
     // MARK: - NOTE TAPPED
     @IBAction func noteTapped(_ sender: Any) {
         showEditNoteAlert()
+    }
+    
+    // MARK: - RELATED MOVIE TAPPED
+    @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) {
+        movieId = sender.view?.tag
+        configure()
     }
 }

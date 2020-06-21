@@ -78,21 +78,37 @@
                                     <action selector="bookmarkButtonTapped:" destination="zbK-gd-e4Y" eventType="touchUpInside" id="9Rx-JW-eIC"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bRy-5P-WEJ">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bRy-5P-WEJ">
                                 <rect key="frame" x="41" y="672" width="77" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Fhz-ea-1e2" appends="YES" id="m0L-OM-Fet"/>
+                                </connections>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fUS-gP-fYD">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fUS-gP-fYD">
                                 <rect key="frame" x="126" y="672" width="77" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="mLW-AH-mJi" appends="YES" id="Ndx-zj-4S9"/>
+                                </connections>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eyE-qc-cGh">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eyE-qc-cGh">
                                 <rect key="frame" x="211" y="672" width="77" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="ugi-Zj-cdn" appends="YES" id="Yr3-Af-V8T"/>
+                                </connections>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDZ-3y-uOq">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDZ-3y-uOq">
                                 <rect key="frame" x="296" y="672" width="77" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="cjD-se-g1K" appends="YES" id="XBI-50-wLb"/>
+                                </connections>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -115,6 +131,26 @@
                 <tapGestureRecognizer id="sFM-cb-y85">
                     <connections>
                         <action selector="noteTapped:" destination="zbK-gd-e4Y" id="eJy-RF-Zfr"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="Fhz-ea-1e2">
+                    <connections>
+                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="3S1-Rw-DRi"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="mLW-AH-mJi">
+                    <connections>
+                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="hes-Bi-v9Y"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="ugi-Zj-cdn">
+                    <connections>
+                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="ypx-PY-a7c"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="cjD-se-g1K">
+                    <connections>
+                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="186-mL-B1L"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

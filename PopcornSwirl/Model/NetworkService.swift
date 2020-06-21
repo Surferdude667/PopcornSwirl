@@ -91,8 +91,11 @@ class NetworkService {
     }
     
     // MARK:- Image fetching
-    static func fetchImage(from url: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        guard let validURL = URL(string: url) else {
+    static func fetchImage(from url: String, size: Int, completion: @escaping (Result<Data, Error>) -> Void) {
+        
+        let sizedURL = url.replacingOccurrences(of: "100x100bb", with: "\(size)x\(size)")
+        
+        guard let validURL = URL(string: sizedURL) else {
             print("URL creation failed...")
             return
         }
