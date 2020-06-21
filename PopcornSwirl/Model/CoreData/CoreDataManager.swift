@@ -95,6 +95,16 @@ class CoreDataManager {
         } catch { return .failure(.additionNotFound) }
     }
     
+    func setNoteToNill(id: Int) {
+        do {
+            let movieAddition = try fetchSavedMovieAddition(id: id).get()
+            movieAddition.note = nil
+        } catch { print(error) }
+        
+        do { try context.save() }
+        catch { print("Failed to set note to nil: \(error)") }
+    }
+    
     // Tries to fetch the SavedMovieAddition and returns either an CoreDataError or if suceess the fetched MovieAddition object.
     func fetchSavedMovieAddition(id: Int) -> Result<SavedMovieAddition, CoreDataErrors> {
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: SavedMovieAddition.entityName)

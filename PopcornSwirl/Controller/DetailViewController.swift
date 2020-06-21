@@ -33,6 +33,33 @@ class DetailViewController: UIViewController {
         loadMovieAdditions()
     }
     
+    // MARK: - ADD NOTE
+    func showEditNoteAlert() {
+        let alertController = UIAlertController(title: "Note", message: "Write a personal note for this movie", preferredStyle: .alert)
+        alertController.addTextField()
+        alertController.textFields![0].returnKeyType = .done
+        if notesTextView.text != "Add a personal note..." {
+            alertController.textFields![0].text = notesTextView.text
+        }
+        
+        let addNoteAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
+            let entry = alertController.textFields![0]
+            if (entry.text != self.notesTextView.text) {
+                guard let movieId = self.movieId else { return }
+                if entry.text?.trimmingCharacters(in: .whitespaces) == "" {
+                    self.notesTextView.text = "Add a personal note..."
+                    _ = self.coreDataManager.setNoteToNill(id: movieId)
+                } else {
+                    self.notesTextView.text = entry.text
+                    _ = self.coreDataManager.updateMovieAddition(id: movieId, note: entry.text)
+                }
+            }
+        }
+        alertController.addAction(addNoteAction)
+        present(alertController, animated: true)
+    }
+    
+    // MARK: - REQUEST API FETCHING
     func loadData() {
         guard let movieId = movieId else { return }
         NetworkService.lookup(id: movieId) { (result) in
@@ -59,6 +86,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+    //MARK: - MOVIE ADDITIONS
     func loadMovieAdditions() {
         guard let movieId = movieId else { return }
         let additions = coreDataManager.fetchSavedMovieAddition(id: movieId)
@@ -72,12 +100,12 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // TODO: Default state in Storyboard should be "Unmarked".
     func updateMovieAdditions(additions: SavedMovieAddition) {
         // UPDATE NOTES ADDITIONS
         if additions.note != nil {
             notesTextView.text = additions.note
         }
-        
         // UPDATE WATCHED ADDITIONS
         if additions.watched?.isWatched == true {
             watchedButton.tintColor = .green
@@ -86,7 +114,6 @@ class DetailViewController: UIViewController {
             watchedButton.tintColor = .red
             movieWatched = false
         }
-        
         // UPDATE BOOKMARKED ADDITIONS
         if additions.bookmarked?.isBookmarked == true {
             bookmarkButton.tintColor = .green
@@ -97,7 +124,7 @@ class DetailViewController: UIViewController {
         }
     }
     // TODO: Figure out if these two button functions can turn into one.
-    // MARK:- Watched Button
+    // MARK: - WATCHED BUTTON
     @IBAction func watchedButtonTapped(_ sender: Any) {
         guard let movieId = movieId else { return }
         if movieAdditionsExists == true {
@@ -122,7 +149,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    // MARK:- Bookmark Button
+    // MARK: - BOOKMARK BUTTON
     @IBAction func bookmarkButtonTapped(_ sender: Any) {
         guard let movieId = movieId else { return }
         if movieAdditionsExists == true {
@@ -147,4 +174,8 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // MARK: - NOTE TAPPED
+    @IBAction func noteTapped(_ sender: Any) {
+        showEditNoteAlert()
+    }
 }
