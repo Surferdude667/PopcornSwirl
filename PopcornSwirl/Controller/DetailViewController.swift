@@ -11,6 +11,7 @@ import UIKit
 class DetailViewController: UIViewController {
     
     var movieId: Int?
+    var genre: Genre?
     var movieWatched: Bool?
     var movieBookmarked: Bool?
     var movieAdditionsExists = false
@@ -23,6 +24,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var watchedButton: UIButton!
     @IBOutlet weak var bookmarkButton: UIButton!
     
+    // TODO: Implement array of spinning loaders as well.
+    @IBOutlet var relatedImageViews: [UIImageView]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -31,11 +35,40 @@ class DetailViewController: UIViewController {
     func configure() {
         loadData()
         loadMovieAdditions()
+        fetchRelatedMovies()
     }
+    
+    
+    func fetchRelatedMovies() {
+        guard let genre = genre else { return }
+        NetworkService.search(genre: genre, limit: 25) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                let movies = response.results
+                let featuredMovies = Array(Set(movies)).prefix(4)
+                // TODO: Prevent the current movie from being displayed.
+                for featured in 0..<featuredMovies.count {
+                    NetworkService.fetchImage(from: featuredMovies[featured].artworkUrl100, completion: { (result) in
+                        do {
+                            let imageData = try result.get()
+                            DispatchQueue.main.async {
+                                 self.relatedImageViews[featured].image = UIImage(data: imageData)
+                            }
+                        } catch {
+                            print("Related Image coud not be loaded...")
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
     
     // MARK: - ADD NOTE
     func showEditNoteAlert() {
-        let alertController = UIAlertController(title: "Note", message: "Write a personal note for this movie", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add note", message: "Write a personal note about this movie", preferredStyle: .alert)
         alertController.addTextField()
         alertController.textFields![0].returnKeyType = .done
         if notesTextView.text != "Add a personal note..." {
@@ -123,7 +156,7 @@ class DetailViewController: UIViewController {
             movieBookmarked = false
         }
     }
-    // TODO: Figure out if these two button functions can turn into one.
+    
     // MARK: - WATCHED BUTTON
     @IBAction func watchedButtonTapped(_ sender: Any) {
         guard let movieId = movieId else { return }
@@ -140,7 +173,7 @@ class DetailViewController: UIViewController {
                     updateMovieAdditions(additions: updatedAdditions)
                 } catch { print(error) }
             }
-        // Add new movie additions
+            // Add new movie additions
         } else if movieAdditionsExists == false {
             do {
                 try coreDataManager.addMovieAddition(id: movieId, watched: true)
@@ -165,7 +198,7 @@ class DetailViewController: UIViewController {
                     updateMovieAdditions(additions: updatedAdditions)
                 } catch { print(error) }
             }
-        // Add new movie additions
+            // Add new movie additions
         } else if movieAdditionsExists == false {
             do {
                 try coreDataManager.addMovieAddition(id: movieId, bookmarked: true)

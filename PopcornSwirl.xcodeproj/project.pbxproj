@@ -128,11 +128,11 @@
 		F6483605248A284A005C8AD4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F6CCF4D2249A869900F59D2F /* CoreData */,
 				F6405D83248A5F3900AF3F29 /* NetworkService.swift */,
 				F6405D85248A6C8F00AF3F29 /* iTunesResponse.swift */,
 				F6DA8269248EAFD1003E0171 /* Movie.swift */,
 				F6DA826B248EB7C7003E0171 /* Genre.swift */,
+				F6CCF4D2249A869900F59D2F /* CoreData */,
 			);
 			path = Model;
 			sourceTree = "<group>";

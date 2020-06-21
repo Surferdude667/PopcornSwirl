@@ -27,7 +27,6 @@ class MovieViewController: UIViewController {
         movieCollectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
         refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
-        //refreshControl.attributedTitle = NSAttributedString(string: "Fetching movie data...")
     }
     
     @objc func updateCollectionView() {
@@ -50,6 +49,7 @@ extension MovieViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int { 3 }
     
+    // TODO: Make this generic and shift betweeen different categories.
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
             switch indexPath.section {
@@ -81,6 +81,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
+                    cell.genre = .thriller
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -94,6 +95,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
+                    cell.genre = .drama
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -107,6 +109,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
+                    cell.genre = .romance
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -118,7 +121,6 @@ extension MovieViewController: UICollectionViewDataSource {
         defer {
             cell.clearImage()
         }
-        
         return cell
     }
     
@@ -126,6 +128,7 @@ extension MovieViewController: UICollectionViewDataSource {
         if let cell = sender as? MovieCollectionViewCell {
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.movieId = cell.movieId
+            detailViewController.genre = cell.genre
         }
     }
     

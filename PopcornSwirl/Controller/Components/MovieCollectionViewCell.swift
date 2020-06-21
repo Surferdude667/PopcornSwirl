@@ -17,6 +17,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var movieId: Int?
+    var genre: Genre?
     
     func clearImage() {
         DispatchQueue.main.async {

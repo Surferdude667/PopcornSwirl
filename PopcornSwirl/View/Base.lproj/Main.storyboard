@@ -78,6 +78,22 @@
                                     <action selector="bookmarkButtonTapped:" destination="zbK-gd-e4Y" eventType="touchUpInside" id="9Rx-JW-eIC"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bRy-5P-WEJ">
+                                <rect key="frame" x="41" y="672" width="77" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fUS-gP-fYD">
+                                <rect key="frame" x="126" y="672" width="77" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eyE-qc-cGh">
+                                <rect key="frame" x="211" y="672" width="77" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDZ-3y-uOq">
+                                <rect key="frame" x="296" y="672" width="77" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="LBn-5B-yMI"/>
@@ -89,6 +105,10 @@
                         <outlet property="movieTitleLabel" destination="kdb-8M-CTC" id="590-ml-6Ut"/>
                         <outlet property="notesTextView" destination="JL5-RK-YHv" id="Nv0-XN-6Ny"/>
                         <outlet property="watchedButton" destination="Zae-ZP-tjk" id="95h-fc-65W"/>
+                        <outletCollection property="relatedImageViews" destination="bRy-5P-WEJ" collectionClass="NSMutableArray" id="0Pa-gh-bwW"/>
+                        <outletCollection property="relatedImageViews" destination="fUS-gP-fYD" collectionClass="NSMutableArray" id="Jze-zc-shl"/>
+                        <outletCollection property="relatedImageViews" destination="eyE-qc-cGh" collectionClass="NSMutableArray" id="PGC-EH-Udh"/>
+                        <outletCollection property="relatedImageViews" destination="cDZ-3y-uOq" collectionClass="NSMutableArray" id="UqT-MQ-hv4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ymJ-km-w6j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

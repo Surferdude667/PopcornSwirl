@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import CoreData
 
-struct Movie: Codable {
+struct Movie: Codable, Hashable {
     var trackId: Int
     var trackName: String
     var primaryGenreName: String
     var releaseDate: String
     var artworkUrl100: String
     var longDescription: String
+    var trackViewUrl: String
 }

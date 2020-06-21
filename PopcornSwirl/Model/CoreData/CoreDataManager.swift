@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-enum CoreDataErrors: Error {
+enum CoreDataError: Error {
     case additionNotFound
     case saveFailed
     case fetchFailed
@@ -57,11 +57,11 @@ class CoreDataManager {
         }
         
         do { try context.save() }
-        catch { throw CoreDataErrors.saveFailed }
+        catch { throw CoreDataError.saveFailed }
     }
     
     // Updates the MovieAddition in CoreData and returns either an CoreDataError or if suceess the updated MovieAddition object.
-    func updateMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil) -> Result<SavedMovieAddition, CoreDataErrors> {
+    func updateMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil) -> Result<SavedMovieAddition, CoreDataError> {
         
         do {
             let updatedMovieAddition = try fetchSavedMovieAddition(id: id).get()
@@ -95,6 +95,7 @@ class CoreDataManager {
         } catch { return .failure(.additionNotFound) }
     }
     
+    // Sets the specified movie to nil
     func setNoteToNill(id: Int) {
         do {
             let movieAddition = try fetchSavedMovieAddition(id: id).get()
@@ -106,7 +107,7 @@ class CoreDataManager {
     }
     
     // Tries to fetch the SavedMovieAddition and returns either an CoreDataError or if suceess the fetched MovieAddition object.
-    func fetchSavedMovieAddition(id: Int) -> Result<SavedMovieAddition, CoreDataErrors> {
+    func fetchSavedMovieAddition(id: Int) -> Result<SavedMovieAddition, CoreDataError> {
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: SavedMovieAddition.entityName)
         request.predicate = NSPredicate(format: "%K == \(id)", #keyPath(SavedMovieAddition.movieID))
         
