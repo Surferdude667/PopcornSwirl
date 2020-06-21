@@ -32,7 +32,6 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        print(movieId)
     }
     
     func configure() {
@@ -74,26 +73,38 @@ class DetailViewController: UIViewController {
         }
     }
     
-    
     // MARK: - ADD NOTE
     func showEditNoteAlert() {
         let alertController = UIAlertController(title: "Personal note", message: "Add something to remember", preferredStyle: .alert)
         alertController.addTextField()
         alertController.textFields![0].returnKeyType = .done
+        
         if notesTextView.text != "Add a personal note..." {
             alertController.textFields![0].text = notesTextView.text
         }
         
         let addNoteAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
             let entry = alertController.textFields![0]
+            
             if (entry.text != self.notesTextView.text) {
                 guard let movieId = self.movieId else { return }
+                
                 if entry.text?.trimmingCharacters(in: .whitespaces) == "" {
                     self.notesTextView.text = "Add a personal note..."
                     _ = self.coreDataManager.setNoteToNill(id: movieId)
                 } else {
                     self.notesTextView.text = entry.text
-                    _ = self.coreDataManager.updateMovieAddition(id: movieId, note: entry.text)
+                    do { _ = try self.coreDataManager.updateMovieAddition(id: movieId, note: entry.text).get()
+                    } catch let error {
+                        let dataError = error as! CoreDataError
+                        switch dataError {
+                        case .additionNotFound:
+                            try? self.coreDataManager.addMovieAddition(id: movieId, note: entry.text)
+                            self.loadMovieAdditions()
+                        default:
+                            print(dataError)
+                        }
+                    }
                 }
             }
         }

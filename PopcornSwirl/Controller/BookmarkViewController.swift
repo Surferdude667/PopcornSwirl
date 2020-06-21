@@ -69,11 +69,9 @@ extension BookmarkViewController: UICollectionViewDataSource {
                 }
             }
             
-            
         } catch {
             print(error)
         }
-        
         return cell
     }
     

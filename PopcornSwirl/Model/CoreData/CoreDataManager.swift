@@ -94,6 +94,7 @@ class CoreDataManager {
                 try context.save()
                 return.success(updatedMovieAddition)
             } catch {
+                print("Update Failed...")
                 return.failure(.updateFailed)
             }
             
