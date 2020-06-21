@@ -13,6 +13,7 @@ class DetailViewController: UIViewController {
     
     var movieId: Int?
     var genre: Genre?
+    var buyURL: URL?
     var movieWatched: Bool?
     var movieBookmarked: Bool?
     var movieAdditionsExists = false
@@ -25,17 +26,18 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var watchedButton: UIButton!
     @IBOutlet weak var bookmarkButton: UIButton!
     
-    // TODO: Implement array of spinning loaders as well.
+    // TODO: Implement array of spinning loaders as well. Maybe create your own spinner...? Could look sooo unified.
     @IBOutlet var relatedImageViews: [UIImageView]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        print(movieId)
     }
     
     func configure() {
         clearUI()
-        loadData()
+        fetchMovieData()
         loadMovieAdditions()
         fetchRelatedMovies()
     }
@@ -100,7 +102,7 @@ class DetailViewController: UIViewController {
     }
     
     // MARK: - REQUEST API FETCHING
-    func loadData() {
+    func fetchMovieData() {
         guard let movieId = movieId else { return }
         NetworkService.lookup(id: movieId) { (result) in
             do {
@@ -113,6 +115,10 @@ class DetailViewController: UIViewController {
                                 self.coverImageView.image = UIImage(data: imageData)
                                 self.movieTitleLabel.text = movie?.trackName
                                 self.longDescriptionLabel.text = movie?.longDescription
+                                
+                                if let urlString = movie?.trackViewUrl {
+                                    self.buyURL = URL(string: urlString)
+                                }
                             }
                         case .failure(let error):
                             print(error)
@@ -147,7 +153,6 @@ class DetailViewController: UIViewController {
         notesTextView.text = "Add a personal note..."
     }
     
-    // TODO: Default state in Storyboard should be "Unmarked".
     func updateMovieAdditions(additions: SavedMovieAddition) {
         // UPDATE NOTES ADDITIONS
         if additions.note != nil {
@@ -230,5 +235,10 @@ class DetailViewController: UIViewController {
     @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) {
         movieId = sender.view?.tag
         configure()
+    }
+    
+    @IBAction func buyButton(_ sender: Any) {
+        guard let url = buyURL else { return }
+        UIApplication.shared.open(url)
     }
 }

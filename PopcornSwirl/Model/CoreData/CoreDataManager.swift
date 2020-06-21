@@ -16,6 +16,11 @@ enum CoreDataError: Error {
     case updateFailed
 }
 
+enum AdditionType: String {
+    case bookmarked = "bookmarked"
+    case watched = "watched"
+}
+
 class CoreDataManager {
     
     var context: NSManagedObjectContext
@@ -123,4 +128,29 @@ class CoreDataManager {
         }
     }
     
+    func fetchSavedMovieAdditionList(of type: AdditionType) throws -> [SavedMovieAddition] {
+        let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: SavedMovieAddition.entityName)
+        if type == .bookmarked {
+            let sortDescriptor = NSSortDescriptor(keyPath: \SavedMovieAddition.bookmarked?.date, ascending: false)
+            request.predicate = NSPredicate(format: "%K == YES", #keyPath(SavedMovieAddition.bookmarked.isBookmarked))
+            request.sortDescriptors = [sortDescriptor]
+        }
+        if type == .watched {
+            let sortDescriptor = NSSortDescriptor(keyPath: \SavedMovieAddition.watched?.date, ascending: false)
+            request.predicate = NSPredicate(format: "%K == YES", #keyPath(SavedMovieAddition.watched.isWatched))
+            request.sortDescriptors = [sortDescriptor]
+        }
+        
+        do {
+            let fetch = try context.fetch(request)
+            
+            if fetch.count > 0 {
+                return fetch as! [SavedMovieAddition]
+            } else {
+                throw CoreDataError.additionNotFound
+            }
+        } catch {
+            throw CoreDataError.fetchFailed
+        }
+    }
 }
