@@ -46,7 +46,6 @@ extension MovieViewController: UICollectionViewDelegate { }
 extension MovieViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 6 }
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int { 3 }
     
     // TODO: Make this generic and shift betweeen different categories.
@@ -74,14 +73,14 @@ extension MovieViewController: UICollectionViewDataSource {
         switch indexPath.section {
         case 0:
             // THRILLER SECTION
-            NetworkService.search(genre: .thriller, limit: 6) { (result) in
+            NetworkService.search(genre: .action, limit: 6) { (result) in
                 do {
                     let movies = try result.get()
                     let movie = movies.results[indexPath.row]
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
-                    cell.genre = .thriller
+                    cell.genre = Genre(rawValue: movie.primaryGenreName)
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -95,7 +94,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
-                    cell.genre = .drama
+                    cell.genre = Genre(rawValue: movie.primaryGenreName)
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -109,7 +108,7 @@ extension MovieViewController: UICollectionViewDataSource {
                     cell.setTileLabel(with: movie.trackName)
                     cell.loadImage(with: movie.trackId)
                     cell.movieId = movie.trackId
-                    cell.genre = .romance
+                    cell.genre = Genre(rawValue: movie.primaryGenreName)
                 } catch let error {
                     print(error.localizedDescription)
                 }
@@ -121,6 +120,7 @@ extension MovieViewController: UICollectionViewDataSource {
         defer {
             cell.clearImage()
         }
+        
         return cell
     }
     

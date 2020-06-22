@@ -58,8 +58,7 @@ extension WatchedViewController: UICollectionViewDataSource {
                         DispatchQueue.main.async {
                             cell.titleLabel.text = movie.trackName
                             cell.dateLabel.text = watchedAdditions[indexPath.row].watched?.date?.description
-                            // TODO: Enum genre problem... rawValue something something...
-                            //cell.genre =
+                            cell.genre = Genre(rawValue: movie.primaryGenreName)
                         }
                     
                     cell.loadImage(with: movie.trackId)

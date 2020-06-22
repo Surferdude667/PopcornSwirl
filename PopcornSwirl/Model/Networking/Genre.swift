@@ -9,7 +9,7 @@
 import Foundation
 
 enum Genre: String {
-    case action = "Action+&+Adventure"
+    case action = "Action & Adventure"
     case drama = "Drama"
     case romance = "Romance"
     case thriller = "Thriller"

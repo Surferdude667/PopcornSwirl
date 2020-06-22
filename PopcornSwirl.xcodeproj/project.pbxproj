@@ -179,11 +179,9 @@
 		F6CCF4D2249A869900F59D2F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				F638E1DF2487C61100C57EB0 /* PopcornSwirl.xcdatamodeld */,
 				F6CCF4CB249A602000F59D2F /* CoreDataManager.swift */,
-				F6CCF4CE249A77D300F59D2F /* SavedMovieAddition.swift */,
-				F604966D249CC0570048FEA1 /* Bookmark.swift */,
-				F604966F249CC11B0048FEA1 /* Watch.swift */,
+				F638E1DF2487C61100C57EB0 /* PopcornSwirl.xcdatamodeld */,
+				F6F2E0F824A0C1000028C373 /* Entities */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -195,6 +193,16 @@
 				F6B7BDA22490F01900C98893 /* HeaderCollectionReusableView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		F6F2E0F824A0C1000028C373 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F6CCF4CE249A77D300F59D2F /* SavedMovieAddition.swift */,
+				F604966D249CC0570048FEA1 /* Bookmark.swift */,
+				F604966F249CC11B0048FEA1 /* Watch.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
