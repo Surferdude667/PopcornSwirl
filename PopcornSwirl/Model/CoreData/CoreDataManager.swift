@@ -65,6 +65,7 @@ class CoreDataManager {
         catch { throw CoreDataError.saveFailed }
     }
     
+    //TODO: This needs to accept a SavedMovieAddition object instead of paramaters and use values from that.
     // Updates the MovieAddition in CoreData and returns either an CoreDataError or if suceess the updated MovieAddition object.
     func updateMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil) -> Result<SavedMovieAddition, CoreDataError> {
         

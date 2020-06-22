@@ -38,14 +38,14 @@ class DetailViewController: UIViewController {
         clearUI()
         fetchMovieData()
         loadMovieAdditions()
-        fetchRelatedMovies()
+        fetchFeaturedMovies()
     }
     
     func clearUI() {
         // TODO: Start spinning, empty images, empty texts.
     }
     
-    func fetchRelatedMovies() {
+    func fetchFeaturedMovies() {
         guard let genre = genre else { return }
         NetworkService.search(genre: genre, limit: 25) { (result) in
             switch result {
@@ -126,10 +126,7 @@ class DetailViewController: UIViewController {
                                 self.coverImageView.image = UIImage(data: imageData)
                                 self.movieTitleLabel.text = movie?.trackName
                                 self.longDescriptionLabel.text = movie?.longDescription
-                                
-                                if let urlString = movie?.trackViewUrl {
-                                    self.buyURL = URL(string: urlString)
-                                }
+                                if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
                             }
                         case .failure(let error):
                             print(error)
@@ -187,6 +184,9 @@ class DetailViewController: UIViewController {
         }
     }
     
+    
+    // TODO: Need to refactor update function
+    // In this viewcontroller fet addition object and use that internaly. Then send it to update function. (Will prevent all this stupid checking twice...
     // MARK: - WATCHED BUTTON
     @IBAction func watchedButtonTapped(_ sender: Any) {
         guard let movieId = movieId else { return }
@@ -216,7 +216,7 @@ class DetailViewController: UIViewController {
     @IBAction func bookmarkButtonTapped(_ sender: Any) {
         guard let movieId = movieId else { return }
         if movieAdditionsExists == true {
-            // Update watched additions
+            // Update bookmarked additions
             if movieBookmarked == true {
                 do {
                     let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, bookmarked: false).get()

@@ -57,7 +57,7 @@ extension BookmarkViewController: UICollectionViewDataSource {
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
                             cell.titleLabel.text = movie.trackName
-                            cell.dateLabel.text = bookmarkedAdditions[indexPath.row].bookmarked?.date?.description
+                            cell.dateLabel.text = "Bookmarked: \(bookmarkedAdditions[indexPath.row].bookmarked?.date?.toString() ?? "No date found")"
                             cell.genre = Genre(rawValue: movie.primaryGenreName)
                         }
                     

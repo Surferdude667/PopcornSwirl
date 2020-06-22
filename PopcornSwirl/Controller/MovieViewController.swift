@@ -48,12 +48,12 @@ extension MovieViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 6 }
     func numberOfSections(in collectionView: UICollectionView) -> Int { 3 }
     
-    // TODO: Make this generic and shift betweeen different categories.
+    // TODO: Make this generic and shift betweeen different categories. (Should be fairly easy...) random genre list[indexPath].section
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
             switch indexPath.section {
             case 0:
-                sectionHeader.titleLabel.text = "Thriller"
+                sectionHeader.titleLabel.text = "Action & Adventure"
             case 1:
                 sectionHeader.titleLabel.text = "Drama"
             case 2:

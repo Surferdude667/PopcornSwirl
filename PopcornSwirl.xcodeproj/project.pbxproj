@@ -16,6 +16,7 @@
 		F638E1E32487C61400C57EB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F638E1E22487C61400C57EB0 /* Assets.xcassets */; };
 		F638E1E62487C61400C57EB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F638E1E42487C61400C57EB0 /* LaunchScreen.storyboard */; };
 		F638E1F12487C61400C57EB0 /* PopcornSwirlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638E1F02487C61400C57EB0 /* PopcornSwirlTests.swift */; };
+		F64050F824A0D598003748DD /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64050F724A0D598003748DD /* DateExtension.swift */; };
 		F6405D84248A5F3900AF3F29 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6405D83248A5F3900AF3F29 /* NetworkService.swift */; };
 		F6405D86248A6C8F00AF3F29 /* iTunesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6405D85248A6C8F00AF3F29 /* iTunesResponse.swift */; };
 		F648360B248A3040005C8AD4 /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360A248A3040005C8AD4 /* MovieViewController.swift */; };
@@ -54,6 +55,7 @@
 		F638E1EC2487C61400C57EB0 /* PopcornSwirlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PopcornSwirlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F638E1F02487C61400C57EB0 /* PopcornSwirlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopcornSwirlTests.swift; sourceTree = "<group>"; };
 		F638E1F22487C61400C57EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F64050F724A0D598003748DD /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F6405D83248A5F3900AF3F29 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		F6405D85248A6C8F00AF3F29 /* iTunesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesResponse.swift; sourceTree = "<group>"; };
 		F648360A248A3040005C8AD4 /* MovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
@@ -125,9 +127,18 @@
 			path = PopcornSwirlTests;
 			sourceTree = "<group>";
 		};
+		F64050F624A0D55E003748DD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F64050F724A0D598003748DD /* DateExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F6483605248A284A005C8AD4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F64050F624A0D55E003748DD /* Extensions */,
 				F6CBF21E24A0B983001D1DA4 /* Networking */,
 				F6CCF4D2249A869900F59D2F /* CoreData */,
 			);
@@ -319,6 +330,7 @@
 				F638E1E12487C61100C57EB0 /* PopcornSwirl.xcdatamodeld in Sources */,
 				F648360B248A3040005C8AD4 /* MovieViewController.swift in Sources */,
 				F648360D248A3056005C8AD4 /* BookmarkViewController.swift in Sources */,
+				F64050F824A0D598003748DD /* DateExtension.swift in Sources */,
 				F6483611248A307D005C8AD4 /* DetailViewController.swift in Sources */,
 				F6CCF4CC249A602000F59D2F /* CoreDataManager.swift in Sources */,
 				F6405D84248A5F3900AF3F29 /* NetworkService.swift in Sources */,
