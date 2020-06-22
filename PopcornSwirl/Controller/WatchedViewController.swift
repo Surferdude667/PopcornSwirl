@@ -45,7 +45,7 @@ extension WatchedViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PinnedCollectionViewCell.identifier, for: indexPath) as! PinnedCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "watchedCell", for: indexPath) as! MovieCollectionViewCell
         
         do {
             let watchedAdditions = try coreDataManager.fetchSavedMovieAdditionList(of: .watched)
@@ -76,7 +76,7 @@ extension WatchedViewController: UICollectionViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? PinnedCollectionViewCell {
+        if let cell = sender as? MovieCollectionViewCell {
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.movieId = cell.movieId
             detailViewController.genre = cell.genre

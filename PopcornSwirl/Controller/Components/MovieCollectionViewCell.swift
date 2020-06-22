@@ -10,11 +10,10 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "movieCell"
-    
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var dateLabel: UILabel!
     
     var movieId: Int?
     var genre: Genre?
