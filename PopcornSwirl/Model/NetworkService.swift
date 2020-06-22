@@ -11,6 +11,7 @@ import Foundation
 // TODO: Impment custom error types
 enum NetworkError: Error {
     case noInternetConnection
+    case serverError
 }
 
 class NetworkService {
@@ -102,7 +103,10 @@ class NetworkService {
         
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
-                //print("API response code (Image): \(httpResponse.statusCode)")
+                
+                if httpResponse.statusCode == 500 {
+                    completion(.failure(NetworkError.serverError))
+                }
             }
             
             if let validData = data, error == nil {

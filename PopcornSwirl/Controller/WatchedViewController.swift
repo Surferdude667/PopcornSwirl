@@ -10,8 +10,81 @@ import UIKit
 
 class WatchedViewController: UIViewController {
 
+    var coreDataManager = CoreDataManager()
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    func configure() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Watched View Controller")
+        configure()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        collectionView.reloadData()
+    }
+}
+
+extension WatchedViewController: UICollectionViewDelegate { }
+
+extension WatchedViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        do {
+            let savedEntities = try coreDataManager.fetchSavedMovieAdditionList(of: .watched)
+            return savedEntities.count
+        } catch {
+            print(error)
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PinnedCollectionViewCell.identifier, for: indexPath) as! PinnedCollectionViewCell
+        
+        do {
+            let watchedAdditions = try coreDataManager.fetchSavedMovieAdditionList(of: .watched)
+            cell.movieId = Int(watchedAdditions[indexPath.row].movieID)
+            
+            NetworkService.lookup(id: Int(watchedAdditions[indexPath.row].movieID)) { (result) in
+                switch result {
+                case .success(let movieResponse):
+                    if let movie = movieResponse.results.first {
+                        DispatchQueue.main.async {
+                            cell.titleLabel.text = movie.trackName
+                            cell.dateLabel.text = watchedAdditions[indexPath.row].watched?.date?.description
+                            // TODO: Enum genre problem... rawValue something something...
+                            //cell.genre =
+                        }
+                    
+                    cell.loadImage(with: movie.trackId)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            
+        } catch {
+            print(error)
+        }
+        return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? PinnedCollectionViewCell {
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.movieId = cell.movieId
+            detailViewController.genre = cell.genre
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
+    }
+    
 }
