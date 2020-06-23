@@ -71,6 +71,11 @@ extension WatchedViewController: UICollectionViewDataSource {
         } catch {
             print(error)
         }
+        
+        defer {
+            cell.clearImage()
+        }
+        
         return cell
     }
     

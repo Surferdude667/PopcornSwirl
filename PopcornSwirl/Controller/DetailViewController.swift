@@ -14,10 +14,9 @@ class DetailViewController: UIViewController {
     var movieId: Int?
     var genre: Genre?
     var buyURL: URL?
-    var movieWatched: Bool?
-    var movieBookmarked: Bool?
-    var movieAdditionsExists = false
+    var movieAdditions: SavedMovieAddition?
     let coreDataManager = CoreDataManager()
+    let notePlaceholder = "Add a personal note..."
     
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -64,9 +63,7 @@ class DetailViewController: UIViewController {
                                 self.relatedImageViews[featured].image = UIImage(data: imageData)
                                 self.relatedImageViews[featured].tag = featuredMovies[featured].trackId
                             }
-                        } catch {
-                            print("Related Image coud not be loaded...")
-                        }
+                        } catch { print("Related Image coud not be loaded...") }
                     })
                 }
             }
@@ -78,34 +75,34 @@ class DetailViewController: UIViewController {
         let alertController = UIAlertController(title: "Personal note", message: "Add something to remember", preferredStyle: .alert)
         alertController.addTextField()
         alertController.textFields![0].returnKeyType = .done
-        
-        if notesTextView.text != "Add a personal note..." {
-            alertController.textFields![0].text = notesTextView.text
-        }
+        if notesTextView.text != notePlaceholder { alertController.textFields![0].text = notesTextView.text }
         
         let addNoteAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
             let entry = alertController.textFields![0]
-            
-            if (entry.text != self.notesTextView.text) {
+            if entry.text != self.notesTextView.text {
                 guard let movieId = self.movieId else { return }
                 
-                if entry.text?.trimmingCharacters(in: .whitespaces) == "" {
-                    self.notesTextView.text = "Add a personal note..."
-                    _ = self.coreDataManager.setNoteToNill(id: movieId)
-                } else {
-                    self.notesTextView.text = entry.text
-                    do { _ = try self.coreDataManager.updateMovieAddition(id: movieId, note: entry.text).get()
-                    } catch let error {
-                        let dataError = error as! CoreDataError
-                        switch dataError {
-                        case .additionNotFound:
-                            try? self.coreDataManager.addMovieAddition(id: movieId, note: entry.text)
+                // Addition don't exists, create new one with input and return.
+                guard let additions = self.movieAdditions else {
+                    if entry.text?.trimmingCharacters(in: .whitespaces) != "" {
+                        do {
+                            try self.coreDataManager.addMovieAddition(id: movieId, note: entry.text)
                             self.loadMovieAdditions()
-                        default:
-                            print(dataError)
-                        }
+                        } catch { print(error) }
                     }
+                    return
                 }
+                
+                // Addition does exist, update with input.
+                if entry.text?.trimmingCharacters(in: .whitespaces) == "" {
+                    additions.note = nil
+                } else {
+                    additions.note = entry.text
+                }
+                
+                do { try self.coreDataManager.context.save() }
+                catch { print(error) }
+                self.updateMovieAdditionsUI()
             }
         }
         alertController.addAction(addNoteAction)
@@ -142,114 +139,63 @@ class DetailViewController: UIViewController {
     //MARK: - MOVIE ADDITIONS
     func loadMovieAdditions() {
         guard let movieId = movieId else { return }
-        let additions = coreDataManager.fetchSavedMovieAddition(id: movieId)
-        switch additions {
-        case .success(let movieAddition):
-            updateMovieAdditions(additions: movieAddition)
-            movieAdditionsExists = true
-        case .failure(.additionNotFound):
-            movieAdditionsExists = false
-            resetMovieAdditions()
-        default: print("Unknown error")
-        }
+        do { movieAdditions = try coreDataManager.fetchSavedMovieAddition(id: movieId).get() }
+        catch { movieAdditions = nil }
+        updateMovieAdditionsUI()
     }
     
-    // TODO: This will be deprecated and combined with the clearUI() function.
-    func resetMovieAdditions() {
-        watchedButton.tintColor = .red
-        bookmarkButton.tintColor = .red
-        notesTextView.text = "Add a personal note..."
-    }
-    
-    func updateMovieAdditions(additions: SavedMovieAddition) {
-        // UPDATE NOTES ADDITIONS
-        if additions.note != nil {
-            notesTextView.text = additions.note
-        }
-        // UPDATE WATCHED ADDITIONS
-        if additions.watched?.isWatched == true {
-            watchedButton.tintColor = .green
-            movieWatched = true
-        } else {
+    func updateMovieAdditionsUI() {
+        guard let additions = movieAdditions else {
             watchedButton.tintColor = .red
-            movieWatched = false
-        }
-        // UPDATE BOOKMARKED ADDITIONS
-        if additions.bookmarked?.isBookmarked == true {
-            bookmarkButton.tintColor = .green
-            movieBookmarked = true
-        } else {
             bookmarkButton.tintColor = .red
-            movieBookmarked = false
+            notesTextView.text = notePlaceholder
+            return
         }
+    
+        if additions.note != nil { notesTextView.text = additions.note }
+        else { notesTextView.text = notePlaceholder }
+        
+        if additions.watched?.isWatched == true { watchedButton.tintColor = .green }
+        else { watchedButton.tintColor = .red }
+        
+        if additions.bookmarked?.isBookmarked == true { bookmarkButton.tintColor = .green }
+        else { bookmarkButton.tintColor = .red }
     }
     
-    
-    // TODO: Need to refactor update function
-    // In this viewcontroller fet addition object and use that internaly. Then send it to update function. (Will prevent all this stupid checking twice...
-    // MARK: - WATCHED BUTTON
-    @IBAction func watchedButtonTapped(_ sender: Any) {
+    func toggleAdditons(type: AdditionType) {
         guard let movieId = movieId else { return }
-        if movieAdditionsExists == true {
-            // Update watched additions
-            if movieWatched == true {
-                do {
-                    let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, watched: false).get()
-                    updateMovieAdditions(additions: updatedAdditions)
-                } catch { print("error: \(error)") }
-            } else if movieWatched == false {
-                do {
-                    let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, watched: true).get()
-                    updateMovieAdditions(additions: updatedAdditions)
-                } catch { print("error: \(error)") }
+        if let additions = movieAdditions {
+            if type == .watched {
+                if additions.watched?.isWatched == true {
+                    movieAdditions?.watched?.isWatched = false
+                    movieAdditions?.watched?.date = nil
+                } else if additions.watched?.isWatched == false || additions.watched?.isWatched == nil {
+                    movieAdditions?.watched?.isWatched = true
+                    movieAdditions?.watched?.date = Date()
+                }
             }
-            // Add new movie additions
-        } else if movieAdditionsExists == false {
-            do {
-                try coreDataManager.addMovieAddition(id: movieId, watched: true)
-                loadMovieAdditions()
-            } catch { print("error: \(error)") }
+            if type == .bookmarked {
+                if additions.bookmarked?.isBookmarked == true {
+                    movieAdditions?.bookmarked?.isBookmarked = false
+                    movieAdditions?.bookmarked?.date = nil
+                } else if additions.bookmarked?.isBookmarked == false || additions.bookmarked?.isBookmarked == nil {
+                    movieAdditions?.bookmarked?.isBookmarked = true
+                    movieAdditions?.bookmarked?.date = Date()
+                }
+            }
+            do { try coreDataManager.context.save() }
+            catch { print(error) }
+            updateMovieAdditionsUI()
+        } else {
+            if type == .watched { try? coreDataManager.addMovieAddition(id: movieId, watched: true) }
+            if type == .bookmarked { try? coreDataManager.addMovieAddition(id: movieId, bookmarked: true) }
+            loadMovieAdditions()
         }
     }
     
-    // MARK: - BOOKMARK BUTTON
-    @IBAction func bookmarkButtonTapped(_ sender: Any) {
-        guard let movieId = movieId else { return }
-        if movieAdditionsExists == true {
-            // Update bookmarked additions
-            if movieBookmarked == true {
-                do {
-                    let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, bookmarked: false).get()
-                    updateMovieAdditions(additions: updatedAdditions)
-                } catch { print(error) }
-            } else if movieBookmarked == false {
-                do {
-                    let updatedAdditions = try coreDataManager.updateMovieAddition(id: movieId, bookmarked: true).get()
-                    updateMovieAdditions(additions: updatedAdditions)
-                } catch { print(error) }
-            }
-            // Add new movie additions
-        } else if movieAdditionsExists == false {
-            do {
-                try coreDataManager.addMovieAddition(id: movieId, bookmarked: true)
-                loadMovieAdditions()
-            } catch { print(error) }
-        }
-    }
-    
-    // MARK: - NOTE TAPPED
-    @IBAction func noteTapped(_ sender: Any) {
-        showEditNoteAlert()
-    }
-    
-    // MARK: - RELATED MOVIE TAPPED
-    @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) {
-        movieId = sender.view?.tag
-        configure()
-    }
-    
-    @IBAction func buyButton(_ sender: Any) {
-        guard let url = buyURL else { return }
-        UIApplication.shared.open(url)
-    }
+    @IBAction func watchedButtonTapped(_ sender: Any) { toggleAdditons(type: .watched) }
+    @IBAction func bookmarkButtonTapped(_ sender: Any) { toggleAdditons(type: .bookmarked) }
+    @IBAction func noteTapped(_ sender: Any) { showEditNoteAlert() }
+    @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) { movieId = sender.view?.tag; configure() }
+    @IBAction func buyButton(_ sender: Any) { if let url = buyURL { UIApplication.shared.open(url) } }
 }

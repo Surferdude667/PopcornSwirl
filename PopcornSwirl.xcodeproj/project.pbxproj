@@ -23,6 +23,7 @@
 		F648360D248A3056005C8AD4 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360C248A3056005C8AD4 /* BookmarkViewController.swift */; };
 		F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360E248A306B005C8AD4 /* WatchedViewController.swift */; };
 		F6483611248A307D005C8AD4 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6483610248A307D005C8AD4 /* DetailViewController.swift */; };
+		F689AFD724A28376004D767A /* AdditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFD624A28376004D767A /* AdditionType.swift */; };
 		F6B7BDA32490F01900C98893 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B7BDA22490F01900C98893 /* HeaderCollectionReusableView.swift */; };
 		F6CCF4CC249A602000F59D2F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CCF4CB249A602000F59D2F /* CoreDataManager.swift */; };
 		F6CCF4CF249A77D300F59D2F /* SavedMovieAddition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CCF4CE249A77D300F59D2F /* SavedMovieAddition.swift */; };
@@ -62,6 +63,7 @@
 		F648360C248A3056005C8AD4 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		F648360E248A306B005C8AD4 /* WatchedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedViewController.swift; sourceTree = "<group>"; };
 		F6483610248A307D005C8AD4 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F689AFD624A28376004D767A /* AdditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionType.swift; sourceTree = "<group>"; };
 		F6B7BDA22490F01900C98893 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		F6CCF4CB249A602000F59D2F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		F6CCF4CE249A77D300F59D2F /* SavedMovieAddition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedMovieAddition.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				F6CCF4CB249A602000F59D2F /* CoreDataManager.swift */,
+				F689AFD624A28376004D767A /* AdditionType.swift */,
 				F638E1DF2487C61100C57EB0 /* PopcornSwirl.xcdatamodeld */,
 				F6F2E0F824A0C1000028C373 /* Entities */,
 			);
@@ -322,6 +325,7 @@
 				F6405D86248A6C8F00AF3F29 /* iTunesResponse.swift in Sources */,
 				F6DA826F248FA5C6003E0171 /* MovieCollectionViewCell.swift in Sources */,
 				F6DA826C248EB7C7003E0171 /* Genre.swift in Sources */,
+				F689AFD724A28376004D767A /* AdditionType.swift in Sources */,
 				F6B7BDA32490F01900C98893 /* HeaderCollectionReusableView.swift in Sources */,
 				F6CCF4CF249A77D300F59D2F /* SavedMovieAddition.swift in Sources */,
 				F6049670249CC11B0048FEA1 /* Watch.swift in Sources */,

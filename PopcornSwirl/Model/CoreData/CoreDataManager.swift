@@ -16,11 +16,6 @@ enum CoreDataError: Error {
     case updateFailed
 }
 
-enum AdditionType: String {
-    case bookmarked = "bookmarked"
-    case watched = "watched"
-}
-
 class CoreDataManager {
     
     var context: NSManagedObjectContext
@@ -65,43 +60,6 @@ class CoreDataManager {
         catch { throw CoreDataError.saveFailed }
     }
     
-    //TODO: This needs to accept a SavedMovieAddition object instead of paramaters and use values from that.
-    // Updates the MovieAddition in CoreData and returns either an CoreDataError or if suceess the updated MovieAddition object.
-    func updateMovieAddition(id: Int, note: String? = nil, watched: Bool? = nil, bookmarked: Bool? = nil) -> Result<SavedMovieAddition, CoreDataError> {
-        
-        do {
-            let updatedMovieAddition = try fetchSavedMovieAddition(id: id).get()
-            if let note = note { updatedMovieAddition.note = note}
-            if let watched = watched {
-                if watched == true {
-                    updatedMovieAddition.watched?.isWatched = watched
-                    updatedMovieAddition.watched?.date = Date()
-                } else if watched == false {
-                    updatedMovieAddition.watched?.isWatched = watched
-                    updatedMovieAddition.watched?.date = nil
-                }
-            }
-            if let bookmarked = bookmarked {
-                if bookmarked == true {
-                    updatedMovieAddition.bookmarked?.isBookmarked = bookmarked
-                    updatedMovieAddition.bookmarked?.date = Date()
-                } else if bookmarked == false {
-                    updatedMovieAddition.bookmarked?.isBookmarked = bookmarked
-                    updatedMovieAddition.bookmarked?.date = Date()
-                }
-            }
-            
-            do {
-                try context.save()
-                return.success(updatedMovieAddition)
-            } catch {
-                print("Update Failed...")
-                return.failure(.updateFailed)
-            }
-            
-        } catch { return .failure(.additionNotFound) }
-    }
-    
     // Sets the specified movie to nil
     func setNoteToNill(id: Int) {
         do {
@@ -121,6 +79,7 @@ class CoreDataManager {
         do {
             let fetch = try context.fetch(request)
             if let result = fetch.first as? SavedMovieAddition {
+                print("This is what is fectched: \(result.movieID)")
                 return.success(result)
             } else {
                 return.failure(.additionNotFound)
