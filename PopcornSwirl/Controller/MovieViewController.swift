@@ -23,6 +23,11 @@ class MovieViewController: UIViewController {
         setupRefreshControl()        
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configure()
+    }
+    
     func setupRefreshControl() {
         movieCollectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
@@ -35,10 +40,18 @@ class MovieViewController: UIViewController {
         movieCollectionView.reloadData()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configure()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? MovieCollectionViewCell {
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.movieId = cell.movieId
+            detailViewController.genre = cell.genre
+        }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
+    }
+
 }
 
 extension MovieViewController: UICollectionViewDelegate { }
@@ -123,19 +136,6 @@ extension MovieViewController: UICollectionViewDataSource {
         
         return cell
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? MovieCollectionViewCell {
-            let detailViewController = segue.destination as! DetailViewController
-            detailViewController.movieId = cell.movieId
-            detailViewController.genre = cell.genre
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
-    }
-
 }
 
 //extension MovieViewController: UICollectionViewDelegateFlowLayout { }
