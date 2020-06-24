@@ -16,11 +16,21 @@ class MovieViewController: UIViewController {
     
     private let refreshControl = UIRefreshControl()
     
+    let numberOfSections = 4
+    let rowsInSections = 6
+    
+    
+    
+    var movies = [[Movie]]()
+    
     func configure() {
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
         flowLayout.scrollDirection = .vertical
-        setupRefreshControl()        
+        setupRefreshControl()
+        
+        
+        
     }
     
     override func viewDidLoad() {
@@ -39,6 +49,38 @@ class MovieViewController: UIViewController {
         refreshControl.endRefreshing()
         movieCollectionView.reloadData()
     }
+    
+    func populateGenreArray(sections: Int) {
+        
+    }
+    
+    func loadMovieSections(genreSections: Int, moviesInSection: Int, completion: @escaping (Result<[[Movie]], Error>) -> Void) {
+        var movieArray = [[Movie]]()
+        let allGeneres = Genre.allCases
+        let randomSelectedGenres = Array(Set(allGeneres)).prefix(genreSections)
+        
+        let genreDispatch = DispatchGroup()
+        
+        for genere in randomSelectedGenres {
+            genreDispatch.enter()
+            
+            NetworkService.search(genre: genere, limit: moviesInSection) { (result) in
+                switch result {
+                case .success(let fetchedMovies):
+                    movieArray.append(fetchedMovies.results)
+                    genreDispatch.leave()
+                case .failure(let error):
+                    print(error)
+                    genreDispatch.leave()
+                }
+            }
+        }
+        
+        genreDispatch.notify(queue: .main) {
+            completion(.success(movieArray))
+        }
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? MovieCollectionViewCell {
@@ -59,21 +101,15 @@ extension MovieViewController: UICollectionViewDelegate { }
 extension MovieViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 6 }
-    func numberOfSections(in collectionView: UICollectionView) -> Int { 3 }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { 4 }
     
     // TODO: Make this generic and shift betweeen different categories. (Should be fairly easy...) random genre list[indexPath].section
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
-            switch indexPath.section {
-            case 0:
-                sectionHeader.titleLabel.text = "Action & Adventure"
-            case 1:
-                sectionHeader.titleLabel.text = "Drama"
-            case 2:
-                sectionHeader.titleLabel.text = "Romance"
-            default:
-                sectionHeader.titleLabel.text = "Unknown"
-            }
+            
+            sectionHeader.titleLabel.text = "headlines[indexPath.section]"
+            
             return sectionHeader
         }
         return UICollectionReusableView()
@@ -82,58 +118,23 @@ extension MovieViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
+        let section = indexPath.section
+        let row = indexPath.row
         
-        switch indexPath.section {
-        case 0:
-            // THRILLER SECTION
-            NetworkService.search(genre: .action, limit: 6) { (result) in
-                do {
-                    let movies = try result.get()
-                    let movie = movies.results[indexPath.row]
-                    cell.setTileLabel(with: movie.trackName)
-                    cell.loadImage(with: movie.trackId)
-                    cell.movieId = movie.trackId
-                    cell.genre = Genre(rawValue: movie.primaryGenreName)
-                } catch let error {
-                    print(error.localizedDescription)
-                }
+        loadMovieSections(genreSections: 4, moviesInSection: 6) { (result) in
+            switch result {
+            case .success(let movies):
+                cell.setTileLabel(with: movies[section][row].trackName)
+                cell.loadImage(with: movies[section][row].trackId)
+                cell.movieId = movies[section][row].trackId
+                cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
+            case .failure(let error):
+                cell.faildToLoadCell()
+                print(error)
             }
-        case 1:
-            // DRAMA SECTION
-            NetworkService.search(genre: .drama, limit: 6) { (result) in
-                do {
-                    let movies = try result.get()
-                    let movie = movies.results[indexPath.row]
-                    cell.setTileLabel(with: movie.trackName)
-                    cell.loadImage(with: movie.trackId)
-                    cell.movieId = movie.trackId
-                    cell.genre = Genre(rawValue: movie.primaryGenreName)
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-            }
-        case 2:
-            //ROMANCE SECTION
-            NetworkService.search(genre: .romance, limit: 6) { (result) in
-                do {
-                    let movies = try result.get()
-                    let movie = movies.results[indexPath.row]
-                    cell.setTileLabel(with: movie.trackName)
-                    cell.loadImage(with: movie.trackId)
-                    cell.movieId = movie.trackId
-                    cell.genre = Genre(rawValue: movie.primaryGenreName)
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-            }
-        default:
-            return MovieCollectionViewCell()
         }
         
-        defer {
-            cell.clearImage()
-        }
-        
+        defer { cell.clearImage() }
         return cell
     }
 }

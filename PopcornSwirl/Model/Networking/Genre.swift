@@ -8,9 +8,12 @@
 
 import Foundation
 
-enum Genre: String {
+enum Genre: String, CaseIterable {
     case action = "Action & Adventure"
     case drama = "Drama"
     case romance = "Romance"
     case thriller = "Thriller"
+    case family = "Kids & Family"
+    case comedy = "Comedy"
+    case horror = "Horror"
 }
