@@ -18,19 +18,14 @@ class MovieViewController: UIViewController {
     
     let numberOfSections = 4
     let rowsInSections = 6
-    
-    
-    
-    var movies = [[Movie]]()
+    var genres = [Genre]()
     
     func configure() {
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
         flowLayout.scrollDirection = .vertical
         setupRefreshControl()
-        
-        
-        
+        populateGenreArray()
     }
     
     override func viewDidLoad() {
@@ -46,25 +41,25 @@ class MovieViewController: UIViewController {
     
     @objc func updateCollectionView() {
         URLCache.shared.removeAllCachedResponses()
+        genres.removeAll()
+        populateGenreArray()
         refreshControl.endRefreshing()
         movieCollectionView.reloadData()
     }
     
-    func populateGenreArray(sections: Int) {
-        
+    func populateGenreArray() {
+        let allGeneres = Genre.allCases
+        let randomSelectedGenres = Array(Set(allGeneres)).prefix(numberOfSections)
+        genres = Array(randomSelectedGenres)
     }
     
-    func loadMovieSections(genreSections: Int, moviesInSection: Int, completion: @escaping (Result<[[Movie]], Error>) -> Void) {
+    func loadMovieSections(completion: @escaping (Result<[[Movie]], Error>) -> Void) {
         var movieArray = [[Movie]]()
-        let allGeneres = Genre.allCases
-        let randomSelectedGenres = Array(Set(allGeneres)).prefix(genreSections)
-        
         let genreDispatch = DispatchGroup()
         
-        for genere in randomSelectedGenres {
+        for genre in genres {
             genreDispatch.enter()
-            
-            NetworkService.search(genre: genere, limit: moviesInSection) { (result) in
+            NetworkService.search(genre: genre, limit: rowsInSections) { (result) in
                 switch result {
                 case .success(let fetchedMovies):
                     movieArray.append(fetchedMovies.results)
@@ -75,12 +70,11 @@ class MovieViewController: UIViewController {
                 }
             }
         }
-        
+
         genreDispatch.notify(queue: .main) {
             completion(.success(movieArray))
         }
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? MovieCollectionViewCell {
@@ -100,28 +94,25 @@ extension MovieViewController: UICollectionViewDelegate { }
 
 extension MovieViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 6 }
-    func numberOfSections(in collectionView: UICollectionView) -> Int { 4 }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { rowsInSections }
     
-    // TODO: Make this generic and shift betweeen different categories. (Should be fairly easy...) random genre list[indexPath].section
+    func numberOfSections(in collectionView: UICollectionView) -> Int { numberOfSections }
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
-            
-            sectionHeader.titleLabel.text = "headlines[indexPath.section]"
-            
+            sectionHeader.titleLabel.text = genres[indexPath.section].rawValue
             return sectionHeader
         }
         return UICollectionReusableView()
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
         let section = indexPath.section
         let row = indexPath.row
         
-        loadMovieSections(genreSections: 4, moviesInSection: 6) { (result) in
+        loadMovieSections() { (result) in
             switch result {
             case .success(let movies):
                 cell.setTileLabel(with: movies[section][row].trackName)
