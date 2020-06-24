@@ -53,7 +53,7 @@ class MovieViewController: UIViewController {
         genres = Array(randomSelectedGenres)
     }
     
-    func loadMovieSections(completion: @escaping (Result<[[Movie]], Error>) -> Void) {
+    func loadMovieSections(completion: @escaping ([[Movie]]) -> Void) {
         var movieArray = [[Movie]]()
         let genreDispatch = DispatchGroup()
         
@@ -66,13 +66,22 @@ class MovieViewController: UIViewController {
                     genreDispatch.leave()
                 case .failure(let error):
                     print(error)
+                    let failedMovie = Movie(trackId: 0,
+                                            trackName: "NaN",
+                                            primaryGenreName: "NaN",
+                                            releaseDate: "NaN",
+                                            artworkUrl100: "NaN",
+                                            longDescription: "NaN",
+                                            trackViewUrl: "NaN")
+                    let emptyMovie = [Movie](repeating: failedMovie, count: self.rowsInSections)
+                    movieArray.append(emptyMovie)
                     genreDispatch.leave()
                 }
             }
         }
-
+        
         genreDispatch.notify(queue: .main) {
-            completion(.success(movieArray))
+            completion(movieArray)
         }
     }
     
@@ -87,7 +96,7 @@ class MovieViewController: UIViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
     }
-
+    
 }
 
 extension MovieViewController: UICollectionViewDelegate { }
@@ -112,17 +121,13 @@ extension MovieViewController: UICollectionViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
-        loadMovieSections() { (result) in
-            switch result {
-            case .success(let movies):
-                cell.setTileLabel(with: movies[section][row].trackName)
-                cell.loadImage(with: movies[section][row].trackId)
-                cell.movieId = movies[section][row].trackId
-                cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
-            case .failure(let error):
-                cell.faildToLoadCell()
-                print(error)
-            }
+        loadMovieSections() { (movies) in
+            if movies[section][row].trackId == 0 { cell.faildToLoadCell(); return }
+            
+            cell.setTileLabel(with: movies[section][row].trackName)
+            cell.loadImage(with: movies[section][row].trackId)
+            cell.movieId = movies[section][row].trackId
+            cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
         }
         
         defer { cell.clearImage() }
