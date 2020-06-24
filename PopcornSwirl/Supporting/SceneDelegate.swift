@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import NotificationBannerSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
+    private let reachability = try! Reachability()
+    private var lostBanner: StatusBarNotificationBanner?
+    private var restoredBanner: StatusBarNotificationBanner?
+    private var isReachabilityConfigured = false
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -28,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        configureReachability()
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }
@@ -51,6 +56,45 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
+    private func configureReachability() {
+        
+        guard !isReachabilityConfigured else { return }
+        
+        reachability.whenReachable = { [weak self] reachability in
+            guard let self = self else { return }
+
+            if let banner = self.lostBanner {
+                NotificationCenter.default.post(name: .connectionRestored, object: nil)
+                banner.dismiss()
+                self.restoredBanner?.show()
+            } else {
+                self.lostBanner = StatusBarNotificationBanner(title: "No Internet Connection.", style: .danger, colors: nil)
+                self.restoredBanner = StatusBarNotificationBanner(title: "You are back online!", style: .success, colors: nil)
+                self.lostBanner?.autoDismiss = false
+            }
+        }
+        
+        reachability.whenUnreachable = { [weak self] _ in
+            guard let self = self else { return }
+            if let banner = self.lostBanner {
+                NotificationCenter.default.post(name: .connectionLost, object: nil)
+                banner.show()
+            } else {
+                NotificationCenter.default.post(name: .connectionLost, object: nil)
+                self.lostBanner = StatusBarNotificationBanner(title: "No Internet Connection...", style: .danger, colors: nil)
+                self.lostBanner?.autoDismiss = false
+                self.lostBanner?.show()
+            }
+        }
+
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+        
+        isReachabilityConfigured = true
+    }
 
 }
 

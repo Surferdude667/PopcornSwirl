@@ -16,7 +16,6 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     private let refreshControl = UIRefreshControl()
-    let reachability = try! Reachability()
     let numberOfSections = 4
     let rowsInSections = 6
     var genres = [Genre]()
@@ -24,11 +23,23 @@ class MovieViewController: UIViewController {
     var backOnlineBanner: StatusBarNotificationBanner?
     
     func configure() {
+        NotificationCenter.default.addObserver(self, selector: #selector(connectionRestored(notification:)), name: .connectionRestored, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(connectionLost(notification:)), name: .connectionLost, object: nil)
+        
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
         flowLayout.scrollDirection = .vertical
         setupRefreshControl()
         populateGenreArray()
+    }
+    
+    @objc func connectionRestored(notification: NSNotification) {
+        movieCollectionView.reloadData()
+        print("CONNECTION RESTORED")
+    }
+    
+    @objc func connectionLost(notification: NSNotification) {
+        print("CONNECTION Lost")
     }
     
     override func viewDidLoad() {
@@ -38,40 +49,8 @@ class MovieViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
-        do { try reachability.startNotifier() }
-        catch { print("could not start reachability notifier") }
     }
     
-    @objc func reachabilityChanged(note: Notification) {
-      let reachability = note.object as! Reachability
-      switch reachability.connection {
-      case .unavailable, .none:
-        print("Network not reachable")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.noConnectionBanner = StatusBarNotificationBanner(title: "No internet connection.", style: .danger)
-            if let banner = self.noConnectionBanner {
-                banner.autoDismiss = false
-                banner.show()
-            }
-        }
-      default:
-        self.movieCollectionView.reloadData()
-        //banner = StatusBarNotificationBanner(title: "Back online!", style: .success)
-        if let banner = self.noConnectionBanner {
-            banner.dismiss()
-            self.noConnectionBanner = nil
-            
-            self.backOnlineBanner = StatusBarNotificationBanner(title: "Back online!", style: .success)
-            if let banner = self.backOnlineBanner {
-                banner.show()
-            }
-            
-        }
-        
-        print("All good!")
-      }
-    }
     
     func setupRefreshControl() {
         movieCollectionView.refreshControl = refreshControl

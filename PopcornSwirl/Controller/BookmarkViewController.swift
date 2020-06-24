@@ -9,7 +9,7 @@
 import UIKit
 
 class BookmarkViewController: UIViewController {
-
+        
     let coreDataManager = CoreDataManager()
     
     @IBOutlet weak var collectionView: UICollectionView!
