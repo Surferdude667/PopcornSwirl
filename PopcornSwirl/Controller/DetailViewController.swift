@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NotificationBannerSwift
 
 // TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {

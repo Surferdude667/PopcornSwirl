@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NotificationBannerSwift
 
 //TODO: Provide the user with better feedback in case of network problems
 class MovieViewController: UIViewController {
@@ -15,10 +16,12 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     private let refreshControl = UIRefreshControl()
-    
+    let reachability = try! Reachability()
     let numberOfSections = 4
     let rowsInSections = 6
     var genres = [Genre]()
+    var noConnectionBanner: StatusBarNotificationBanner?
+    var backOnlineBanner: StatusBarNotificationBanner?
     
     func configure() {
         movieCollectionView.delegate = self
@@ -31,6 +34,43 @@ class MovieViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+        do { try reachability.startNotifier() }
+        catch { print("could not start reachability notifier") }
+    }
+    
+    @objc func reachabilityChanged(note: Notification) {
+      let reachability = note.object as! Reachability
+      switch reachability.connection {
+      case .unavailable, .none:
+        print("Network not reachable")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.noConnectionBanner = StatusBarNotificationBanner(title: "No internet connection.", style: .danger)
+            if let banner = self.noConnectionBanner {
+                banner.autoDismiss = false
+                banner.show()
+            }
+        }
+      default:
+        self.movieCollectionView.reloadData()
+        //banner = StatusBarNotificationBanner(title: "Back online!", style: .success)
+        if let banner = self.noConnectionBanner {
+            banner.dismiss()
+            self.noConnectionBanner = nil
+            
+            self.backOnlineBanner = StatusBarNotificationBanner(title: "Back online!", style: .success)
+            if let banner = self.backOnlineBanner {
+                banner.show()
+            }
+            
+        }
+        
+        print("All good!")
+      }
     }
     
     func setupRefreshControl() {
