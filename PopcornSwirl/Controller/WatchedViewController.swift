@@ -98,6 +98,15 @@ extension WatchedViewController: UICollectionViewDataSource {
 }
 
 extension WatchedViewController: DetailViewControllerDelegate {
+    func bookmarkAdditionsAdded(additions: [SavedMovieAddition?]) {
+        
+    }
+    
+    func bookmarkAdditionsRemoved(at indexPath: IndexPath?) {
+        
+    }
+
+    
     func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) {
         guard let indexPath = destinationIndexPath else {
             collectionView.reloadData()

@@ -11,12 +11,14 @@ import NotificationBannerSwift
 
 protocol DetailViewControllerDelegate {
     func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?)
-    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?)
+    
+    func bookmarkAdditionsRemoved(at indexPath: IndexPath?)
+    func bookmarkAdditionsAdded(additions: [SavedMovieAddition?])
 }
 
 extension DetailViewControllerDelegate {
     func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) { }
-    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) { }
+    func bookmarkAdditionsChanged(_ newAdditions: [SavedMovieAddition?], destinationIndexPath: IndexPath?) { }
 }
 
 // TODO: Maybe implement the "Difused view for the background"
@@ -36,6 +38,8 @@ class DetailViewController: UIViewController {
     var forceUpdateBookmarkCollectionView = false
     var forceUpdateWatchedCollectionView = false
     
+    var newBookmarkAdditions = [SavedMovieAddition?]()
+    var removedBookmarkAdditions = [IndexPath]()
     
     var delegate: DetailViewControllerDelegate?
     
@@ -62,6 +66,7 @@ class DetailViewController: UIViewController {
         presentationController?.delegate = self
         forceUpdateBookmarkCollectionView = false
         forceUpdateWatchedCollectionView = false
+
     }
     
     func clearUI() {
@@ -161,14 +166,28 @@ class DetailViewController: UIViewController {
     }
     
     //MARK: - MOVIE ADDITIONS
-    func loadMovieAdditions() {
+    func loadMovieAdditions(cashBookmarks: Bool? = false) {
         guard let movieId = movieId else { return }
         do {
             movieAdditions = try coreDataManager.fetchSavedMovieAddition(id: movieId).get()
             originalWatchedValue = movieAdditions?.watched?.isWatched
-            originalBookmarkedValue = movieAdditions?.bookmarked?.isBookmarked
+            
+            
+            if cashBookmarks == true {
+                print("Appending \(movieAdditions?.movieID)")
+                newBookmarkAdditions.append(movieAdditions)
+            } else {
+                print("Changing...")
+                originalBookmarkedValue = movieAdditions?.bookmarked?.isBookmarked
+            }
+            
         }
-        catch { movieAdditions = nil }
+        catch {
+            movieAdditions = nil
+                    originalBookmarkedValue = nil
+            //        originalWatchedValue = nil
+            
+        }
         updateMovieAdditionsUI()
     }
     
@@ -209,6 +228,10 @@ class DetailViewController: UIViewController {
                 } else if additions.bookmarked?.isBookmarked == false || additions.bookmarked?.isBookmarked == nil {
                     movieAdditions?.bookmarked?.isBookmarked = true
                     movieAdditions?.bookmarked?.date = Date()
+                    
+                    // MARK: REMEMBER
+                    newBookmarkAdditions.append(movieAdditions)
+                
                 }
             }
             do { try coreDataManager.context.save() }
@@ -218,12 +241,14 @@ class DetailViewController: UIViewController {
             if type == .watched {
                 try? coreDataManager.addMovieAddition(id: movieId, watched: true)
                 forceUpdateWatchedCollectionView = true
+                loadMovieAdditions()
             }
             if type == .bookmarked {
                 try? coreDataManager.addMovieAddition(id: movieId, bookmarked: true)
                 forceUpdateBookmarkCollectionView = true
+                loadMovieAdditions(cashBookmarks: true)
             }
-            loadMovieAdditions()
+            
         }
     }
     
@@ -240,6 +265,7 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: UIAdaptivePresentationControllerDelegate {
+    
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         guard let movieAdditions = movieAdditions else { return }
         
@@ -249,10 +275,71 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
             delegate?.watchedAdditionsChanged(movieAdditions, destinationIndexPath: nil)
         }
         
+        // NEW NEW NEW
         if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
-            delegate?.bookmarkAdditionsChanged(movieAdditions, destinationIndexPath: sentFrom)
-        } else if forceUpdateBookmarkCollectionView {
-            delegate?.bookmarkAdditionsChanged(movieAdditions, destinationIndexPath: nil)
+            if newBookmarkAdditions.count == 0 {
+                print("Remove called")
+                delegate?.bookmarkAdditionsRemoved(at: sentFrom)
+            }
         }
+        
+        if newBookmarkAdditions.count > 0 {
+            if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
+                print("Add called")
+                delegate?.bookmarkAdditionsAdded(additions: newBookmarkAdditions)
+                newBookmarkAdditions.removeAll()
+            }
+            
+        }
+        // NEW NEW NEW
+        
+        
+        
+//        if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
+//            delegate?.bookmarkAdditionsChanged(movieAdditions, destinationIndexPath: sentFrom)
+//        } else if forceUpdateBookmarkCollectionView {
+//            delegate?.bookmarkAdditionsChanged(movieAdditions, destinationIndexPath: nil)
+//        }
+        
+        // INSERT NEW ADDITIONS
+
+        // Calles delegete
+        // Values are not the same
+        // Indexpath exists
+        
+//        if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
+//            if sentFrom != nil {
+//                delegate?.bookmarkAdditionsChanged(newBookmarkAdditions, destinationIndexPath: sentFrom)
+//            } else if newBookmarkAdditions.count > 0 {
+//                delegate?.bookmarkAdditionsChanged(newBookmarkAdditions, destinationIndexPath: nil)
+//                newBookmarkAdditions.removeAll()
+//            }
+            
+            
+        //}
+        
+        
+        
+        
+//
+//        if newBookmarkAdditions.count > 0 {
+//
+//        } else {
+//            print("WHEY THE FUCK???")
+//
+//        }
+        
+
+        
+        
+        
+//        if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
+//            print("A")
+//            delegate?.bookmarkAdditionsChanged(removedBookmarkAdditions, destinationIndexPath: sentFrom)
+//        } else if newBookmarkAdditions.count < 0 {
+//            print("B: \(newBookmarkAdditions)")
+//            delegate?.bookmarkAdditionsChanged(newBookmarkAdditions, destinationIndexPath: nil)
+//        }
+        
     }
 }

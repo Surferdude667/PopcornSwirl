@@ -141,15 +141,17 @@ extension MovieViewController: UICollectionViewDataSource {
         let row = indexPath.row
         
         loadMovieSections() { (movies) in
-            if movies[section][row].trackId == 0 { cell.faildToLoadCell(); return }
-            
+            if movies[section][row].trackId == 0 {
+                cell.faildToLoadCell()
+                return
+            }
+            cell.clearImage()
             cell.setTileLabel(with: movies[section][row].trackName)
             cell.loadImage(with: movies[section][row].trackId)
             cell.movieId = movies[section][row].trackId
             cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
         }
         
-        defer { cell.clearImage() }
         return cell
     }
 }
