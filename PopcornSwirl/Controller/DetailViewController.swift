@@ -10,21 +10,22 @@ import UIKit
 import NotificationBannerSwift
 
 protocol DetailViewControllerDelegate {
-    func watchedAdditionsChanged(_ additions: SavedMovieAddition)
-    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition)
+    func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?)
+    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?)
 }
 
 extension DetailViewControllerDelegate {
-    func watchedAdditionsChanged(_ additions: SavedMovieAddition) { }
-    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition) { }
+    func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) { }
+    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) { }
 }
-
 
 // TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {
     
     var movieId: Int?
     var genre: Genre?
+    var sentFrom: IndexPath?
+    
     var buyURL: URL?
     var movieAdditions: SavedMovieAddition?
     let coreDataManager = CoreDataManager()
@@ -32,6 +33,9 @@ class DetailViewController: UIViewController {
     
     var originalWatchedValue: Bool?
     var originalBookmarkedValue: Bool?
+    var forceUpdateBookmarkCollectionView = false
+    var forceUpdateWatchedCollectionView = false
+    
     
     var delegate: DetailViewControllerDelegate?
     
@@ -56,6 +60,8 @@ class DetailViewController: UIViewController {
         loadMovieAdditions()
         fetchFeaturedMovies()
         presentationController?.delegate = self
+        forceUpdateBookmarkCollectionView = false
+        forceUpdateWatchedCollectionView = false
     }
     
     func clearUI() {
@@ -209,8 +215,14 @@ class DetailViewController: UIViewController {
             catch { print(error) }
             updateMovieAdditionsUI()
         } else {
-            if type == .watched { try? coreDataManager.addMovieAddition(id: movieId, watched: true) }
-            if type == .bookmarked { try? coreDataManager.addMovieAddition(id: movieId, bookmarked: true) }
+            if type == .watched {
+                try? coreDataManager.addMovieAddition(id: movieId, watched: true)
+                forceUpdateWatchedCollectionView = true
+            }
+            if type == .bookmarked {
+                try? coreDataManager.addMovieAddition(id: movieId, bookmarked: true)
+                forceUpdateBookmarkCollectionView = true
+            }
             loadMovieAdditions()
         }
     }
@@ -218,22 +230,29 @@ class DetailViewController: UIViewController {
     @IBAction func watchedButtonTapped(_ sender: Any) { toggleAdditons(type: .watched) }
     @IBAction func bookmarkButtonTapped(_ sender: Any) { toggleAdditons(type: .bookmarked) }
     @IBAction func noteTapped(_ sender: Any) { showEditNoteAlert() }
-    @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) { movieId = sender.view?.tag; configure() }
     @IBAction func buyButton(_ sender: Any) { if let url = buyURL {UIApplication.shared.open(url)} }
+    @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) {
+        movieId = sender.view?.tag
+        configure()
+        sentFrom = nil
+    }
+   
 }
 
 extension DetailViewController: UIAdaptivePresentationControllerDelegate {
-
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         guard let movieAdditions = movieAdditions else { return }
         
         if movieAdditions.watched?.isWatched != originalWatchedValue {
-            delegate?.watchedAdditionsChanged(movieAdditions)
+            delegate?.watchedAdditionsChanged(movieAdditions, destinationIndexPath: sentFrom)
+        } else if forceUpdateWatchedCollectionView {
+            delegate?.watchedAdditionsChanged(movieAdditions, destinationIndexPath: nil)
         }
         
         if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
-            delegate?.bookmarkAdditionsChanged(movieAdditions)
+            delegate?.bookmarkAdditionsChanged(movieAdditions, destinationIndexPath: sentFrom)
+        } else if forceUpdateBookmarkCollectionView {
+            delegate?.bookmarkAdditionsChanged(movieAdditions, destinationIndexPath: nil)
         }
     }
-    
 }

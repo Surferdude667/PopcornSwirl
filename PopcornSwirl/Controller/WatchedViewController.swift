@@ -11,6 +11,7 @@ import UIKit
 class WatchedViewController: UIViewController {
 
     var coreDataManager = CoreDataManager()
+    var didSelectAt: IndexPath?
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -85,17 +86,23 @@ extension WatchedViewController: UICollectionViewDataSource {
             detailViewController.movieId = cell.movieId
             detailViewController.genre = cell.genre
             detailViewController.delegate = self
+            detailViewController.sentFrom = didSelectAt
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        didSelectAt = indexPath
         performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
     }
     
 }
 
 extension WatchedViewController: DetailViewControllerDelegate {
-    func watchedAdditionsChanged(_ additions: SavedMovieAddition) {
-        collectionView.reloadData()
+    func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) {
+        guard let indexPath = destinationIndexPath else {
+            collectionView.reloadData()
+            return
+        }
+        collectionView.deleteItems(at: [indexPath])
     }
 }

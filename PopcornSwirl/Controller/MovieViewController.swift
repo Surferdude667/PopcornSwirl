@@ -16,7 +16,7 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     private let refreshControl = UIRefreshControl()
-    let numberOfSections = 4
+    let numberOfSections = 3
     let rowsInSections = 6
     var genres = [Genre]()
     var noConnectionBanner: StatusBarNotificationBanner?

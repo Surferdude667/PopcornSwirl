@@ -17,6 +17,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     var movieId: Int?
     var genre: Genre?
+    var indexPath: IndexPath?
     
     func clearImage() {
         DispatchQueue.main.async {
@@ -40,9 +41,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
                                 self.activityIndicator.stopAnimating()
                                 self.activityIndicator.isHidden = true
                                 self.coverImageView.image = UIImage(data: imageData)
+                                if self.coverImageView.image != UIImage(data: imageData) {
                                 UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear, animations: {
                                     self.coverImageView.alpha = 1.0
                                 })
+                                }
                             }
                         } catch {
                             print("Failed to load image: \(error)")
