@@ -9,6 +9,17 @@
 import UIKit
 import NotificationBannerSwift
 
+protocol DetailViewControllerDelegate {
+    func watchedAdditionsChanged(_ additions: SavedMovieAddition)
+    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition)
+}
+
+extension DetailViewControllerDelegate {
+    func watchedAdditionsChanged(_ additions: SavedMovieAddition) { }
+    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition) { }
+}
+
+
 // TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {
     
@@ -18,6 +29,11 @@ class DetailViewController: UIViewController {
     var movieAdditions: SavedMovieAddition?
     let coreDataManager = CoreDataManager()
     let notePlaceholder = "Add a personal note..."
+    
+    var originalWatchedValue: Bool?
+    var originalBookmarkedValue: Bool?
+    
+    var delegate: DetailViewControllerDelegate?
     
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -39,6 +55,7 @@ class DetailViewController: UIViewController {
         fetchMovieData()
         loadMovieAdditions()
         fetchFeaturedMovies()
+        presentationController?.delegate = self
     }
     
     func clearUI() {
@@ -140,7 +157,11 @@ class DetailViewController: UIViewController {
     //MARK: - MOVIE ADDITIONS
     func loadMovieAdditions() {
         guard let movieId = movieId else { return }
-        do { movieAdditions = try coreDataManager.fetchSavedMovieAddition(id: movieId).get() }
+        do {
+            movieAdditions = try coreDataManager.fetchSavedMovieAddition(id: movieId).get()
+            originalWatchedValue = movieAdditions?.watched?.isWatched
+            originalBookmarkedValue = movieAdditions?.bookmarked?.isBookmarked
+        }
         catch { movieAdditions = nil }
         updateMovieAdditionsUI()
     }
@@ -198,5 +219,21 @@ class DetailViewController: UIViewController {
     @IBAction func bookmarkButtonTapped(_ sender: Any) { toggleAdditons(type: .bookmarked) }
     @IBAction func noteTapped(_ sender: Any) { showEditNoteAlert() }
     @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) { movieId = sender.view?.tag; configure() }
-    @IBAction func buyButton(_ sender: Any) { if let url = buyURL { UIApplication.shared.open(url) } }
+    @IBAction func buyButton(_ sender: Any) { if let url = buyURL {UIApplication.shared.open(url)} }
+}
+
+extension DetailViewController: UIAdaptivePresentationControllerDelegate {
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        guard let movieAdditions = movieAdditions else { return }
+        
+        if movieAdditions.watched?.isWatched != originalWatchedValue {
+            delegate?.watchedAdditionsChanged(movieAdditions)
+        }
+        
+        if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
+            delegate?.bookmarkAdditionsChanged(movieAdditions)
+        }
+    }
+    
 }

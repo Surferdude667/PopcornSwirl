@@ -84,6 +84,7 @@ extension WatchedViewController: UICollectionViewDataSource {
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.movieId = cell.movieId
             detailViewController.genre = cell.genre
+            detailViewController.delegate = self
         }
     }
     
@@ -91,4 +92,10 @@ extension WatchedViewController: UICollectionViewDataSource {
         performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
     }
     
+}
+
+extension WatchedViewController: DetailViewControllerDelegate {
+    func watchedAdditionsChanged(_ additions: SavedMovieAddition) {
+        collectionView.reloadData()
+    }
 }

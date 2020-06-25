@@ -84,11 +84,17 @@ extension BookmarkViewController: UICollectionViewDataSource {
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.movieId = cell.movieId
             detailViewController.genre = cell.genre
+            detailViewController.delegate = self
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
     }
-    
+}
+
+extension BookmarkViewController: DetailViewControllerDelegate {
+    func bookmarkAdditionsChanged(_ additions: SavedMovieAddition) {
+        collectionView.reloadData()
+    }
 }

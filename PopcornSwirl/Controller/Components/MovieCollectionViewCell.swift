@@ -40,7 +40,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
                                 self.activityIndicator.stopAnimating()
                                 self.activityIndicator.isHidden = true
                                 self.coverImageView.image = UIImage(data: imageData)
-                                UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+                                UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear, animations: {
                                     self.coverImageView.alpha = 1.0
                                 })
                             }
