@@ -17,6 +17,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     var movieId: Int?
     var genre: Genre?
+    var imageURL: URL?
+    
     
     func clearImage() {
         DispatchQueue.main.async {
@@ -27,32 +29,24 @@ class MovieCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func loadImage(with id: Int) {
-        NetworkService.lookup(id: id) { (result) in
-            switch result {
-            case .success(let movies):
-                if let movie = movies.results.first {
-                    let imageURL = movie.artworkUrl100
-                    NetworkService.fetchImage(from: imageURL, size: 300) { (result) in
-                        do {
-                            let imageData = try result.get()
-                            DispatchQueue.main.async {
-                                self.activityIndicator.stopAnimating()
-                                self.activityIndicator.isHidden = true
-                                self.coverImageView.image = UIImage(data: imageData)
-                                //if self.coverImageView.image != UIImage(data: imageData) {
-                                UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear, animations: {
-                                    self.coverImageView.alpha = 1.0
-                                })
-                                //}
-                            }
-                        } catch {
-                            print("Failed to load image: \(error)")
-                        }
+    func loadImage(from urlString: String) {
+        NetworkService.fetchImage(from: urlString, size: 300) { (result) in
+            do {
+                let imageData = try result.get()
+                print("Image Loaded!")
+                DispatchQueue.main.async {
+                    print("Dispatch block invoked")
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                    self.coverImageView.image = UIImage(data: imageData)
+                    if self.coverImageView.image != UIImage(data: imageData) {
+                    UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear, animations: {
+                        self.coverImageView.alpha = 1.0
+                    })
                     }
                 }
-            case .failure(let error):
-                print(error)
+            } catch {
+                print("Failed to load image: \(error)")
             }
         }
     }

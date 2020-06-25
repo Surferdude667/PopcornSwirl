@@ -147,8 +147,8 @@ extension MovieViewController: UICollectionViewDataSource {
             }
             cell.clearImage()
             cell.setTileLabel(with: movies[section][row].trackName)
-            cell.loadImage(with: movies[section][row].trackId)
             cell.movieId = movies[section][row].trackId
+            cell.loadImage(from: movies[section][row].artworkUrl100)
             cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
         }
         

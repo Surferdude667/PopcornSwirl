@@ -59,12 +59,14 @@ extension BookmarkViewController: UICollectionViewDataSource {
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
                             cell.clearImage()
+                            cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
                             cell.dateLabel.text = "Bookmarked: \(bookmarkedAdditions[indexPath.row].bookmarked?.date?.toString() ?? "No date found")"
                             cell.genre = Genre(rawValue: movie.primaryGenreName)
+                            
                         }
                     
-                    cell.loadImage(with: movie.trackId)
+                        
                     }
                 case .failure(let error):
                     print(error)

@@ -57,12 +57,12 @@ extension WatchedViewController: UICollectionViewDataSource {
                 case .success(let movieResponse):
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
+                            cell.clearImage()
+                            cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
                             cell.dateLabel.text = watchedAdditions[indexPath.row].watched?.date?.description
                             cell.genre = Genre(rawValue: movie.primaryGenreName)
                         }
-                    
-                    cell.loadImage(with: movie.trackId)
                     }
                 case .failure(let error):
                     print(error)
@@ -72,11 +72,7 @@ extension WatchedViewController: UICollectionViewDataSource {
         } catch {
             print(error)
         }
-        
-        defer {
-            cell.clearImage()
-        }
-        
+                
         return cell
     }
     
