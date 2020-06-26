@@ -6,8 +6,8 @@ target 'PopcornSwirl' do
   use_frameworks!
 
   # Pods for PopcornSwirl
-    
-    pod 'NotificationBannerSwift', '~> 3.0.0'
+  pod 'NotificationBannerSwift', '~> 3.0.0'
+  pod 'ReachabilitySwift'
 
   target 'PopcornSwirlTests' do
     inherit! :search_paths

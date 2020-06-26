@@ -8,6 +8,7 @@
 
 import UIKit
 import NotificationBannerSwift
+import Reachability
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

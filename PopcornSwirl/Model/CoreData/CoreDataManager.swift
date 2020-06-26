@@ -79,7 +79,6 @@ class CoreDataManager {
         do {
             let fetch = try context.fetch(request)
             if let result = fetch.first as? SavedMovieAddition {
-                print("This is what is fectched: \(result.movieID)")
                 return.success(result)
             } else {
                 return.failure(.additionNotFound)
