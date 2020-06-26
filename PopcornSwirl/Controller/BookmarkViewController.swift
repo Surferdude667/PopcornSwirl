@@ -50,7 +50,6 @@ extension BookmarkViewController: UICollectionViewDataSource {
         
         do {
             let bookmarkedAdditions = try coreDataManager.fetchSavedMovieAdditionList(of: .bookmarked)
-            print("CORE DATA FETCH SUCCEDED")
             cell.movieId = Int(bookmarkedAdditions[indexPath.row].movieID)
             
             NetworkService.lookup(id: Int(bookmarkedAdditions[indexPath.row].movieID)) { (result) in
@@ -58,15 +57,11 @@ extension BookmarkViewController: UICollectionViewDataSource {
                 case .success(let movieResponse):
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
-                            cell.clearImage()
                             cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
                             cell.dateLabel.text = "Bookmarked: \(bookmarkedAdditions[indexPath.row].bookmarked?.date?.toString() ?? "No date found")"
                             cell.genre = Genre(rawValue: movie.primaryGenreName)
-                            
                         }
-                    
-                        
                     }
                 case .failure(let error):
                     print(error)
@@ -99,45 +94,20 @@ extension BookmarkViewController: UICollectionViewDataSource {
 
 extension BookmarkViewController: DetailViewControllerDelegate {
     
+    // Remove movies in CollectionView
     func bookmarkAdditionsRemoved(at indexPath: IndexPath?) {
-        if let indexPath = indexPath {
-            collectionView.deleteItems(at: [indexPath])
-        } else {
-            print("Reload Data")
-            collectionView.reloadData()
-        }
+        if let indexPath = indexPath { collectionView.deleteItems(at: [indexPath]) }
+        else { collectionView.reloadData() }
     }
     
+    // Insert new movies in CollectionView
     func bookmarkAdditionsAdded(additions: [SavedMovieAddition?]) {
         var indexPaths = [IndexPath]()
+        for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
         
-        // Make IndexPath array from additions
-        for i in 0..<additions.count {
-            indexPaths.append(IndexPath(row: i, section: 0))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.collectionView.insertItems(at: indexPaths)
         }
-        
-        print("INDEX PATHS: \(indexPaths): Additions count: \(additions.count) ")
-        // Insert items
-        
-        collectionView.insertItems(at: indexPaths)
-        
-        
-        
     }
     
-//    func bookmarkAdditionsChanged(_ newAdditions: [SavedMovieAddition?], destinationIndexPath: IndexPath?) {
-//
-//
-//        if let indexPath = destinationIndexPath {
-//            collectionView.deleteItems(at: [indexPath])
-//        } else if newAdditions.count > 0 {
-//            var indexPaths = [IndexPath]()
-//
-//            for i in 0..<newAdditions.count {
-//                indexPaths.append(IndexPath(row: i, section: 0))
-//            }
-//
-//            collectionView.insertItems(at: indexPaths)
-//        }
-//    }
 }

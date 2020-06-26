@@ -127,7 +127,6 @@ extension MovieViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int { numberOfSections }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
             sectionHeader.titleLabel.text = genres[indexPath.section].rawValue
             return sectionHeader
@@ -145,7 +144,7 @@ extension MovieViewController: UICollectionViewDataSource {
                 cell.faildToLoadCell()
                 return
             }
-            cell.clearImage()
+            
             cell.setTileLabel(with: movies[section][row].trackName)
             cell.movieId = movies[section][row].trackId
             cell.loadImage(from: movies[section][row].artworkUrl100)

@@ -57,7 +57,6 @@ extension WatchedViewController: UICollectionViewDataSource {
                 case .success(let movieResponse):
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
-                            cell.clearImage()
                             cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
                             cell.dateLabel.text = watchedAdditions[indexPath.row].watched?.date?.description
@@ -94,20 +93,21 @@ extension WatchedViewController: UICollectionViewDataSource {
 }
 
 extension WatchedViewController: DetailViewControllerDelegate {
-    func bookmarkAdditionsAdded(additions: [SavedMovieAddition?]) {
-        
+    
+    // Remove movies in CollectionView
+    func watchedAdditionsRemoved(at indexPath: IndexPath?) {
+        if let indexPath = indexPath { collectionView.deleteItems(at: [indexPath]) }
+        else { collectionView.reloadData() }
     }
     
-    func bookmarkAdditionsRemoved(at indexPath: IndexPath?) {
+    // Insert new movies in CollectionView
+    func watchedAdditionsAdded(additions: [SavedMovieAddition?]) {
+        var indexPaths = [IndexPath]()
+        for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
         
-    }
-
-    
-    func watchedAdditionsChanged(_ additions: SavedMovieAddition, destinationIndexPath: IndexPath?) {
-        guard let indexPath = destinationIndexPath else {
-            collectionView.reloadData()
-            return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.collectionView.insertItems(at: indexPaths)
         }
-        collectionView.deleteItems(at: [indexPath])
     }
+    
 }
