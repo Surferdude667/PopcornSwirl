@@ -93,20 +93,24 @@ extension WatchedViewController: UICollectionViewDataSource {
 }
 
 extension WatchedViewController: DetailViewControllerDelegate {
-    
+        
     // Remove movies in CollectionView
-    func watchedAdditionsRemoved(at indexPath: IndexPath?) {
-        if let indexPath = indexPath { collectionView.deleteItems(at: [indexPath]) }
-        else { collectionView.reloadData() }
+    func movieAdditionsRemoved(at indexPath: IndexPath?, type: AdditionType) {
+        if type == .watched {
+            if let indexPath = indexPath { collectionView.deleteItems(at: [indexPath]) }
+            else { collectionView.reloadData() }
+        }
     }
     
     // Insert new movies in CollectionView
-    func watchedAdditionsAdded(additions: [SavedMovieAddition?]) {
-        var indexPaths = [IndexPath]()
-        for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.collectionView.insertItems(at: indexPaths)
+    func movieAdditionsAdded(additions: [SavedMovieAddition?], type: AdditionType) {
+        if type == .watched {
+            var indexPaths = [IndexPath]()
+            for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.collectionView.insertItems(at: indexPaths)
+            }
         }
     }
     

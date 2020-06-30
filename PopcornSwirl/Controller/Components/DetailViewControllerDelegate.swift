@@ -9,17 +9,15 @@
 import Foundation
 
 protocol DetailViewControllerDelegate {
-    func bookmarkAdditionsRemoved(at indexPath: IndexPath?)
-    func bookmarkAdditionsAdded(additions: [SavedMovieAddition?])
     
-    func watchedAdditionsRemoved(at indexPath: IndexPath?)
-    func watchedAdditionsAdded(additions: [SavedMovieAddition?])
+    func movieAdditionsRemoved(at indexPath: IndexPath?, type: AdditionType)
+    func movieAdditionsAdded(additions: [SavedMovieAddition?], type: AdditionType)
+    
 }
 
 extension DetailViewControllerDelegate {
-    func bookmarkAdditionsRemoved(at indexPath: IndexPath?) { }
-    func bookmarkAdditionsAdded(additions: [SavedMovieAddition?]) { }
     
-    func watchedAdditionsRemoved(at indexPath: IndexPath?) { }
-    func watchedAdditionsAdded(additions: [SavedMovieAddition?]) { }
+    func movieAdditionsRemoved(at indexPath: IndexPath?, type: AdditionType) { }
+    func movieAdditionsAdded(additions: [SavedMovieAddition?], type: AdditionType) { }
+    
 }

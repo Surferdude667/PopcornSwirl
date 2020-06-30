@@ -243,14 +243,14 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
         // Remove watched addition
         if movieAdditions.watched?.isWatched != originalWatchedValue {
             if newWatchedAdditions.count == 0 {
-                delegate?.watchedAdditionsRemoved(at: sentFrom)
+                delegate?.movieAdditionsRemoved(at: sentFrom, type: .watched)
             }
         }
         
         // Add new watched addition
         if newWatchedAdditions.count > 0 {
             if movieAdditions.watched?.isWatched != originalWatchedValue {
-                delegate?.watchedAdditionsAdded(additions: newWatchedAdditions)
+                delegate?.movieAdditionsAdded(additions: newWatchedAdditions, type: .watched)
                 newWatchedAdditions.removeAll()
             }
         }
@@ -258,14 +258,14 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
         // Remove bookmark addition
         if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
             if newBookmarkAdditions.count == 0 {
-                delegate?.bookmarkAdditionsRemoved(at: sentFrom)
+                delegate?.movieAdditionsRemoved(at: sentFrom, type: .bookmarked)
             }
         }
         
         // Add new bookmark addition
         if newBookmarkAdditions.count > 0 {
             if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
-                delegate?.bookmarkAdditionsAdded(additions: newBookmarkAdditions)
+                delegate?.movieAdditionsAdded(additions: newBookmarkAdditions, type: .bookmarked)
                 newBookmarkAdditions.removeAll()
             }
         }
