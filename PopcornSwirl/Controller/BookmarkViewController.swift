@@ -57,6 +57,8 @@ extension BookmarkViewController: UICollectionViewDataSource {
                 case .success(let movieResponse):
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
+                            //cell.coverImageView.isHidden = true
+                            cell.clearImage()
                             cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
                             cell.dateLabel.text = "Bookmarked: \(bookmarkedAdditions[indexPath.row].bookmarked?.date?.toString() ?? "No date found")"
@@ -107,9 +109,12 @@ extension BookmarkViewController: DetailViewControllerDelegate {
         if type == .bookmarked {
             var indexPaths = [IndexPath]()
             for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
-            
+            URLCache.shared.removeAllCachedResponses()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                
                 self.collectionView.insertItems(at: indexPaths)
+                //self.collectionView.reloadData()
+                self.collectionView.reloadItems(at: indexPaths)
             }
         }
     }

@@ -22,6 +22,8 @@ class MovieViewController: UIViewController {
     var noConnectionBanner: StatusBarNotificationBanner?
     var backOnlineBanner: StatusBarNotificationBanner?
     
+    var loader = ImageLoader()
+    
     func configure() {
         NotificationCenter.default.addObserver(self, selector: #selector(connectionRestored(notification:)), name: .connectionRestored, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(connectionLost(notification:)), name: .connectionLost, object: nil)
@@ -62,8 +64,9 @@ class MovieViewController: UIViewController {
         URLCache.shared.removeAllCachedResponses()
         genres.removeAll()
         populateGenreArray()
-        refreshControl.endRefreshing()
         movieCollectionView.reloadData()
+        refreshControl.endRefreshing()
+        
     }
     
     func populateGenreArray() {
@@ -145,10 +148,41 @@ extension MovieViewController: UICollectionViewDataSource {
                 return
             }
             
+            
+            // --------------
+            let urlString = movies[section][row].artworkUrl100.replacingOccurrences(of: "100x100bb", with: "300x300")
+            let token = self.loader.loadImage(URL(string: urlString)!) { result in
+              do {
+                // 2
+                let image = try result.get()
+                // 3
+                DispatchQueue.main.async {
+                  cell.coverImageView.image = image
+                }
+              } catch {
+                // 4
+                print(error)
+              }
+            }
+            
+            cell.onReuse = {
+              if let token = token {
+                self.loader.cancelLoad(token)
+              }
+            }
+            
+            // --------------
+            
+            //cell.clearImage()
             cell.setTileLabel(with: movies[section][row].trackName)
             cell.movieId = movies[section][row].trackId
-            cell.loadImage(from: movies[section][row].artworkUrl100)
+            print("URL SENT \(indexPath): \(movies[section][row].artworkUrl100)")
+            
             cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
+            //cell.imageURLString = movies[section][row].artworkUrl100
+            //cell.loadImage(from: movies[section][row].artworkUrl100)
+            cell.indexPath = indexPath
+            
         }
         
         return cell
