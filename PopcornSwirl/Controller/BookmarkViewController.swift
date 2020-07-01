@@ -57,7 +57,6 @@ extension BookmarkViewController: UICollectionViewDataSource {
                 case .success(let movieResponse):
                     if let movie = movieResponse.results.first {
                         DispatchQueue.main.async {
-                            //cell.coverImageView.isHidden = true
                             cell.clearImage()
                             cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
@@ -69,11 +68,7 @@ extension BookmarkViewController: UICollectionViewDataSource {
                     print(error)
                 }
             }
-            
-        } catch {
-            print(error)
-        }
-
+        } catch { print(error) }
         return cell
     }
     
@@ -109,13 +104,8 @@ extension BookmarkViewController: DetailViewControllerDelegate {
         if type == .bookmarked {
             var indexPaths = [IndexPath]()
             for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
-            URLCache.shared.removeAllCachedResponses()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                
-                self.collectionView.insertItems(at: indexPaths)
-                //self.collectionView.reloadData()
-                self.collectionView.reloadItems(at: indexPaths)
-            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.collectionView.insertItems(at: indexPaths) }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { self.collectionView.reloadItems(at: indexPaths) }
         }
     }
     

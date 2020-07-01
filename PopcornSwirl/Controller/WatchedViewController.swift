@@ -107,10 +107,8 @@ extension WatchedViewController: DetailViewControllerDelegate {
         if type == .watched {
             var indexPaths = [IndexPath]()
             for i in 0..<additions.count { indexPaths.append(IndexPath(row: i, section: 0)) }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.collectionView.insertItems(at: indexPaths)
-            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { self.collectionView.insertItems(at: indexPaths) }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { self.collectionView.reloadItems(at: indexPaths) }
         }
     }
     

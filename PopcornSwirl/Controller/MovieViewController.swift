@@ -22,8 +22,6 @@ class MovieViewController: UIViewController {
     var noConnectionBanner: StatusBarNotificationBanner?
     var backOnlineBanner: StatusBarNotificationBanner?
     
-    var loader = ImageLoader()
-    
     func configure() {
         NotificationCenter.default.addObserver(self, selector: #selector(connectionRestored(notification:)), name: .connectionRestored, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(connectionLost(notification:)), name: .connectionLost, object: nil)
@@ -64,9 +62,10 @@ class MovieViewController: UIViewController {
         URLCache.shared.removeAllCachedResponses()
         genres.removeAll()
         populateGenreArray()
-        movieCollectionView.reloadData()
-        refreshControl.endRefreshing()
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.refreshControl.endRefreshing()
+            self.movieCollectionView.reloadData()
+        }
     }
     
     func populateGenreArray() {
@@ -144,45 +143,14 @@ extension MovieViewController: UICollectionViewDataSource {
         
         loadMovieSections() { (movies) in
             if movies[section][row].trackId == 0 {
-                cell.faildToLoadCell()
+                cell.setCellToFault()
                 return
             }
             
-            
-            // --------------
-            let urlString = movies[section][row].artworkUrl100.replacingOccurrences(of: "100x100bb", with: "300x300")
-            let token = self.loader.loadImage(URL(string: urlString)!) { result in
-              do {
-                // 2
-                let image = try result.get()
-                // 3
-                DispatchQueue.main.async {
-                  cell.coverImageView.image = image
-                }
-              } catch {
-                // 4
-                print(error)
-              }
-            }
-            
-            cell.onReuse = {
-              if let token = token {
-                self.loader.cancelLoad(token)
-              }
-            }
-            
-            // --------------
-            
-            //cell.clearImage()
+            cell.loadImage(from: movies[section][row].artworkUrl100)
             cell.setTileLabel(with: movies[section][row].trackName)
             cell.movieId = movies[section][row].trackId
-            print("URL SENT \(indexPath): \(movies[section][row].artworkUrl100)")
-            
             cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
-            //cell.imageURLString = movies[section][row].artworkUrl100
-            //cell.loadImage(from: movies[section][row].artworkUrl100)
-            cell.indexPath = indexPath
-            
         }
         
         return cell
