@@ -28,7 +28,10 @@ class MovieViewController: UIViewController {
         
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
-        flowLayout.scrollDirection = .vertical
+        
+        movieCollectionView.collectionViewLayout = createCollectionViewLayout()
+        
+        //flowLayout.scrollDirection = .horizontal
         setupRefreshControl()
         populateGenreArray()
     }
@@ -40,6 +43,24 @@ class MovieViewController: UIViewController {
     
     @objc func connectionLost(notification: NSNotification) {
         print("CONNECTION Lost")
+    }
+    
+    func createCollectionViewLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        section.boundarySupplementaryItems = [header]
+        section.orthogonalScrollingBehavior = .continuous
+        
+        return UICollectionViewCompositionalLayout(section: section)
     }
     
     override func viewDidLoad() {
@@ -59,7 +80,7 @@ class MovieViewController: UIViewController {
     }
     
     @objc func updateCollectionView() {
-        URLCache.shared.removeAllCachedResponses()
+        //URLCache.shared.removeAllCachedResponses()
         genres.removeAll()
         populateGenreArray()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -141,20 +162,25 @@ extension MovieViewController: UICollectionViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
+        // TODO: This is a problem... it calls the API sooo many times?????
         loadMovieSections() { (movies) in
             if movies[section][row].trackId == 0 {
                 cell.setCellToFault()
                 return
             }
             
-            cell.loadImage(from: movies[section][row].artworkUrl100)
+            
             cell.setTileLabel(with: movies[section][row].trackName)
             cell.movieId = movies[section][row].trackId
             cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
+            cell.loadImage(from: movies[section][row].artworkUrl100)
         }
         
         return cell
     }
 }
 
-//extension MovieViewController: UICollectionViewDelegateFlowLayout { }
+extension MovieViewController: UICollectionViewDelegateFlowLayout {
+    
+    
+}

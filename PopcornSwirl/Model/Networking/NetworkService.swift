@@ -12,6 +12,7 @@ import Foundation
 enum NetworkError: Error {
     case noInternetConnection
     case serverError
+    case emptyResult
 }
 
 class NetworkService {
@@ -38,7 +39,8 @@ class NetworkService {
         // TODO: Throw errors based on API response...
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
-                //print("API response code (Search): \(httpResponse.statusCode)")
+                print("API response code (Search): \(httpResponse.statusCode)")
+                print("Searched for: \(validURL)")
             }
             
             guard let validData = data, error == nil else {
@@ -48,7 +50,11 @@ class NetworkService {
             
             do {
                 let movies = try JSONDecoder().decode(iTunesResponse.self, from: validData)
-                completion(.success(movies))
+                if movies.resultCount == 0 {
+                    completion(.failure(NetworkError.emptyResult))
+                } else {
+                    completion(.success(movies))
+                }
             } catch let serializationError {
                 completion(.failure(serializationError))
             }
