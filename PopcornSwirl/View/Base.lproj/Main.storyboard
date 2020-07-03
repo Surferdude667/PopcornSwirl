@@ -336,7 +336,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Movies" id="joo-ha-9Jr"/>
                     <connections>
-                        <outlet property="flowLayout" destination="Dg4-L8-c98" id="uRA-1D-Zby"/>
                         <outlet property="movieCollectionView" destination="R43-dN-YnC" id="MrP-PK-mxL"/>
                         <segue destination="zbK-gd-e4Y" kind="presentation" identifier="toDetailsSeque" id="Ndx-Yy-G7E"/>
                     </connections>

@@ -13,11 +13,11 @@ import NotificationBannerSwift
 class MovieViewController: UIViewController {
     
     @IBOutlet weak var movieCollectionView: UICollectionView!
-    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
-    
+
     private let refreshControl = UIRefreshControl()
+    
     let numberOfSections = 3
-    let rowsInSections = 6
+    let itemsInSection = 6
     var genres = [Genre]()
     var noConnectionBanner: StatusBarNotificationBanner?
     var backOnlineBanner: StatusBarNotificationBanner?
@@ -28,10 +28,8 @@ class MovieViewController: UIViewController {
         
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
-        
         movieCollectionView.collectionViewLayout = createCollectionViewLayout()
         
-        //flowLayout.scrollDirection = .horizontal
         setupRefreshControl()
         populateGenreArray()
     }
@@ -81,7 +79,7 @@ class MovieViewController: UIViewController {
     
     @objc func updateCollectionView() {
         //URLCache.shared.removeAllCachedResponses()
-        genres.removeAll()
+
         populateGenreArray()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.refreshControl.endRefreshing()
@@ -90,6 +88,7 @@ class MovieViewController: UIViewController {
     }
     
     func populateGenreArray() {
+        genres.removeAll()
         let allGeneres = Genre.allCases
         let randomSelectedGenres = Array(Set(allGeneres)).prefix(numberOfSections)
         genres = Array(randomSelectedGenres)
@@ -101,7 +100,7 @@ class MovieViewController: UIViewController {
         
         for genre in genres {
             genreDispatch.enter()
-            NetworkService.search(genre: genre, limit: rowsInSections) { (result) in
+            NetworkService.search(genre: genre, limit: itemsInSection) { (result) in
                 switch result {
                 case .success(let fetchedMovies):
                     movieArray.append(fetchedMovies.results)
@@ -115,7 +114,7 @@ class MovieViewController: UIViewController {
                                             artworkUrl100: "NaN",
                                             longDescription: "NaN",
                                             trackViewUrl: "NaN")
-                    let emptyMovie = [Movie](repeating: failedMovie, count: self.rowsInSections)
+                    let emptyMovie = [Movie](repeating: failedMovie, count: self.itemsInSection)
                     movieArray.append(emptyMovie)
                     genreDispatch.leave()
                 }
@@ -126,6 +125,12 @@ class MovieViewController: UIViewController {
             completion(movieArray)
         }
     }
+}
+
+extension MovieViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? MovieCollectionViewCell {
@@ -134,19 +139,10 @@ class MovieViewController: UIViewController {
             detailViewController.genre = cell.genre
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
-    }
-    
 }
 
-extension MovieViewController: UICollectionViewDelegate { }
-
 extension MovieViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { rowsInSections }
-    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { itemsInSection }
     func numberOfSections(in collectionView: UICollectionView) -> Int { numberOfSections }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -162,13 +158,11 @@ extension MovieViewController: UICollectionViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
-        // TODO: This is a problem... it calls the API sooo many times?????
         loadMovieSections() { (movies) in
             if movies[section][row].trackId == 0 {
                 cell.setCellToFault()
                 return
             }
-            
             
             cell.setTileLabel(with: movies[section][row].trackName)
             cell.movieId = movies[section][row].trackId
@@ -178,9 +172,4 @@ extension MovieViewController: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-extension MovieViewController: UICollectionViewDelegateFlowLayout {
-    
-    
 }

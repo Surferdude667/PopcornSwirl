@@ -24,7 +24,7 @@ class NetworkService {
         componentURL.host = "itunes.apple.com"
         componentURL.path = "/search"
         
-        let term = URLQueryItem(name: "term", value: genre.rawValue)
+        let term = URLQueryItem(name: "term", value: genre.rawValue.lowercased())
         let limit = URLQueryItem(name: "limit", value: "\(limit)")
         let entity = URLQueryItem(name: "entity", value: "movie")
         let attribute = URLQueryItem(name: "attribute", value: "genreTerm")
@@ -39,8 +39,8 @@ class NetworkService {
         // TODO: Throw errors based on API response...
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
-                print("API response code (Search): \(httpResponse.statusCode)")
-                print("Searched for: \(validURL)")
+                //print("API response code (Search): \(httpResponse.statusCode)")
+                //print("Searched for: \(validURL)")
             }
             
             guard let validData = data, error == nil else {
