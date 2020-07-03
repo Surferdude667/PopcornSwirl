@@ -57,6 +57,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
     func setTileLabel(with text: String) {
         DispatchQueue.main.async {
             self.titleLabel.text = text
+            self.titleLabel.numberOfLines = 0
+            self.titleLabel.sizeToFit()
         }
     }
     

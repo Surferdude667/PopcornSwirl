@@ -32,6 +32,8 @@ class MovieViewController: UIViewController {
         
         setupRefreshControl()
         populateGenreArray()
+        
+        calculateFractionalCellHeight()
     }
     
     @objc func connectionRestored(notification: NSNotification) {
@@ -43,11 +45,29 @@ class MovieViewController: UIViewController {
         print("CONNECTION Lost")
     }
     
+    
+    func calculateFractionalCellHeight() -> CGFloat {
+        let viewHeight = view.frame.height
+        let viewWidth = view.frame.width
+        let aspectRatio = viewWidth/viewHeight
+        
+        //  iPad Portrait
+        if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return 0.45
+            }
+        }
+        
+        let percent = aspectRatio * 0.3
+        return aspectRatio - percent
+    }
+    
     func createCollectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(calculateFractionalCellHeight()))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
