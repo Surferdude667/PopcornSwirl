@@ -10,10 +10,11 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var coverImageView: UIImageView!
+    //@IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var coverView: SwiftShadowImageView!
     
     var movieId: Int?
     var genre: Genre?
@@ -25,11 +26,21 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     func clearImage() {
         DispatchQueue.main.async {
-            self.coverImageView.image = nil
-            self.coverImageView.alpha = 0.0
+            self.coverView.image = nil
+            self.coverView.alpha = 0.0
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
         }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+//        coverImageView.layer.shadowColor = UIColor.black.cgColor
+//        coverImageView.layer.shadowOffset = CGSize(width: 0, height: 10)
+//        coverImageView.layer.shadowOpacity = 1
+//        coverImageView.layer.shadowRadius = 10
+//        coverImageView.clipsToBounds = false
     }
     
     
@@ -38,13 +49,13 @@ class MovieCollectionViewCell: UICollectionViewCell {
             do {
                 let imageData = try result.get()
                 DispatchQueue.main.async {
-                    self.coverImageView.image = nil
+                    self.coverView.image = nil
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.isHidden = true
-                    self.coverImageView.image = UIImage(data: imageData)
+                    self.coverView.image = UIImage(data: imageData)
                     
                     UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear, animations: {
-                        self.coverImageView.alpha = 1.0
+                        self.coverView.alpha = 1.0
                     })
                     
                 }
@@ -65,7 +76,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     // Set failed image instead.
     func setCellToFault() {
         titleLabel.text = "Faild..."
-        coverImageView.backgroundColor = .red
+        coverView.backgroundColor = .red
     }
     
 }

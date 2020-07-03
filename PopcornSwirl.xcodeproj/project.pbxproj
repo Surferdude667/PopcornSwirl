@@ -11,6 +11,10 @@
 		92B48C402B9919EE9DEABC74 /* Pods_PopcornSwirl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CCECF6739F9FDCA1F625726 /* Pods_PopcornSwirl.framework */; };
 		F604966E249CC0570048FEA1 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604966D249CC0570048FEA1 /* Bookmark.swift */; };
 		F6049670249CC11B0048FEA1 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604966F249CC11B0048FEA1 /* Watch.swift */; };
+		F60C521524AF4674009F5E66 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C521224AF4674009F5E66 /* BaseTabBarController.swift */; };
+		F60C521624AF4674009F5E66 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C521324AF4674009F5E66 /* GradientView.swift */; };
+		F60C521724AF4674009F5E66 /* CornerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C521424AF4674009F5E66 /* CornerRadiusView.swift */; };
+		F60C521924AF5167009F5E66 /* SwiftShadowImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C521824AF5167009F5E66 /* SwiftShadowImageView.swift */; };
 		F638E1D72487C61100C57EB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638E1D62487C61100C57EB0 /* AppDelegate.swift */; };
 		F638E1D92487C61100C57EB0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638E1D82487C61100C57EB0 /* SceneDelegate.swift */; };
 		F638E1DE2487C61100C57EB0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F638E1DC2487C61100C57EB0 /* Main.storyboard */; };
@@ -55,6 +59,10 @@
 		9CCECF6739F9FDCA1F625726 /* Pods_PopcornSwirl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PopcornSwirl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F604966D249CC0570048FEA1 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		F604966F249CC11B0048FEA1 /* Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
+		F60C521224AF4674009F5E66 /* BaseTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		F60C521324AF4674009F5E66 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		F60C521424AF4674009F5E66 /* CornerRadiusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadiusView.swift; sourceTree = "<group>"; };
+		F60C521824AF5167009F5E66 /* SwiftShadowImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftShadowImageView.swift; sourceTree = "<group>"; };
 		F638E1D32487C61100C57EB0 /* PopcornSwirl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopcornSwirl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F638E1D62487C61100C57EB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F638E1D82487C61100C57EB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +126,17 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F60C521124AF4674009F5E66 /* IB Design & Inspectables */ = {
+			isa = PBXGroup;
+			children = (
+				F60C521824AF5167009F5E66 /* SwiftShadowImageView.swift */,
+				F60C521224AF4674009F5E66 /* BaseTabBarController.swift */,
+				F60C521324AF4674009F5E66 /* GradientView.swift */,
+				F60C521424AF4674009F5E66 /* CornerRadiusView.swift */,
+			);
+			path = "IB Design & Inspectables";
+			sourceTree = "<group>";
+		};
 		F638E1CA2487C61100C57EB0 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +162,7 @@
 			children = (
 				F6483605248A284A005C8AD4 /* Model */,
 				F6483606248A286E005C8AD4 /* View */,
+				F60C521124AF4674009F5E66 /* IB Design & Inspectables */,
 				F6483607248A2876005C8AD4 /* Controller */,
 				F6483608248A2886005C8AD4 /* Supporting */,
 				F638E1E22487C61400C57EB0 /* Assets.xcassets */,
@@ -432,11 +452,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F638E1D72487C61100C57EB0 /* AppDelegate.swift in Sources */,
+				F60C521924AF5167009F5E66 /* SwiftShadowImageView.swift in Sources */,
+				F60C521624AF4674009F5E66 /* GradientView.swift in Sources */,
 				F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */,
 				F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */,
 				F6405D86248A6C8F00AF3F29 /* iTunesResponse.swift in Sources */,
+				F60C521724AF4674009F5E66 /* CornerRadiusView.swift in Sources */,
 				F6DA826F248FA5C6003E0171 /* MovieCollectionViewCell.swift in Sources */,
 				F6DA826C248EB7C7003E0171 /* Genre.swift in Sources */,
+				F60C521524AF4674009F5E66 /* BaseTabBarController.swift in Sources */,
 				F6B65AC824A5EA0C004D8C1B /* DetailViewControllerDelegate.swift in Sources */,
 				F689AFD724A28376004D767A /* AdditionType.swift in Sources */,
 				F6B7BDA32490F01900C98893 /* HeaderCollectionReusableView.swift in Sources */,
