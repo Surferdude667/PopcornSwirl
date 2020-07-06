@@ -10,7 +10,6 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
-    //@IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var dateLabel: UILabel!
@@ -35,12 +34,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-//        coverImageView.layer.shadowColor = UIColor.black.cgColor
-//        coverImageView.layer.shadowOffset = CGSize(width: 0, height: 10)
-//        coverImageView.layer.shadowOpacity = 1
-//        coverImageView.layer.shadowRadius = 10
-//        coverImageView.clipsToBounds = false
     }
     
     
@@ -57,7 +50,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
                     UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear, animations: {
                         self.coverView.alpha = 1.0
                     })
-                    
                 }
             } catch {
                 print("Failed to load image: \(error)")

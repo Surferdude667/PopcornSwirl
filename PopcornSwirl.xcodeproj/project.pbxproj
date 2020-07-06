@@ -30,6 +30,11 @@
 		F648360D248A3056005C8AD4 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360C248A3056005C8AD4 /* BookmarkViewController.swift */; };
 		F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F648360E248A306B005C8AD4 /* WatchedViewController.swift */; };
 		F6483611248A307D005C8AD4 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6483610248A307D005C8AD4 /* DetailViewController.swift */; };
+		F663881024B332890097E2AC /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = F663880F24B332890097E2AC /* SF-Pro-Display-Black.otf */; };
+		F663881624B333910097E2AC /* SF-Compact-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F663881524B333910097E2AC /* SF-Compact-Display-Semibold.otf */; };
+		F663881824B333AB0097E2AC /* SF-Compact-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F663881724B333AB0097E2AC /* SF-Compact-Display-Light.otf */; };
+		F663881A24B333D60097E2AC /* SF-Compact-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F663881924B333D60097E2AC /* SF-Compact-Display-Medium.otf */; };
+		F663881C24B351390097E2AC /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F663881B24B351390097E2AC /* ColorManager.swift */; };
 		F689AFD724A28376004D767A /* AdditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFD624A28376004D767A /* AdditionType.swift */; };
 		F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFF124A3D9DF004D767A /* NotificationName.swift */; };
 		F6B65AC824A5EA0C004D8C1B /* DetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */; };
@@ -83,6 +88,11 @@
 		F648360C248A3056005C8AD4 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		F648360E248A306B005C8AD4 /* WatchedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedViewController.swift; sourceTree = "<group>"; };
 		F6483610248A307D005C8AD4 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F663880F24B332890097E2AC /* SF-Pro-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Black.otf"; sourceTree = "<group>"; };
+		F663881524B333910097E2AC /* SF-Compact-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Semibold.otf"; sourceTree = "<group>"; };
+		F663881724B333AB0097E2AC /* SF-Compact-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Light.otf"; sourceTree = "<group>"; };
+		F663881924B333D60097E2AC /* SF-Compact-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Medium.otf"; sourceTree = "<group>"; };
+		F663881B24B351390097E2AC /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		F689AFD624A28376004D767A /* AdditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionType.swift; sourceTree = "<group>"; };
 		F689AFE124A3971C004D767A /* NotificationBanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificationBanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F689AFEA24A39B63004D767A /* MarqueeLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarqueeLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +203,7 @@
 		F6483605248A284A005C8AD4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F663881B24B351390097E2AC /* ColorManager.swift */,
 				F64050F624A0D55E003748DD /* Extensions */,
 				F6CBF21E24A0B983001D1DA4 /* Networking */,
 				F6CCF4D2249A869900F59D2F /* CoreData */,
@@ -223,12 +234,24 @@
 		F6483608248A2886005C8AD4 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
+				F663880E24B332670097E2AC /* Fonts */,
 				F638E1D62487C61100C57EB0 /* AppDelegate.swift */,
 				F638E1D82487C61100C57EB0 /* SceneDelegate.swift */,
 				F638E1E42487C61400C57EB0 /* LaunchScreen.storyboard */,
 				F638E1E72487C61400C57EB0 /* Info.plist */,
 			);
 			path = Supporting;
+			sourceTree = "<group>";
+		};
+		F663880E24B332670097E2AC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F663881924B333D60097E2AC /* SF-Compact-Display-Medium.otf */,
+				F663881724B333AB0097E2AC /* SF-Compact-Display-Light.otf */,
+				F663881524B333910097E2AC /* SF-Compact-Display-Semibold.otf */,
+				F663880F24B332890097E2AC /* SF-Pro-Display-Black.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		F689AFE024A3971C004D767A /* Frameworks */ = {
@@ -372,7 +395,11 @@
 			files = (
 				F638E1E62487C61400C57EB0 /* LaunchScreen.storyboard in Resources */,
 				F638E1E32487C61400C57EB0 /* Assets.xcassets in Resources */,
+				F663881A24B333D60097E2AC /* SF-Compact-Display-Medium.otf in Resources */,
+				F663881824B333AB0097E2AC /* SF-Compact-Display-Light.otf in Resources */,
 				F638E1DE2487C61100C57EB0 /* Main.storyboard in Resources */,
+				F663881024B332890097E2AC /* SF-Pro-Display-Black.otf in Resources */,
+				F663881624B333910097E2AC /* SF-Compact-Display-Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +487,7 @@
 				F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */,
 				F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */,
 				F6405D86248A6C8F00AF3F29 /* iTunesResponse.swift in Sources */,
+				F663881C24B351390097E2AC /* ColorManager.swift in Sources */,
 				F60C521724AF4674009F5E66 /* CornerRadiusView.swift in Sources */,
 				F6DA826F248FA5C6003E0171 /* MovieCollectionViewCell.swift in Sources */,
 				F6DA826C248EB7C7003E0171 /* Genre.swift in Sources */,

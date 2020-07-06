@@ -7,6 +7,17 @@
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Compact-Display-Medium.otf">
+            <string>SFCompactDisplay-Medium</string>
+        </array>
+        <array key="SF-Compact-Display-Semibold.otf">
+            <string>SFCompactDisplay-Semibold</string>
+        </array>
+        <array key="SF-Pro-Display-Black.otf">
+            <string>SFProDisplay-Black</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Bookmarked-->
         <scene sceneID="DB8-O6-hhm">
@@ -259,13 +270,13 @@
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Dg4-L8-c98">
                                     <size key="itemSize" width="174" height="330"/>
                                     <size key="estimatedItemSize" width="200" height="181"/>
-                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="50" height="77"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieCell" id="ykr-oT-pgh" customClass="MovieCollectionViewCell" customModule="PopcornSwirl" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="174" height="330"/>
+                                        <rect key="frame" x="0.0" y="77" width="174" height="330"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xBx-TS-1Yq">
                                             <rect key="frame" x="0.0" y="0.0" width="174" height="330"/>
@@ -296,8 +307,8 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGz-a3-r0b">
-                                                    <rect key="frame" x="0.0" y="261" width="174" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <rect key="frame" x="0.0" y="261" width="174" height="14"/>
+                                                    <fontDescription key="fontDescription" name="SFCompactDisplay-Semibold" family="SF Compact Display" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -330,19 +341,64 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="SectionHeader" id="R8r-v8-krZ" customClass="HeaderCollectionReusableView" customModule="PopcornSwirl" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nae-ff-deO">
-                                            <rect key="frame" x="8" y="15" width="398" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nae-ff-deO">
+                                            <rect key="frame" x="15" y="2" width="327" height="47"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="47" id="eEi-r8-K4j"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="SFProDisplay-Black" family="SF Pro Display" pointSize="30"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="utF-bS-9Gj" customClass="GradientView" customModule="PopcornSwirl" customModuleProvider="target">
+                                            <rect key="frame" x="15" y="54" width="391" height="3"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="3" id="Qf5-ad-yU6"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                                    <color key="value" red="0.79752033950000001" green="0.26084935669999998" blue="0.1724962592" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="isHorizontal" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGa-At-PR3">
+                                            <rect key="frame" x="350" y="16" width="52" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="29" id="MQt-ca-G1v"/>
+                                                <constraint firstAttribute="width" constant="52" id="zSF-tY-lxE"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="SFCompactDisplay-Medium" family="SF Compact Display" pointSize="14"/>
+                                            <state key="normal" title="Show all">
+                                                <color key="titleColor" red="0.79752033950000001" green="0.26084935669999998" blue="0.1724962592" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="showAllButton:" destination="R8r-v8-krZ" eventType="touchUpInside" id="40C-mp-9Q6"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Nae-ff-deO" firstAttribute="leading" secondItem="R8r-v8-krZ" secondAttribute="leading" constant="15" id="7hL-Py-pG2"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="LGa-At-PR3" secondAttribute="trailing" constant="4" id="E3u-ff-RBQ"/>
+                                        <constraint firstItem="LGa-At-PR3" firstAttribute="leading" secondItem="Nae-ff-deO" secondAttribute="trailing" constant="8" id="EWy-1l-dgA"/>
+                                        <constraint firstItem="utF-bS-9Gj" firstAttribute="trailing" secondItem="R8r-v8-krZ" secondAttribute="trailingMargin" id="R3p-e4-Rdw"/>
+                                        <constraint firstItem="utF-bS-9Gj" firstAttribute="leading" secondItem="R8r-v8-krZ" secondAttribute="leadingMargin" constant="7" id="SH6-Qj-V2l"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="utF-bS-9Gj" secondAttribute="bottom" constant="12" id="ZN2-oX-rpc"/>
+                                        <constraint firstItem="utF-bS-9Gj" firstAttribute="top" secondItem="Nae-ff-deO" secondAttribute="bottom" constant="5" id="m86-Vw-zT6"/>
+                                        <constraint firstItem="utF-bS-9Gj" firstAttribute="top" secondItem="LGa-At-PR3" secondAttribute="bottom" constant="9" id="sak-MS-fho"/>
+                                        <constraint firstItem="Nae-ff-deO" firstAttribute="top" secondItem="R8r-v8-krZ" secondAttribute="top" constant="2" id="yDl-hQ-7Cb"/>
+                                    </constraints>
                                     <connections>
-                                        <outlet property="titleLabel" destination="Nae-ff-deO" id="pfu-zy-YTV"/>
+                                        <outlet property="genreLabel" destination="Nae-ff-deO" id="pfu-zy-YTV"/>
+                                        <outlet property="gradientLine" destination="utF-bS-9Gj" id="jJN-Su-dTt"/>
+                                        <outlet property="showAllButton" destination="LGa-At-PR3" id="Ish-ax-UDf"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>

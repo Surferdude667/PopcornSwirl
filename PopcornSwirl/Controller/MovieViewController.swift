@@ -62,7 +62,6 @@ class MovieViewController: UIViewController {
         return aspectRatio - percent
     }
     
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,8 +80,6 @@ class MovieViewController: UIViewController {
     }
     
     @objc func updateCollectionView() {
-        //URLCache.shared.removeAllCachedResponses()
-
         populateGenreArray()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.refreshControl.endRefreshing()
@@ -150,7 +147,14 @@ extension MovieViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
-            sectionHeader.titleLabel.text = genres[indexPath.section].rawValue
+            let genreColor = ColorManager().provideGenreColor(genres[indexPath.section])
+            sectionHeader.genreLabel.text = genres[indexPath.section].rawValue
+            sectionHeader.showAllButton.setTitleColor(genreColor, for: .normal)
+            sectionHeader.gradientLine.firstColor = genreColor
+            
+            
+            
+            
             return sectionHeader
         }
         return UICollectionReusableView()
