@@ -45,6 +45,7 @@
 		F6DA826A248EAFD1003E0171 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DA8269248EAFD1003E0171 /* Movie.swift */; };
 		F6DA826C248EB7C7003E0171 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DA826B248EB7C7003E0171 /* Genre.swift */; };
 		F6DA826F248FA5C6003E0171 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DA826E248FA5C6003E0171 /* MovieCollectionViewCell.swift */; };
+		F6EB456524B5054400ACDCA2 /* FeaturedChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB456424B5054400ACDCA2 /* FeaturedChildViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		F6DA8269248EAFD1003E0171 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		F6DA826B248EB7C7003E0171 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		F6DA826E248FA5C6003E0171 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		F6EB456424B5054400ACDCA2 /* FeaturedChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedChildViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,8 +178,7 @@
 			children = (
 				F6483605248A284A005C8AD4 /* Model */,
 				F6483606248A286E005C8AD4 /* View */,
-				F60C521124AF4674009F5E66 /* IB Design & Inspectables */,
-				F6483607248A2876005C8AD4 /* Controller */,
+				F6483607248A2876005C8AD4 /* ViewControllers */,
 				F6483608248A2886005C8AD4 /* Supporting */,
 				F638E1E22487C61400C57EB0 /* Assets.xcassets */,
 			);
@@ -216,21 +217,23 @@
 			isa = PBXGroup;
 			children = (
 				F638E1DC2487C61100C57EB0 /* Main.storyboard */,
+				F60C521124AF4674009F5E66 /* IB Design & Inspectables */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		F6483607248A2876005C8AD4 /* Controller */ = {
+		F6483607248A2876005C8AD4 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				F648360A248A3040005C8AD4 /* MovieViewController.swift */,
 				F648360C248A3056005C8AD4 /* BookmarkViewController.swift */,
 				F648360E248A306B005C8AD4 /* WatchedViewController.swift */,
-				F6483610248A307D005C8AD4 /* DetailViewController.swift */,
 				F663881E24B47FDF0097E2AC /* GenreViewController.swift */,
+				F6483610248A307D005C8AD4 /* DetailViewController.swift */,
+				F6EB456424B5054400ACDCA2 /* FeaturedChildViewController.swift */,
 				F6DA826D248FA58F003E0171 /* Components */,
 			);
-			path = Controller;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		F6483608248A2886005C8AD4 /* Supporting */ = {
@@ -488,6 +491,7 @@
 				F638E1D72487C61100C57EB0 /* AppDelegate.swift in Sources */,
 				F60C521924AF5167009F5E66 /* SwiftShadowImageView.swift in Sources */,
 				F60C521624AF4674009F5E66 /* GradientView.swift in Sources */,
+				F6EB456524B5054400ACDCA2 /* FeaturedChildViewController.swift in Sources */,
 				F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */,
 				F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */,
 				F6405D86248A6C8F00AF3F29 /* iTunesResponse.swift in Sources */,

@@ -70,7 +70,6 @@ extension GenreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
         if let genre = genre {
-            print("Called")
             NetworkService.search(genre: genre, limit: numberOfItems) { (result) in
                 switch result {
                 case .success(let result):
@@ -85,7 +84,7 @@ extension GenreViewController: UICollectionViewDataSource {
                 }
             }
         }
-               
+        
         return cell
     }
     

@@ -171,12 +171,9 @@ extension MovieViewController: UICollectionViewDataSource {
 
 extension MovieViewController: HeaderCollectionReusableViewDelegate {
     
-    
-    
     func showAllTapped(genre: Genre) {
         print("Genre tapped: \(genre)")
         performSegue(withIdentifier: "toGenreSeque", sender: genre)
     }
-    
     
 }

@@ -11,14 +11,18 @@ import UIKit
 // TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {
     
+    @IBOutlet weak var bannerImageView: UIImageView!
+    @IBOutlet weak var metaLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var coverImageView: UIImageView!
-    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var longDescriptionLabel: UILabel!
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var watchedButton: UIButton!
+    @IBOutlet weak var watchedDateLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
-    // TODO: Implement array of spinning loaders as well. Maybe create your own spinner...? Could look sooo unified.
-    @IBOutlet var relatedImageViews: [UIImageView]!
+    @IBOutlet weak var bookmarkDateLabel: UILabel!
+
     
     let coreDataManager = CoreDataManager()
     var delegate: DetailViewControllerDelegate?
@@ -49,38 +53,44 @@ class DetailViewController: UIViewController {
         clearUI()
         fetchMovieData()
         loadMovieAdditions()
-        fetchFeaturedMovies()
+        //fetchFeaturedMovies()
     }
     
     func clearUI() {
         // TODO: Start spinning, empty images, empty texts.
     }
     
-    func fetchFeaturedMovies() {
-        guard let genre = genre else { return }
-        NetworkService.search(genre: genre, limit: 25) { (result) in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let response):
-                var movies = response.results
-                movies.removeAll(where: { $0.trackId == self.movieId })
-                let featuredMovies = Array(Set(movies)).prefix(4)
-                
-                for featured in 0..<featuredMovies.count {
-                    NetworkService.fetchImage(from: featuredMovies[featured].artworkUrl100, size: 200, completion: { (result) in
-                        do {
-                            let imageData = try result.get()
-                            DispatchQueue.main.async {
-                                self.relatedImageViews[featured].image = UIImage(data: imageData)
-                                self.relatedImageViews[featured].tag = featuredMovies[featured].trackId
-                            }
-                        } catch { print("Related Image coud not be loaded...") }
-                    })
-                }
-            }
-        }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let featuredChildViewController = segue.destination as! FeaturedChildViewController
+        if let genre = genre { featuredChildViewController.genre = genre }
+        if let movieId = movieId { featuredChildViewController.movieId = movieId }
     }
+    
+//    func fetchFeaturedMovies() {
+//        guard let genre = genre else { return }
+//        NetworkService.search(genre: genre, limit: 25) { (result) in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let response):
+//                var movies = response.results
+//                movies.removeAll(where: { $0.trackId == self.movieId })
+//                let featuredMovies = Array(Set(movies)).prefix(4)
+//
+//                for featured in 0..<featuredMovies.count {
+//                    NetworkService.fetchImage(from: featuredMovies[featured].artworkUrl100, size: 200, completion: { (result) in
+//                        do {
+//                            let imageData = try result.get()
+//                            DispatchQueue.main.async {
+//                                self.relatedImageViews[featured].image = UIImage(data: imageData)
+//                                self.relatedImageViews[featured].tag = featuredMovies[featured].trackId
+//                            }
+//                        } catch { print("Related Image coud not be loaded...") }
+//                    })
+//                }
+//            }
+//        }
+//    }
     
     // MARK: - ADD NOTE
     func showEditNoteAlert() {
@@ -130,7 +140,7 @@ class DetailViewController: UIViewController {
                         case .success(let imageData):
                             DispatchQueue.main.async {
                                 self.coverImageView.image = UIImage(data: imageData)
-                                self.movieTitleLabel.text = movie?.trackName
+                                self.titleLabel.text = movie?.trackName
                                 self.longDescriptionLabel.text = movie?.longDescription
                                 if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
                             }
