@@ -203,7 +203,6 @@
 		F6483605248A284A005C8AD4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F663881B24B351390097E2AC /* ColorManager.swift */,
 				F64050F624A0D55E003748DD /* Extensions */,
 				F6CBF21E24A0B983001D1DA4 /* Networking */,
 				F6CCF4D2249A869900F59D2F /* CoreData */,
@@ -291,6 +290,7 @@
 		F6DA826D248FA58F003E0171 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F663881B24B351390097E2AC /* ColorManager.swift */,
 				F60C521A24AF6383009F5E66 /* CollectionViewLayoutManager.swift */,
 				F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */,
 				F6DA826E248FA5C6003E0171 /* MovieCollectionViewCell.swift */,

@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class CornerRadiusView: UIImageView {
+class CornerRadiusView: UIView {
     
     @IBInspectable var cornerRadiusValue: CGFloat = 10.0 {
         didSet {
@@ -29,6 +29,7 @@ class CornerRadiusView: UIImageView {
     
     func setUpView() {
         self.layer.cornerRadius = self.cornerRadiusValue
+        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner]
         self.clipsToBounds = true
     }
 }

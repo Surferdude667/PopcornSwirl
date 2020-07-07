@@ -10,6 +10,7 @@ import UIKit
 
 class WatchedViewController: UIViewController {
 
+    var collectionViewLayoutManager = CollectionViewLayoutManager()
     var coreDataManager = CoreDataManager()
     var didSelectAt: IndexPath?
     
@@ -18,6 +19,9 @@ class WatchedViewController: UIViewController {
     func configure() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        let fractionalViewHeight = collectionViewLayoutManager.calculateFractionalCellHeight(from: view)
+        collectionView.collectionViewLayout = collectionViewLayoutManager.createCollectionViewLayout(offset: fractionalViewHeight, orientation: .vertical)
     }
     
     override func viewDidLoad() {
@@ -45,6 +49,14 @@ extension WatchedViewController: UICollectionViewDataSource {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
+            
+            return sectionHeader
+        }
+        return UICollectionReusableView()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "watchedCell", for: indexPath) as! MovieCollectionViewCell
         
@@ -59,7 +71,6 @@ extension WatchedViewController: UICollectionViewDataSource {
                         DispatchQueue.main.async {
                             cell.loadImage(from: movie.artworkUrl100)
                             cell.titleLabel.text = movie.trackName
-                            cell.dateLabel.text = watchedAdditions[indexPath.row].watched?.date?.description
                             cell.genre = Genre(rawValue: movie.primaryGenreName)
                         }
                     }

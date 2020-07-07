@@ -12,7 +12,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var coverView: SwiftShadowImageView!
     
     var movieId: Int?

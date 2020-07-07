@@ -9,31 +9,28 @@
 import UIKit
 import NotificationBannerSwift
 
-//TODO: Provide the user with better feedback in case of network problems
 class MovieViewController: UIViewController {
     
     @IBOutlet weak var movieCollectionView: UICollectionView!
 
     private let refreshControl = UIRefreshControl()
-    
-    let numberOfSections = 3
+    var collectionViewLayoutManager = CollectionViewLayoutManager()
+    let numberOfSections = 4
     let itemsInSection = 6
     var genres = [Genre]()
-    var noConnectionBanner: StatusBarNotificationBanner?
-    var backOnlineBanner: StatusBarNotificationBanner?
     
     func configure() {
         NotificationCenter.default.addObserver(self, selector: #selector(connectionRestored(notification:)), name: .connectionRestored, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(connectionLost(notification:)), name: .connectionLost, object: nil)
         
+        overrideUserInterfaceStyle = .dark
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
-        movieCollectionView.collectionViewLayout = CollectionViewLayoutManager().createCollectionViewLayoutHorizontal(with: calculateFractionalCellHeight())
-        
         setupRefreshControl()
         populateGenreArray()
         
-        overrideUserInterfaceStyle = .dark
+        let fractionalViewHeight = collectionViewLayoutManager.calculateFractionalCellHeight(from: view)
+        movieCollectionView.collectionViewLayout = collectionViewLayoutManager.createCollectionViewLayout(offset: fractionalViewHeight, orientation: .horizontal)
     }
     
     @objc func connectionRestored(notification: NSNotification) {
@@ -42,24 +39,7 @@ class MovieViewController: UIViewController {
     }
     
     @objc func connectionLost(notification: NSNotification) {
-        print("CONNECTION Lost")
-    }
-    
-    
-    func calculateFractionalCellHeight() -> CGFloat {
-        let viewHeight = view.frame.height
-        let viewWidth = view.frame.width
-        let aspectRatio = viewWidth/viewHeight
-        
-        //  iPad Portrait
-        if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                return 0.45
-            }
-        }
-        
-        let percent = aspectRatio * 0.3
-        return aspectRatio - percent
+        print("CONNECTION LOST")
     }
     
     
@@ -151,9 +131,6 @@ extension MovieViewController: UICollectionViewDataSource {
             sectionHeader.genreLabel.text = genres[indexPath.section].rawValue
             sectionHeader.showAllButton.setTitleColor(genreColor, for: .normal)
             sectionHeader.gradientLine.firstColor = genreColor
-            
-            
-            
             
             return sectionHeader
         }

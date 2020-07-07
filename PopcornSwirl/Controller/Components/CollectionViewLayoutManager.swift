@@ -8,9 +8,31 @@
 
 import UIKit
 
+enum Orintation {
+    case vertical
+    case horizontal
+}
+
 class CollectionViewLayoutManager {
     
-    func createCollectionViewLayoutHorizontal(with offset: CGFloat) -> UICollectionViewLayout {
+    func calculateFractionalCellHeight(from view: UIView) -> CGFloat {
+        let viewHeight = view.frame.height
+        let viewWidth = view.frame.width
+        let aspectRatio = viewWidth/viewHeight
+        
+        //  iPad Portrait
+        if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return 0.45
+            }
+        }
+        
+        let percent = aspectRatio * 0.3
+        return aspectRatio - percent
+    }
+    
+    
+    func createCollectionViewLayout(offset: CGFloat, orientation: Orintation) -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
@@ -25,9 +47,13 @@ class CollectionViewLayoutManager {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [header]
-        section.orthogonalScrollingBehavior = .continuous
+        
+        if orientation == .horizontal {
+            section.orthogonalScrollingBehavior = .continuous
+        }
         
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
     
 }
