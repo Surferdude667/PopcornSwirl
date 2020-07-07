@@ -8,14 +8,25 @@
 
 import UIKit
 
+
+protocol HeaderCollectionReusableViewDelegate {
+    func showAllTapped(genre: Genre)
+}
+
 class HeaderCollectionReusableView: UICollectionReusableView {
+    
+    var delegate: HeaderCollectionReusableViewDelegate?
+    var genre: Genre?
+    
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var gradientLine: GradientView!
     @IBOutlet weak var showAllButton: UIButton!
     
     
     @IBAction func showAllButton(_ sender: Any) {
-        
+        if let genre = genre {
+            delegate?.showAllTapped(genre: genre)
+        }
     }
     
 }

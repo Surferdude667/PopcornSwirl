@@ -48,6 +48,7 @@ class CollectionViewLayoutManager {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [header]
         
+        
         if orientation == .horizontal {
             section.orthogonalScrollingBehavior = .continuous
         }

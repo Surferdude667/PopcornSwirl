@@ -35,6 +35,7 @@
 		F663881824B333AB0097E2AC /* SF-Compact-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F663881724B333AB0097E2AC /* SF-Compact-Display-Light.otf */; };
 		F663881A24B333D60097E2AC /* SF-Compact-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F663881924B333D60097E2AC /* SF-Compact-Display-Medium.otf */; };
 		F663881C24B351390097E2AC /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F663881B24B351390097E2AC /* ColorManager.swift */; };
+		F663881F24B47FDF0097E2AC /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F663881E24B47FDF0097E2AC /* GenreViewController.swift */; };
 		F689AFD724A28376004D767A /* AdditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFD624A28376004D767A /* AdditionType.swift */; };
 		F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFF124A3D9DF004D767A /* NotificationName.swift */; };
 		F6B65AC824A5EA0C004D8C1B /* DetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */; };
@@ -93,6 +94,7 @@
 		F663881724B333AB0097E2AC /* SF-Compact-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Light.otf"; sourceTree = "<group>"; };
 		F663881924B333D60097E2AC /* SF-Compact-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Compact-Display-Medium.otf"; sourceTree = "<group>"; };
 		F663881B24B351390097E2AC /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
+		F663881E24B47FDF0097E2AC /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
 		F689AFD624A28376004D767A /* AdditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionType.swift; sourceTree = "<group>"; };
 		F689AFE124A3971C004D767A /* NotificationBanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificationBanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F689AFEA24A39B63004D767A /* MarqueeLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarqueeLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +227,7 @@
 				F648360C248A3056005C8AD4 /* BookmarkViewController.swift */,
 				F648360E248A306B005C8AD4 /* WatchedViewController.swift */,
 				F6483610248A307D005C8AD4 /* DetailViewController.swift */,
+				F663881E24B47FDF0097E2AC /* GenreViewController.swift */,
 				F6DA826D248FA58F003E0171 /* Components */,
 			);
 			path = Controller;
@@ -481,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F663881F24B47FDF0097E2AC /* GenreViewController.swift in Sources */,
 				F638E1D72487C61100C57EB0 /* AppDelegate.swift in Sources */,
 				F60C521924AF5167009F5E66 /* SwiftShadowImageView.swift in Sources */,
 				F60C521624AF4674009F5E66 /* GradientView.swift in Sources */,

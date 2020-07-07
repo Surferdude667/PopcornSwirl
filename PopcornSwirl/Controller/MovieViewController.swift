@@ -26,6 +26,7 @@ class MovieViewController: UIViewController {
         overrideUserInterfaceStyle = .dark
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
+        
         setupRefreshControl()
         populateGenreArray()
         
@@ -56,7 +57,7 @@ class MovieViewController: UIViewController {
     func setupRefreshControl() {
         movieCollectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
-        refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
+        refreshControl.tintColor = .lightGray
     }
     
     @objc func updateCollectionView() {
@@ -108,6 +109,7 @@ class MovieViewController: UIViewController {
 }
 
 extension MovieViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "toDetailsSeque", sender: collectionView.cellForItem(at: indexPath))
     }
@@ -118,6 +120,12 @@ extension MovieViewController: UICollectionViewDelegate {
             detailViewController.movieId = cell.movieId
             detailViewController.genre = cell.genre
         }
+        
+        if let genre = sender as? Genre {
+            let genreViewController = segue.destination as! GenreViewController
+            genreViewController.genre = genre
+        }
+        
     }
 }
 
@@ -131,11 +139,14 @@ extension MovieViewController: UICollectionViewDataSource {
             sectionHeader.genreLabel.text = genres[indexPath.section].rawValue
             sectionHeader.showAllButton.setTitleColor(genreColor, for: .normal)
             sectionHeader.gradientLine.firstColor = genreColor
+            sectionHeader.genre = genres[indexPath.section]
+            sectionHeader.delegate = self
             
             return sectionHeader
         }
         return UICollectionReusableView()
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionViewCell
@@ -156,4 +167,16 @@ extension MovieViewController: UICollectionViewDataSource {
         
         return cell
     }
+}
+
+extension MovieViewController: HeaderCollectionReusableViewDelegate {
+    
+    
+    
+    func showAllTapped(genre: Genre) {
+        print("Genre tapped: \(genre)")
+        performSegue(withIdentifier: "toGenreSeque", sender: genre)
+    }
+    
+    
 }
