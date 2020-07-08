@@ -53,7 +53,6 @@ class DetailViewController: UIViewController {
         clearUI()
         fetchMovieData()
         loadMovieAdditions()
-        //fetchFeaturedMovies()
     }
     
     func clearUI() {
@@ -64,33 +63,9 @@ class DetailViewController: UIViewController {
         let featuredChildViewController = segue.destination as! FeaturedChildViewController
         if let genre = genre { featuredChildViewController.genre = genre }
         if let movieId = movieId { featuredChildViewController.movieId = movieId }
+        featuredChildViewController.delegate = self
     }
     
-//    func fetchFeaturedMovies() {
-//        guard let genre = genre else { return }
-//        NetworkService.search(genre: genre, limit: 25) { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let response):
-//                var movies = response.results
-//                movies.removeAll(where: { $0.trackId == self.movieId })
-//                let featuredMovies = Array(Set(movies)).prefix(4)
-//
-//                for featured in 0..<featuredMovies.count {
-//                    NetworkService.fetchImage(from: featuredMovies[featured].artworkUrl100, size: 200, completion: { (result) in
-//                        do {
-//                            let imageData = try result.get()
-//                            DispatchQueue.main.async {
-//                                self.relatedImageViews[featured].image = UIImage(data: imageData)
-//                                self.relatedImageViews[featured].tag = featuredMovies[featured].trackId
-//                            }
-//                        } catch { print("Related Image coud not be loaded...") }
-//                    })
-//                }
-//            }
-//        }
-//    }
     
     // MARK: - ADD NOTE
     func showEditNoteAlert() {
@@ -140,6 +115,7 @@ class DetailViewController: UIViewController {
                         case .success(let imageData):
                             DispatchQueue.main.async {
                                 self.coverImageView.image = UIImage(data: imageData)
+                                self.bannerImageView.image = UIImage(data: imageData)
                                 self.titleLabel.text = movie?.trackName
                                 self.longDescriptionLabel.text = movie?.longDescription
                                 if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
@@ -237,11 +213,6 @@ class DetailViewController: UIViewController {
     @IBAction func bookmarkButtonTapped(_ sender: Any) { toggleAdditons(type: .bookmarked) }
     @IBAction func noteTapped(_ sender: Any) { showEditNoteAlert() }
     @IBAction func buyButton(_ sender: Any) { if let url = buyURL {UIApplication.shared.open(url)} }
-    @IBAction func relatedMovieTapped(_ sender: UITapGestureRecognizer) {
-        movieId = sender.view?.tag
-        configure()
-        sentFrom = nil
-    }
 }
 
 extension DetailViewController: UIAdaptivePresentationControllerDelegate {
@@ -279,6 +250,15 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
                 newBookmarkAdditions.removeAll()
             }
         }
+    }
+}
+
+extension DetailViewController: FeaturedChilViewControllerDelegate {
+    
+    func featuredMovieSelected(id: Int) {
+        movieId = id
+        sentFrom = nil
+        configure()
     }
     
 }

@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol FeaturedChilViewControllerDelegate {
+    func featuredMovieSelected(id: Int)
+}
+
+
 class FeaturedChildViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -18,9 +23,12 @@ class FeaturedChildViewController: UIViewController {
     var movieId: Int?
     var featuredMovies = [Movie]()
     
+    var delegate: FeaturedChilViewControllerDelegate?
+    
     func configure() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        fetchFeaturedMovies()
         
         let fractionalViewHeight = collectionViewLayoutManager.calculateFractionalCellHeight(from: view)
         collectionView.collectionViewLayout = collectionViewLayoutManager.createCollectionViewLayout(offset: fractionalViewHeight, orientation: .horizontal)
@@ -31,9 +39,34 @@ class FeaturedChildViewController: UIViewController {
         configure()
     }
     
+    func fetchFeaturedMovies() {
+        guard let genre = genre else { return }
+        NetworkService.search(genre: genre, limit: 25) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let response):
+                var movies = response.results
+                movies.removeAll(where: { $0.trackId == self.movieId })
+                let featured = Array(Set(movies)).prefix(self.numberOfItems)
+                self.featuredMovies = Array(featured)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
 }
 
-extension FeaturedChildViewController: UICollectionViewDelegate { }
+extension FeaturedChildViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! MovieCollectionViewCell
+        if let id = cell.movieId {
+            delegate?.featuredMovieSelected(id: id)
+            fetchFeaturedMovies()
+        }
+    }
+}
 
 extension FeaturedChildViewController: UICollectionViewDataSource {
     
@@ -41,21 +74,13 @@ extension FeaturedChildViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredMovieCell", for: indexPath) as! MovieCollectionViewCell
-        if let genre = genre {
-            NetworkService.search(genre: genre, limit: 25) { (result) in
-                switch result {
-                case .failure(let error):
-                    print(error)
-                case .success(let response):
-                    var movies = response.results
-                    movies.removeAll(where: { $0.trackId == self.movieId })
-                    let featured = Array(Set(movies)).prefix(self.numberOfItems)
-                    cell.loadImage(from: featured[indexPath.row].artworkUrl100)
-                }
-            }
+        
+        if featuredMovies.count == numberOfItems {
+            cell.loadImage(from: featuredMovies[indexPath.row].artworkUrl100)
+            cell.movieId = featuredMovies[indexPath.row].trackId
+            cell.genre = Genre(rawValue: featuredMovies[indexPath.row].primaryGenreName)
         }
         
         return cell
     }
-    
 }

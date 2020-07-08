@@ -74,7 +74,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NUx-tF-N5q">
-                                                    <rect key="frame" x="0.0" y="261" width="174" height="14"/>
+                                                    <rect key="frame" x="0.0" y="261" width="174" height="14.5"/>
                                                     <fontDescription key="fontDescription" name="SFCompactDisplay-Semibold" family="SF Compact Display" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -142,7 +142,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bookmarked" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haA-Az-oeT">
-                                            <rect key="frame" x="15" y="2" width="172" height="47"/>
+                                            <rect key="frame" x="15" y="2" width="187" height="47"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="47" id="emT-ZC-sKO"/>
                                             </constraints>
@@ -167,7 +167,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookmarked_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Bcv-Os-RZt">
-                                            <rect key="frame" x="195" y="9" width="40" height="32"/>
+                                            <rect key="frame" x="210" y="9" width="40" height="32"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="Kaj-YH-ofM"/>
@@ -248,9 +248,6 @@
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="sFM-cb-y85" appends="YES" id="Ao1-Xd-sON"/>
-                                </connections>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zae-ZP-tjk">
                                 <rect key="frame" x="41" y="499" width="61" height="30"/>
@@ -276,7 +273,7 @@
                                     <action selector="buyButton:" destination="zbK-gd-e4Y" eventType="touchUpInside" id="U2z-6H-Mh1"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05W-HX-ymI">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05W-HX-ymI">
                                 <rect key="frame" x="-3" y="0.0" width="417" height="186"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.99799090619999997" green="0.98548144100000001" blue="0.63915103669999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -364,31 +361,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ymJ-km-w6j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="sFM-cb-y85">
-                    <connections>
-                        <action selector="noteTapped:" destination="zbK-gd-e4Y" id="eJy-RF-Zfr"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="Fhz-ea-1e2">
-                    <connections>
-                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="3S1-Rw-DRi"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="mLW-AH-mJi">
-                    <connections>
-                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="hes-Bi-v9Y"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="ugi-Zj-cdn">
-                    <connections>
-                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="ypx-PY-a7c"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="cjD-se-g1K">
-                    <connections>
-                        <action selector="relatedMovieTapped:" destination="zbK-gd-e4Y" id="186-mL-B1L"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-55.072463768115945" y="1705.5803571428571"/>
         </scene>
@@ -446,7 +418,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJt-mf-fbD">
-                                                    <rect key="frame" x="0.0" y="261" width="174" height="14"/>
+                                                    <rect key="frame" x="0.0" y="261" width="174" height="14.5"/>
                                                     <fontDescription key="fontDescription" name="SFCompactDisplay-Semibold" family="SF Compact Display" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -484,7 +456,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d4t-Jj-mIL">
-                                            <rect key="frame" x="15" y="2" width="81.5" height="47"/>
+                                            <rect key="frame" x="15" y="2" width="89.5" height="47"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="47" id="Wvh-Iw-lxC"/>
                                             </constraints>
@@ -600,7 +572,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGz-a3-r0b">
-                                                    <rect key="frame" x="0.0" y="261" width="174" height="14"/>
+                                                    <rect key="frame" x="0.0" y="261" width="174" height="14.5"/>
                                                     <fontDescription key="fontDescription" name="SFCompactDisplay-Semibold" family="SF Compact Display" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -638,7 +610,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nae-ff-deO">
-                                            <rect key="frame" x="15" y="2" width="146" height="47"/>
+                                            <rect key="frame" x="15" y="2" width="163.5" height="47"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="47" id="eEi-r8-K4j"/>
                                             </constraints>
@@ -663,7 +635,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGa-At-PR3">
-                                            <rect key="frame" x="169" y="16" width="233" height="29"/>
+                                            <rect key="frame" x="186.5" y="16" width="215.5" height="29"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="29" id="MQt-ca-G1v"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="52" id="zSF-tY-lxE"/>
@@ -774,7 +746,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoS-R9-0q7">
-                                                    <rect key="frame" x="0.0" y="261" width="174" height="14"/>
+                                                    <rect key="frame" x="0.0" y="261" width="174" height="14.5"/>
                                                     <fontDescription key="fontDescription" name="SFCompactDisplay-Semibold" family="SF Compact Display" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -842,7 +814,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watched" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhv-87-0rS">
-                                            <rect key="frame" x="15" y="2" width="119" height="47"/>
+                                            <rect key="frame" x="15" y="2" width="132" height="47"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="47" id="s3r-qL-5qO"/>
                                             </constraints>
@@ -867,7 +839,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="watched_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Phc-pE-0xY">
-                                            <rect key="frame" x="142" y="9" width="40" height="32"/>
+                                            <rect key="frame" x="155" y="9" width="40" height="32"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="40" id="VnO-pR-NZg"/>
@@ -949,7 +921,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="M5S-em-nH0">
-                                <rect key="frame" x="0.0" y="0.0" width="363" height="195"/>
+                                <rect key="frame" x="0.0" y="44" width="363" height="151"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fQm-HM-Y2h">
@@ -1018,6 +990,13 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You may also like" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Pd-mc-95f">
+                                <rect key="frame" x="116" y="10" width="131" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
