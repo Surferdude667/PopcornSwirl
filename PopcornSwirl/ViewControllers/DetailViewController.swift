@@ -11,16 +11,19 @@ import UIKit
 // TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {
     
-    @IBOutlet weak var bannerImageView: UIImageView!
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var topImageView: UIImageView!
     @IBOutlet weak var metaLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var coverImageView: SwiftShadowImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var longDescriptionLabel: UILabel!
+    @IBOutlet weak var longDescriptionTextView: UITextView!
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var watchedButton: UIButton!
+    @IBOutlet weak var watchedLabel: UILabel!
     @IBOutlet weak var watchedDateLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
+    @IBOutlet weak var bookmarkLabel: UILabel!
     @IBOutlet weak var bookmarkDateLabel: UILabel!
 
     
@@ -115,9 +118,10 @@ class DetailViewController: UIViewController {
                         case .success(let imageData):
                             DispatchQueue.main.async {
                                 self.coverImageView.image = UIImage(data: imageData)
-                                self.bannerImageView.image = UIImage(data: imageData)
+                                self.backgroundImageView.image = UIImage(data: imageData)
+                                self.topImageView.image = UIImage(data: imageData)
                                 self.titleLabel.text = movie?.trackName
-                                self.longDescriptionLabel.text = movie?.longDescription
+                                self.longDescriptionTextView.text = movie?.longDescription
                                 if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
                             }
                         case .failure(let error):
@@ -155,8 +159,12 @@ class DetailViewController: UIViewController {
     
     func updateMovieAdditionsUI() {
         guard let additions = movieAdditions else {
-            watchedButton.tintColor = .red
-            bookmarkButton.tintColor = .red
+            watchedButton.tintColor = .lightGray
+            watchedDateLabel.isHidden = true
+            watchedLabel.textColor = .lightGray
+            bookmarkButton.tintColor = .lightGray
+            bookmarkDateLabel.isHidden = true
+            bookmarkLabel.textColor = .lightGray
             notesTextView.text = notePlaceholder
             return
         }
@@ -164,11 +172,32 @@ class DetailViewController: UIViewController {
         if additions.note != nil { notesTextView.text = additions.note }
         else { notesTextView.text = notePlaceholder }
         
-        if additions.watched?.isWatched == true { watchedButton.tintColor = .green }
-        else { watchedButton.tintColor = .red }
         
-        if additions.bookmarked?.isBookmarked == true { bookmarkButton.tintColor = .green }
-        else { bookmarkButton.tintColor = .red }
+        if additions.watched?.isWatched == true {
+            watchedButton.tintColor = #colorLiteral(red: 0.9882352941, green: 0.8980392157, blue: 0.5019607843, alpha: 1)
+            watchedLabel.textColor = #colorLiteral(red: 0.9882352941, green: 0.8980392157, blue: 0.5019607843, alpha: 1)
+            watchedDateLabel.isHidden = false
+            watchedDateLabel.text = additions.watched?.date?.toString()
+            watchedLabel.text = "Watched"
+        } else {
+            watchedButton.tintColor = .lightGray
+            watchedLabel.textColor = .lightGray
+            watchedDateLabel.isHidden = true
+            watchedLabel.text = "Not watched"
+        }
+        
+        if additions.bookmarked?.isBookmarked == true {
+            bookmarkButton.tintColor = #colorLiteral(red: 0.9882352941, green: 0.8980392157, blue: 0.5019607843, alpha: 1)
+            bookmarkLabel.textColor = #colorLiteral(red: 0.9882352941, green: 0.8980392157, blue: 0.5019607843, alpha: 1)
+            bookmarkDateLabel.isHidden = false
+            bookmarkDateLabel.text = additions.bookmarked?.date?.toString()
+            bookmarkLabel.text = "Bookmarked"
+        } else {
+            bookmarkButton.tintColor = .lightGray
+            bookmarkLabel.textColor = .lightGray
+            bookmarkDateLabel.isHidden = true
+            bookmarkLabel.text = "Bookmark"
+        }
     }
     
     func toggleAdditons(type: AdditionType) {

@@ -31,7 +31,7 @@ class FeaturedChildViewController: UIViewController {
         fetchFeaturedMovies()
         
         let fractionalViewHeight = collectionViewLayoutManager.calculateFractionalCellHeight(from: view)
-        collectionView.collectionViewLayout = collectionViewLayoutManager.createCollectionViewLayout(offset: fractionalViewHeight, orientation: .horizontal)
+        collectionView.collectionViewLayout = collectionViewLayoutManager.createFeaturedCollectionViewLayout(offset: fractionalViewHeight)
     }
     
     override func viewDidLoad() {
