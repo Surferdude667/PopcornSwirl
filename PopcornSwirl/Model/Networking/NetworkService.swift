@@ -38,10 +38,10 @@ class NetworkService {
         
         // TODO: Throw errors based on API response...
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
-            if let httpResponse = response as? HTTPURLResponse {
+            //if let httpResponse = response as? HTTPURLResponse {
                 //print("API response code (Search): \(httpResponse.statusCode)")
                 //print("Searched for: \(validURL)")
-            }
+            //}
             
             guard let validData = data, error == nil else {
                 completion(.failure(error!))
@@ -78,9 +78,9 @@ class NetworkService {
         }
         
         URLSession.shared.dataTask(with: validURL) { (data, response, error) in
-            if let httpResponse = response as? HTTPURLResponse {
+            //if let httpResponse = response as? HTTPURLResponse {
                 //print("API response code (Lookup): \(httpResponse.statusCode)")
-            }
+            //}
             
             guard let validData = data, error == nil else {
                 completion(.failure(error!))

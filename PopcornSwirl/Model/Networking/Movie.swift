@@ -16,4 +16,5 @@ struct Movie: Codable, Hashable {
     var artworkUrl100: String
     var longDescription: String
     var trackViewUrl: String
+    var trackPrice: Double
 }

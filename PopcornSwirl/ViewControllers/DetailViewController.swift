@@ -8,7 +8,6 @@
 
 import UIKit
 
-// TODO: Maybe implement the "Difused view for the background"
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -19,13 +18,17 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var longDescriptionTextView: UITextView!
     @IBOutlet weak var notesTextView: UITextView!
+    
     @IBOutlet weak var watchedButton: UIButton!
     @IBOutlet weak var watchedLabel: UILabel!
     @IBOutlet weak var watchedDateLabel: UILabel!
+    
     @IBOutlet weak var bookmarkButton: UIButton!
     @IBOutlet weak var bookmarkLabel: UILabel!
     @IBOutlet weak var bookmarkDateLabel: UILabel!
-
+    
+    @IBOutlet weak var featuredHeight: NSLayoutConstraint!
+    @IBOutlet weak var bannerHeight: NSLayoutConstraint!
     
     let coreDataManager = CoreDataManager()
     var delegate: DetailViewControllerDelegate?
@@ -56,10 +59,32 @@ class DetailViewController: UIViewController {
         clearUI()
         fetchMovieData()
         loadMovieAdditions()
+        adjustUIToDevice()
     }
     
     func clearUI() {
         // TODO: Start spinning, empty images, empty texts.
+    }
+    
+    func adjustUIToDevice() {
+        switch UIDevice().type {
+        case .iPhoneSE2:
+            featuredHeight.constant = 170
+            bannerHeight.constant = 70
+        case .iPhoneX, .iPhone11, .iPhoneXR, .iPhoneXS, .iPhone11Pro:
+            featuredHeight.constant = 200
+            bannerHeight.constant = 150
+        case .iPhone6, .iPhone7, .iPhone8, .iPhone6S:
+            featuredHeight.constant = 170
+            bannerHeight.constant = 70
+        case .iPhone8Plus:
+            featuredHeight.constant = 190
+            bannerHeight.constant = 100
+        case .iPadPro9_7, .iPadPro11, .iPadPro10_5, .iPadPro12_9, .iPadPro2_12_9, .iPadAir3:
+            featuredHeight.constant = 320
+            bannerHeight.constant = 230
+        default: break
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -122,6 +147,8 @@ class DetailViewController: UIViewController {
                                 self.topImageView.image = UIImage(data: imageData)
                                 self.titleLabel.text = movie?.trackName
                                 self.longDescriptionTextView.text = movie?.longDescription
+                                if let date = movie?.releaseDate, let genre = self.genre { self.metaLabel.text = "\(date.prefix(4)) · \(genre.rawValue)" }
+                                if let price = movie?.trackPrice { self.priceLabel.text = "$\(price)" }
                                 if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
                             }
                         case .failure(let error):
@@ -252,9 +279,7 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
         
         // Remove watched addition
         if movieAdditions.watched?.isWatched != originalWatchedValue {
-            if newWatchedAdditions.count == 0 {
-                delegate?.movieAdditionsRemoved(at: sentFrom, type: .watched)
-            }
+            if newWatchedAdditions.count == 0 { delegate?.movieAdditionsRemoved(at: sentFrom, type: .watched) }
         }
         
         // Add new watched addition
@@ -267,9 +292,7 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
         
         // Remove bookmark addition
         if movieAdditions.bookmarked?.isBookmarked != originalBookmarkedValue {
-            if newBookmarkAdditions.count == 0 {
-                delegate?.movieAdditionsRemoved(at: sentFrom, type: .bookmarked)
-            }
+            if newBookmarkAdditions.count == 0 { delegate?.movieAdditionsRemoved(at: sentFrom, type: .bookmarked) }
         }
         
         // Add new bookmark addition
@@ -283,11 +306,9 @@ extension DetailViewController: UIAdaptivePresentationControllerDelegate {
 }
 
 extension DetailViewController: FeaturedChilViewControllerDelegate {
-    
     func featuredMovieSelected(id: Int) {
         movieId = id
         sentFrom = nil
         configure()
     }
-    
 }

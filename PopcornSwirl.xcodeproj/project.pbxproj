@@ -37,8 +37,9 @@
 		F663881C24B351390097E2AC /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F663881B24B351390097E2AC /* ColorManager.swift */; };
 		F663881F24B47FDF0097E2AC /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F663881E24B47FDF0097E2AC /* GenreViewController.swift */; };
 		F66F001E24B5F37500B94FE7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F001D24B5F37500B94FE7 /* RoundButton.swift */; };
+		F683840324B79E7B00D5F18E /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F683840224B79E7B00D5F18E /* UIDeviceExtension.swift */; };
 		F689AFD724A28376004D767A /* AdditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFD624A28376004D767A /* AdditionType.swift */; };
-		F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFF124A3D9DF004D767A /* NotificationName.swift */; };
+		F689AFF224A3D9DF004D767A /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFF124A3D9DF004D767A /* NotificationNameExtension.swift */; };
 		F6B65AC824A5EA0C004D8C1B /* DetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */; };
 		F6B7BDA32490F01900C98893 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B7BDA22490F01900C98893 /* HeaderCollectionReusableView.swift */; };
 		F6CCF4CC249A602000F59D2F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CCF4CB249A602000F59D2F /* CoreDataManager.swift */; };
@@ -98,11 +99,12 @@
 		F663881B24B351390097E2AC /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		F663881E24B47FDF0097E2AC /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
 		F66F001D24B5F37500B94FE7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		F683840224B79E7B00D5F18E /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		F689AFD624A28376004D767A /* AdditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionType.swift; sourceTree = "<group>"; };
 		F689AFE124A3971C004D767A /* NotificationBanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificationBanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F689AFEA24A39B63004D767A /* MarqueeLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarqueeLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F689AFEE24A39B6A004D767A /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F689AFF124A3D9DF004D767A /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
+		F689AFF124A3D9DF004D767A /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
 		F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		F6B7BDA22490F01900C98893 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		F6CCF4CB249A602000F59D2F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -201,7 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				F64050F724A0D598003748DD /* DateExtension.swift */,
-				F689AFF124A3D9DF004D767A /* NotificationName.swift */,
+				F689AFF124A3D9DF004D767A /* NotificationNameExtension.swift */,
+				F683840224B79E7B00D5F18E /* UIDeviceExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -497,7 +500,7 @@
 				F6EB456524B5054400ACDCA2 /* FeaturedChildViewController.swift in Sources */,
 				F648360F248A306B005C8AD4 /* WatchedViewController.swift in Sources */,
 				F66F001E24B5F37500B94FE7 /* RoundButton.swift in Sources */,
-				F689AFF224A3D9DF004D767A /* NotificationName.swift in Sources */,
+				F689AFF224A3D9DF004D767A /* NotificationNameExtension.swift in Sources */,
 				F6405D86248A6C8F00AF3F29 /* iTunesResponse.swift in Sources */,
 				F663881C24B351390097E2AC /* ColorManager.swift in Sources */,
 				F60C521724AF4674009F5E66 /* CornerRadiusView.swift in Sources */,
@@ -520,6 +523,7 @@
 				F6405D84248A5F3900AF3F29 /* NetworkService.swift in Sources */,
 				F60C521B24AF6383009F5E66 /* CollectionViewLayoutManager.swift in Sources */,
 				F604966E249CC0570048FEA1 /* Bookmark.swift in Sources */,
+				F683840324B79E7B00D5F18E /* UIDeviceExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -94,7 +94,8 @@ class MovieViewController: UIViewController {
                                             releaseDate: "NaN",
                                             artworkUrl100: "NaN",
                                             longDescription: "NaN",
-                                            trackViewUrl: "NaN")
+                                            trackViewUrl: "NaN",
+                                            trackPrice: 0.0)
                     let emptyMovie = [Movie](repeating: failedMovie, count: self.itemsInSection)
                     movieArray.append(emptyMovie)
                     genreDispatch.leave()
@@ -170,10 +171,7 @@ extension MovieViewController: UICollectionViewDataSource {
 }
 
 extension MovieViewController: HeaderCollectionReusableViewDelegate {
-    
     func showAllTapped(genre: Genre) {
-        print("Genre tapped: \(genre)")
         performSegue(withIdentifier: "toGenreSeque", sender: genre)
     }
-    
 }
