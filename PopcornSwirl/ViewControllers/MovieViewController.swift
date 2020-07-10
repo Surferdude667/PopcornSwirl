@@ -15,7 +15,7 @@ class MovieViewController: UIViewController {
 
     private let refreshControl = UIRefreshControl()
     var collectionViewLayoutManager = CollectionViewLayoutManager()
-    let numberOfSections = 4
+    let numberOfSections = 3
     let itemsInSection = 6
     var genres = [Genre]()
     
@@ -49,8 +49,10 @@ class MovieViewController: UIViewController {
         configure()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        movieCollectionView.reloadData()
     }
     
     
@@ -62,7 +64,7 @@ class MovieViewController: UIViewController {
     
     @objc func updateCollectionView() {
         populateGenreArray()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.refreshControl.endRefreshing()
             self.movieCollectionView.reloadData()
         }

@@ -14,8 +14,8 @@
             filePath = "PopcornSwirl/Model/Networking/NetworkService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "search(genre:limit:completion:)"
             landmarkType = "7">
          </BreakpointContent>

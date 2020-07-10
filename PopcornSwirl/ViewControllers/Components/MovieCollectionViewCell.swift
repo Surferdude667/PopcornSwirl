@@ -66,8 +66,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     // Set failed image instead.
     func setCellToFault() {
-        titleLabel.text = "Faild..."
-        coverView.backgroundColor = .red
+        DispatchQueue.main.async {
+            self.titleLabel.text = "Faild to load..."
+            self.coverView.image = nil
+        }
+        
     }
     
 }

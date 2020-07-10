@@ -14,7 +14,7 @@ class GenreViewController: UIViewController {
     
     var collectionViewLayoutManager = CollectionViewLayoutManager()
     let networkService = NetworkService()
-    let numberOfItems = 48
+    var numberOfItems = 18
     var genre: Genre?
     
     func configure() {
@@ -73,6 +73,11 @@ extension GenreViewController: UICollectionViewDataSource {
             NetworkService.search(genre: genre, limit: numberOfItems) { (result) in
                 switch result {
                 case .success(let result):
+                    if result.resultCount != self.numberOfItems {
+                        cell.setCellToFault()
+                        print("Recived \(result.resultCount). Expected: \(self.numberOfItems)")
+                        return
+                    }
                     let movies = result.results
                     cell.loadImage(from: movies[indexPath.row].artworkUrl100)
                     cell.setTileLabel(with: movies[indexPath.row].trackName)

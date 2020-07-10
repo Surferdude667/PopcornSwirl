@@ -56,14 +56,22 @@ class DetailViewController: UIViewController {
     
     func configure() {
         presentationController?.delegate = self
-        clearUI()
+        showLoading()
         fetchMovieData()
         loadMovieAdditions()
         adjustUIToDevice()
     }
     
-    func clearUI() {
-        // TODO: Start spinning, empty images, empty texts.
+    func showLoading() {
+        DispatchQueue.main.async {
+            self.view.showBlurLoader()
+        }
+    }
+    
+    func removeLoading() {
+        DispatchQueue.main.async {
+            self.view.removeBluerLoader()
+        }
     }
     
     func adjustUIToDevice() {
@@ -150,6 +158,7 @@ class DetailViewController: UIViewController {
                                 if let date = movie?.releaseDate, let genre = self.genre { self.metaLabel.text = "\(date.prefix(4)) · \(genre.rawValue)" }
                                 if let price = movie?.trackPrice { self.priceLabel.text = "$\(price)" }
                                 if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
+                                self.removeLoading()
                             }
                         case .failure(let error):
                             print(error)

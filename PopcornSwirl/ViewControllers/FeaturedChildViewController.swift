@@ -39,9 +39,13 @@ class FeaturedChildViewController: UIViewController {
         configure()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        //collectionView.reloadData()
+    }
+    
     func fetchFeaturedMovies() {
         guard let genre = genre else { return }
-        NetworkService.search(genre: genre, limit: 25) { (result) in
+        NetworkService.search(genre: genre, limit: 20) { (result) in
             switch result {
             case .failure(let error):
                 print(error)
@@ -50,7 +54,7 @@ class FeaturedChildViewController: UIViewController {
                 movies.removeAll(where: { $0.trackId == self.movieId })
                 let featured = Array(Set(movies)).prefix(self.numberOfItems)
                 self.featuredMovies = Array(featured)
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self.collectionView.reloadData()
                 }
             }

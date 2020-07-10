@@ -24,7 +24,12 @@ class NetworkService {
         componentURL.host = "itunes.apple.com"
         componentURL.path = "/search"
         
-        let term = URLQueryItem(name: "term", value: genre.rawValue.lowercased())
+        
+        let addPlus = genre.rawValue.replacingOccurrences(of: " ", with: "+")
+        let removeAnd = addPlus.replacingOccurrences(of: "&", with: "and")
+        let addQuotes = "\"\(removeAnd)\"".lowercased()
+        
+        let term = URLQueryItem(name: "term", value: addQuotes)
         let limit = URLQueryItem(name: "limit", value: "\(limit)")
         let entity = URLQueryItem(name: "entity", value: "movie")
         let attribute = URLQueryItem(name: "attribute", value: "genreTerm")
@@ -51,6 +56,7 @@ class NetworkService {
             do {
                 let movies = try JSONDecoder().decode(iTunesResponse.self, from: validData)
                 if movies.resultCount == 0 {
+                    print(validURL.absoluteString)
                     completion(.failure(NetworkError.emptyResult))
                 } else {
                     completion(.success(movies))

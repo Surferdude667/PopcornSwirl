@@ -38,6 +38,7 @@
 		F663881F24B47FDF0097E2AC /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F663881E24B47FDF0097E2AC /* GenreViewController.swift */; };
 		F66F001E24B5F37500B94FE7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F001D24B5F37500B94FE7 /* RoundButton.swift */; };
 		F683840324B79E7B00D5F18E /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F683840224B79E7B00D5F18E /* UIDeviceExtension.swift */; };
+		F683840524B8F14200D5F18E /* BlurLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F683840424B8F14200D5F18E /* BlurLoader.swift */; };
 		F689AFD724A28376004D767A /* AdditionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFD624A28376004D767A /* AdditionType.swift */; };
 		F689AFF224A3D9DF004D767A /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AFF124A3D9DF004D767A /* NotificationNameExtension.swift */; };
 		F6B65AC824A5EA0C004D8C1B /* DetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */; };
@@ -100,6 +101,7 @@
 		F663881E24B47FDF0097E2AC /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
 		F66F001D24B5F37500B94FE7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		F683840224B79E7B00D5F18E /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		F683840424B8F14200D5F18E /* BlurLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurLoader.swift; sourceTree = "<group>"; };
 		F689AFD624A28376004D767A /* AdditionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionType.swift; sourceTree = "<group>"; };
 		F689AFE124A3971C004D767A /* NotificationBanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificationBanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F689AFEA24A39B63004D767A /* MarqueeLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarqueeLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,6 +309,7 @@
 				F6B65AC724A5EA0C004D8C1B /* DetailViewControllerDelegate.swift */,
 				F6DA826E248FA5C6003E0171 /* MovieCollectionViewCell.swift */,
 				F6B7BDA22490F01900C98893 /* HeaderCollectionReusableView.swift */,
+				F683840424B8F14200D5F18E /* BlurLoader.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				F6DA826A248EAFD1003E0171 /* Movie.swift in Sources */,
 				F638E1E12487C61100C57EB0 /* PopcornSwirl.xcdatamodeld in Sources */,
 				F648360B248A3040005C8AD4 /* MovieViewController.swift in Sources */,
+				F683840524B8F14200D5F18E /* BlurLoader.swift in Sources */,
 				F648360D248A3056005C8AD4 /* BookmarkViewController.swift in Sources */,
 				F64050F824A0D598003748DD /* DateExtension.swift in Sources */,
 				F6483611248A307D005C8AD4 /* DetailViewController.swift in Sources */,
