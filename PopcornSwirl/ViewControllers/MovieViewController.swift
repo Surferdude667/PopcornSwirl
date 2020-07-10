@@ -15,9 +15,14 @@ class MovieViewController: UIViewController {
 
     private let refreshControl = UIRefreshControl()
     var collectionViewLayoutManager = CollectionViewLayoutManager()
-    let numberOfSections = 3
-    let itemsInSection = 6
+    var defaultSections = 0
+    var defaultItems = 0
+    
+    let numberOfSections = 4
+    let numberOfItems = 6
+    
     var genres = [Genre]()
+    var movies = [[Movie]]()
     
     func configure() {
         NotificationCenter.default.addObserver(self, selector: #selector(connectionRestored(notification:)), name: .connectionRestored, object: nil)
@@ -26,12 +31,12 @@ class MovieViewController: UIViewController {
         overrideUserInterfaceStyle = .dark
         movieCollectionView.delegate = self
         movieCollectionView.dataSource = self
-        
         setupRefreshControl()
-        populateGenreArray()
         
         let fractionalViewHeight = collectionViewLayoutManager.calculateFractionalCellHeight(from: view)
         movieCollectionView.collectionViewLayout = collectionViewLayoutManager.createCollectionViewLayout(offset: fractionalViewHeight, orientation: .horizontal)
+        
+        populateCollectionView()
     }
     
     @objc func connectionRestored(notification: NSNotification) {
@@ -49,10 +54,20 @@ class MovieViewController: UIViewController {
         configure()
     }
     
+    func populateCollectionView() {
+        populateGenreArray(numberOfSections)
+        
+        loadMovieSections(items: numberOfItems) { (result) in
+            self.movies = result
+            self.defaultSections = self.numberOfSections
+            self.defaultItems = self.numberOfItems
+            self.movieCollectionView.reloadData()
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        movieCollectionView.reloadData()
+        //movieCollectionView.reloadData()
     }
     
     
@@ -63,27 +78,27 @@ class MovieViewController: UIViewController {
     }
     
     @objc func updateCollectionView() {
-        populateGenreArray()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.refreshControl.endRefreshing()
-            self.movieCollectionView.reloadData()
+        populateGenreArray(numberOfSections)
+        self.refreshControl.endRefreshing()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.populateCollectionView()
         }
     }
     
-    func populateGenreArray() {
+    func populateGenreArray(_ sections: Int) {
         genres.removeAll()
         let allGeneres = Genre.allCases
-        let randomSelectedGenres = Array(Set(allGeneres)).prefix(numberOfSections)
+        let randomSelectedGenres = Array(Set(allGeneres)).prefix(sections)
         genres = Array(randomSelectedGenres)
     }
     
-    func loadMovieSections(completion: @escaping ([[Movie]]) -> Void) {
+    func loadMovieSections(items: Int, completion: @escaping ([[Movie]]) -> Void) {
         var movieArray = [[Movie]]()
         let genreDispatch = DispatchGroup()
         
         for genre in genres {
             genreDispatch.enter()
-            NetworkService.search(genre: genre, limit: itemsInSection) { (result) in
+            NetworkService.search(genre: genre, limit: items) { (result) in
                 switch result {
                 case .success(let fetchedMovies):
                     movieArray.append(fetchedMovies.results)
@@ -98,7 +113,7 @@ class MovieViewController: UIViewController {
                                             longDescription: "NaN",
                                             trackViewUrl: "NaN",
                                             trackPrice: 0.0)
-                    let emptyMovie = [Movie](repeating: failedMovie, count: self.itemsInSection)
+                    let emptyMovie = [Movie](repeating: failedMovie, count: items)
                     movieArray.append(emptyMovie)
                     genreDispatch.leave()
                 }
@@ -133,18 +148,22 @@ extension MovieViewController: UICollectionViewDelegate {
 }
 
 extension MovieViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { itemsInSection }
-    func numberOfSections(in collectionView: UICollectionView) -> Int { numberOfSections }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { defaultItems }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { defaultSections }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? HeaderCollectionReusableView {
-            let genreColor = ColorManager().provideGenreColor(genres[indexPath.section])
-            sectionHeader.genreLabel.text = genres[indexPath.section].rawValue
-            sectionHeader.showAllButton.setTitleColor(genreColor, for: .normal)
-            sectionHeader.gradientLine.firstColor = genreColor
-            sectionHeader.genre = genres[indexPath.section]
-            sectionHeader.delegate = self
+            let movie = movies[indexPath.section][0]
             
+            if let genre = Genre(rawValue: movie.primaryGenreName) {
+                let genreColor = ColorManager().provideGenreColor(genre)
+                sectionHeader.gradientLine.firstColor = genreColor
+                sectionHeader.showAllButton.setTitleColor(genreColor, for: .normal)
+                sectionHeader.genreLabel.text = genre.rawValue
+                sectionHeader.genre = genre
+            }
+            
+            sectionHeader.delegate = self
             return sectionHeader
         }
         return UICollectionReusableView()
@@ -156,17 +175,15 @@ extension MovieViewController: UICollectionViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
-        loadMovieSections() { (movies) in
-            if movies[section][row].trackId == 0 {
-                cell.setCellToFault()
-                return
-            }
-            
-            cell.setTileLabel(with: movies[section][row].trackName)
-            cell.movieId = movies[section][row].trackId
-            cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
-            cell.loadImage(from: movies[section][row].artworkUrl100)
+        if movies[section][row].trackId == 0 {
+            cell.setCellToFault()
+            return cell
         }
+        
+        cell.setTileLabel(with: movies[section][row].trackName)
+        cell.movieId = movies[section][row].trackId
+        cell.genre = Genre(rawValue: movies[section][row].primaryGenreName)
+        cell.loadImage(from: movies[section][row].artworkUrl100)
         
         return cell
     }
