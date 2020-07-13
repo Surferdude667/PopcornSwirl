@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "popcornSwirl_App_Icon.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

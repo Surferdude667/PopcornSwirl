@@ -209,7 +209,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pHW-9n-gTj"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Bookmarked" image="bookmarked_icon" id="bhB-Ja-dxQ">
+                    <tabBarItem key="tabBarItem" title="Bookmarked" image="bookmarked_icon_small" id="bhB-Ja-dxQ">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <connections>
@@ -893,7 +893,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="G9l-Pz-VXy"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Movies" image="movies_icon" id="joo-ha-9Jr"/>
+                    <tabBarItem key="tabBarItem" title="Movies" image="movies_icon_small" id="joo-ha-9Jr"/>
                     <connections>
                         <outlet property="movieCollectionView" destination="R43-dN-YnC" id="MrP-PK-mxL"/>
                         <segue destination="zbK-gd-e4Y" kind="presentation" identifier="toDetailsSeque" id="Ndx-Yy-G7E"/>
@@ -1090,7 +1090,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VxJ-4T-lnW"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Watched" image="watched_icon" id="w7g-d8-nS8"/>
+                    <tabBarItem key="tabBarItem" title="Watched" image="watched_icon_small" id="w7g-d8-nS8"/>
                     <connections>
                         <outlet property="collectionView" destination="F5e-FZ-iMA" id="D99-Kj-inW"/>
                         <segue destination="zbK-gd-e4Y" kind="presentation" identifier="toDetailsSeque" id="NEr-De-ywB"/>
@@ -1234,13 +1234,15 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="NR5-Ag-5E9"/>
+        <segue reference="NEr-De-ywB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Background" width="207" height="411.5"/>
         <image name="bookmarked_icon" width="35" height="28"/>
-        <image name="movies_icon" width="29" height="31"/>
+        <image name="bookmarked_icon_small" width="35" height="28"/>
+        <image name="movies_icon_small" width="29" height="31"/>
         <image name="watched_icon" width="40" height="30"/>
+        <image name="watched_icon_small" width="40" height="30"/>
         <namedColor name="Pinned">
             <color red="0.9882352941176471" green="0.89803921568627454" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -52,6 +52,7 @@ class BlurLoader: UIView {
         guard let blurEffectView = blurEffectView else { return }
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.color = .lightGray
         blurEffectView.contentView.addSubview(activityIndicator)
         activityIndicator.center = blurEffectView.contentView.center
         activityIndicator.startAnimating()

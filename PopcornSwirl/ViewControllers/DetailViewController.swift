@@ -155,7 +155,7 @@ class DetailViewController: UIViewController {
                                 self.topImageView.image = UIImage(data: imageData)
                                 self.titleLabel.text = movie?.trackName
                                 self.longDescriptionTextView.text = movie?.longDescription
-                                if let date = movie?.releaseDate, let genre = self.genre { self.metaLabel.text = "\(date.prefix(4)) · \(genre.rawValue)" }
+                                if let date = movie?.releaseDate, let genre = self.genre { self.metaLabel.text = "\(date.prefix(4))  ·  \(genre.rawValue)" }
                                 if let price = movie?.trackPrice { self.priceLabel.text = "$\(price)" }
                                 if let urlString = movie?.trackViewUrl { self.buyURL = URL(string: urlString) }
                                 self.removeLoading()

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NotificationBannerSwift
 
 class MovieViewController: UIViewController {
     
@@ -40,12 +39,12 @@ class MovieViewController: UIViewController {
     }
     
     @objc func connectionRestored(notification: NSNotification) {
-        movieCollectionView.reloadData()
-        print("CONNECTION RESTORED")
+        populateCollectionView()
+        //print("CONNECTION RESTORED")
     }
     
     @objc func connectionLost(notification: NSNotification) {
-        print("CONNECTION LOST")
+        //print("CONNECTION LOST")
     }
     
     
@@ -65,12 +64,7 @@ class MovieViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        //movieCollectionView.reloadData()
-    }
-    
-    
+
     func setupRefreshControl() {
         movieCollectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(updateCollectionView), for: .valueChanged)
@@ -78,10 +72,9 @@ class MovieViewController: UIViewController {
     }
     
     @objc func updateCollectionView() {
-        populateGenreArray(numberOfSections)
-        self.refreshControl.endRefreshing()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.populateCollectionView()
+            self.refreshControl.endRefreshing()
         }
     }
     
