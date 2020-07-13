@@ -8,7 +8,6 @@
 
 import Foundation
 
-// TODO: Impment custom error types
 enum NetworkError: Error {
     case noInternetConnection
     case serverError
@@ -29,7 +28,7 @@ class NetworkService {
 
         let term = URLQueryItem(name: "term", value: removeAnd)
         let limit = URLQueryItem(name: "limit", value: "\(limit)")
-        let entity = URLQueryItem(name: "entity", value: "movie")
+        let entity = URLQueryItem(name: "media", value: "movie")
         let attribute = URLQueryItem(name: "attribute", value: "genreTerm")
         
         componentURL.queryItems = [term, entity, attribute, limit]
